@@ -1,0 +1,70 @@
+
+/* 头部内容 */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 10px;
+}
+
+/* 主要界面的高度 */
+.homeMain-box {
+    height: 72%;
+}
+
+.el-table .warning-row {
+    --el-table-tr-bg-color: var(--el-color-warning-light-9);
+}
+
+.el-table .success-row {
+    --el-table-tr-bg-color: var(--el-color-success-light-9);
+}
+
+/* 右侧排列 */
+.right-group {
+    display: flex;
+    align-items: center;
+}
+/* 左侧排列 */
+.left-group {
+    display: flex;
+    align-items: center;
+}
+/* 居中 */
+.center-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Markdown编辑器宽度调整 */
+.markdown-container {
+    width: 100%;
+    padding-right: 10px; /* 增加一点右侧内边距，避免内容太靠边 */
+}
+
+/* 距离左右距离 */
+.ml-10 {
+    margin-left: 10px;
+}
+.ml-4 {
+    margin-left: 4px;
+}
+.ml-2 {
+    margin-left: 4px;
+}
+.mb-4 {
+    margin-bottom: 4px;
+}
+.mt-10 {
+    margin-top: 10px;
+}
+.mb-10 {
+    margin-bottom: 10px;
+}
+.el-table .el-table__cell {
+    z-index: auto !important; /* 恢复默认值，避免浏览器警告 */
+    position: static !important; /* 显式声明默认定位，避免意外继承其他定位 */
+}
