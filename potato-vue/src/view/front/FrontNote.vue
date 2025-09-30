@@ -106,12 +106,12 @@ import { Timer, Warning } from "@element-plus/icons-vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import request from "@/utils/request";
 import { ElNotification, ElLoading, ElEmpty, ElIcon } from "element-plus";
+import {defaultImage} from "@/utils/defaultConfig";
 
 // 初始化路由
 const router = useRouter();
 
 const noticeList = ref("美丽的东西存在于世上，这一点本身就值得感谢了。");
-const defaultImage = require('@/assets/defaultImage.jpeg');
 const backgroundImage = require("@/assets/top-image/image_3.jpg");
 const noteList = ref([]);
 const loading = ref(true);         // 加载状态

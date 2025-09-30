@@ -24,7 +24,7 @@
           <!-- 右侧头像 -->
           <div class="circle-rightAvatar">
             <el-avatar
-                :src="avatarData"
+                :src="defaultAvatar"
                 shape="square"
                 :size="isMobile ? 60 : 80"
                 :fallback="personalTitle.charAt(0)"
@@ -60,7 +60,7 @@
           <div class="moment-header">
             <el-avatar
                 class="moment-avatar"
-                :src="avatarData"
+                :src="defaultAvatar"
                 alt="用户头像"
                 :size="40"
                 :fallback="personalTitle.charAt(0)"
@@ -143,6 +143,7 @@ import { onMounted, ref, computed, onUnmounted } from "vue";
 import { ElMessage, ElEmpty, ElSkeleton, ElAvatar, ElImage, ElButton, ElIcon } from "element-plus";
 import { PictureFilled } from "@element-plus/icons-vue";
 import request from '@/utils/request'
+import {defaultAvatar, defaultImage} from "@/utils/defaultConfig";
 
 // 响应式判断设备类型
 const isMobile = computed(() => {
@@ -150,7 +151,6 @@ const isMobile = computed(() => {
 });
 
 // 头部信息栏
-const avatarData = ref(require('@/assets/personAvatar.jpg'));
 const personalTitle = ref('江鸟有山夆');
 const personalDesc1 = ref('君子择而后交，故寡过；');
 const personalDesc2 = ref('小人交而后择，故多怨；');
@@ -243,7 +243,6 @@ const updatePageview = async (circleId) => {
     }
   } catch (err) {
     console.error(`更新圈子${circleId}浏览量失败:`, err);
-    // 不影响主流程
   }
 };
 
@@ -254,8 +253,7 @@ const getImagePreviewList = (images) => {
 
 // 处理图片加载错误
 const handleImageError = (img) => {
-  console.error('图片加载失败:', img.imageUrl);
-  img.imageUrl = require('@/assets/defaultImage.jpeg'); // 设置默认图片
+  img.imageUrl = defaultImage; // 设置默认图片
 };
 
 // 加载朋友圈数据

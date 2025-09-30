@@ -4,11 +4,6 @@
       <div
           class="toolbar-content"
           v-show="isVisible"
-          :class="[
-          { 'bg-transparent': !isHovered && !isScrollingUp && scrollTop <= 80 },
-          { 'bg-black': (isHovered || isScrollingUp) || scrollTop > 80 },
-          { 'shadow-md': scrollTop > 80 }
-        ]"
           @mouseleave="isHovered = false"
           @mouseenter="isHovered = true"
       >
@@ -97,7 +92,7 @@
                   <el-dropdown-menu class="custom-dropdown-menu">
                     <el-dropdown-item v-for="(item, index) in TreasureBox" :key="index" class="custom-dropdown-item">
                       <div class="dropdown-item-content" @click="handleAddress(item.address)">
-                        <span class="dropdown-item-icon">🎵</span>
+                        <span class="dropdown-item-icon">{{ item.icon }}</span>
                         <span class="dropdown-item-text">{{ item.title }}</span>
                       </div>
                     </el-dropdown-item>
@@ -222,7 +217,7 @@
                     :key="index"
                     @click="handleAddress(item.address); showMobileMenu = false"
                 >
-                  🎵 {{ item.title }}
+                  {{ item.icon }} {{ item.title }}
                 </div>
               </div>
             </div>
@@ -273,7 +268,8 @@ const pageAddress = ref([
 ])
 
 const TreasureBox = ref([
-  { title: '音乐', address: '/music' },
+  { title: '音乐', address: '/music', icon: '🎵' },
+  { title: '小工具', address: '/front/tools', icon: '🔧' },
 ])
 
 // 状态管理
@@ -384,6 +380,7 @@ const toggleDropdown = (type) => {
   margin: 0;
   padding: 0 20px;
   box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .toolbar-content:hover {

@@ -64,7 +64,7 @@ const desc_4 = ref('如需联系，请点击导航栏的留言，看到了第一
 .sub-footer {
   font-family: "华文新魏", serif;
   font-size: 17px;
-  color: #e6e6e6;
+  color: #e67979;
   margin-top: 8px;
   line-height: 1.5;
 }
@@ -72,7 +72,7 @@ const desc_4 = ref('如需联系，请点击导航栏的留言，看到了第一
 .emphasize-font {
   font-size: 20px;
   font-family: "华文新魏", serif;
-  color: #F4E1C0;
+  color: #804aea;
   margin-top: 8px;
   line-height: 1.5;
 }
@@ -91,7 +91,7 @@ const desc_4 = ref('如需联系，请点击导航栏的留言，看到了第一
 
 .footer-link {
   font-size: 17px;
-  color: #e6e6e6;
+  color: #f19090;
   font-family: "华文新魏", serif;
   transition: all 0.3s ease;
 }

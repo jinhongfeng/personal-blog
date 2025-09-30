@@ -1,6 +1,6 @@
 <template>
   <div class="page-container">
-    <!-- 背景上内容-->
+    <!-- 背景上内容 -->
     <div class="top-banner"
          :style="{
           backgroundImage: `url('${backgroundImage}')`,
@@ -16,8 +16,13 @@
       </div>
     </div>
 
+    <!-- 移动端导航按钮 -->
+    <button class="mobile-nav-toggle" @click="toggleMobileNav" v-if="isMobile">
+      <el-icon><Menu /></el-icon>
+    </button>
+
     <!-- 内容主体 -->
-    <div class="content-wrapper">
+    <div class="content-wrapper" :class="{ 'mobile-nav-open': mobileNavOpen }">
       <!-- 左侧 -->
       <div class="left-content">
         <!-- 个人面板 -->
@@ -59,17 +64,17 @@
           </div>
         </el-card>
         <!-- 速览 -->
-        <div class="scan-container">
-          <div v-for="(item, index) in navigationScan" :key="index" class="scan-item">
-            <el-card class="mt-30 scanning-blog" :style="{ background: item.bg }"
+        <div class="scan-container mt-30">
+          <div v-for="(item, index) in navigationScan" :key="index" class="scan-item" >
+            <el-card class="mt-10 scanning-blog " :style="{ background: item.bg }"
                      @click="scrollToSection(item.title)" >
-              <div class="first-content">
+              <div class="first-content ml-10">
                 <span>速览</span>
               </div>
-              <div class="second-content">
+              <div class="second-content ml-10">
                 <span>{{ item.title }}</span>
               </div>
-              <div class="third-content">
+              <div class="third-content ml-10" >
                 <span>{{ item.desc }}</span>
               </div>
             </el-card>
@@ -259,15 +264,13 @@
         </div>
       </div>
     </div>
-
   </div>
-
 </template>
 
 <script setup>
-import {onMounted, onUnmounted, reactive, ref} from "vue";
+import {onMounted, onUnmounted, reactive, ref, watch} from "vue";
 import router from "@/router";
-import {DArrowRight, Grid, Timer} from "@element-plus/icons-vue";
+import {DArrowRight, Grid, Timer, Menu} from "@element-plus/icons-vue";
 import CarAnimation from "@/view/front/subComponent/CarAnimation.vue";
 import request from "@/utils/request";
 import { ElNotification } from "element-plus";
@@ -312,6 +315,10 @@ const pagination = reactive({
   total: 0
 });
 
+// 移动端导航状态
+const mobileNavOpen = ref(false);
+const isMobile = ref(false);
+
 const loadData = async () => {
   try {
     // 只请求必要的主表数据
@@ -344,7 +351,6 @@ const loadData = async () => {
       updateContentStatistics();
     }
   } catch (error) {
-    console.error('数据加载失败:', error);
     ElNotification.error({
       title: '加载失败',
       message: '数据加载过程中出现错误，请稍后重试'
@@ -397,6 +403,7 @@ const processTravelData = async (mainData) => {
         astyle: item.astyle,
         coverImage: firstImage.imageUrl || require('@/assets/defaultImage.jpeg'),
         description: firstImage.information || '',
+        publishTime: firstImage.publishTime || '未知时间'
       });
     }
   }
@@ -440,8 +447,7 @@ const handleAddress = (url) => {
   router.push(url)
 }
 
-
-// 跳转到详情页（新增方法）
+// 跳转到详情页
 const navigateToDetail = (id, type) => {
   if (!id) {
     ElNotification.warning({
@@ -461,6 +467,19 @@ const navigateToDetail = (id, type) => {
   });
 }
 
+// 移动端导航切换
+const toggleMobileNav = () => {
+  mobileNavOpen.value = !mobileNavOpen.value;
+}
+
+// 检测屏幕尺寸
+const checkScreenSize = () => {
+  isMobile.value = window.innerWidth < 768;
+  if (!isMobile.value) {
+    mobileNavOpen.value = false;
+  }
+}
+
 onMounted(() => {
   // 公告轮播
   timer = setInterval(() => {
@@ -471,14 +490,24 @@ onMounted(() => {
 
   // 加载数据
   loadData();
+
+  // 初始化屏幕尺寸检测
+  checkScreenSize();
+  window.addEventListener('resize', checkScreenSize);
 })
 
 onUnmounted(() => {
   clearInterval(timer);
+  window.removeEventListener('resize', checkScreenSize);
 })
 
+// 监听屏幕尺寸变化
+watch(isMobile, (newValue) => {
+  if (!newValue) {
+    mobileNavOpen.value = false;
+  }
+})
 </script>
-
 
 <style scoped>
 /* 基础样式 */
@@ -527,27 +556,55 @@ onUnmounted(() => {
   display: inline-block;
 }
 
+/* 移动端导航按钮 */
+.mobile-nav-toggle {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #ff7d00;
+  color: white;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.mobile-nav-toggle:hover {
+  background-color: #ff9a00;
+  transform: scale(1.05);
+}
+
 /* 内容主体 */
 .content-wrapper {
   display: flex;
   align-items: flex-start;
-  padding: 0 5vw;
+  padding: 0 2vw;
   margin-top: 40vh;
   width: 100%;
   box-sizing: border-box;
   gap: 2rem;
+  transition: all 0.3s ease;
 }
 
 /* 左侧内容样式 */
 .left-content {
   width: 25%;
   min-width: 250px;
+  transition: all 0.3s ease;
 }
 
 /* 右侧内容样式 */
 .right-content {
   width: 75%;
   min-width: 300px;
+  transition: all 0.3s ease;
 }
 
 /* 个人面板 */
@@ -738,6 +795,7 @@ onUnmounted(() => {
 
 .scan-item {
   width: 100%;
+  height: 80%;
   transition: transform 0.3s ease;
 
   &:hover {
@@ -747,13 +805,11 @@ onUnmounted(() => {
 
 .scanning-blog {
   width: 100%;
-  height: 120px;
   border-radius: 8px;
   user-select: none;
   cursor: pointer;
   transition: all 0.3s ease;
   overflow: hidden;
-
   &:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     transform: translateY(-3px);
@@ -920,15 +976,54 @@ onUnmounted(() => {
   flex-wrap: wrap;
 }
 
+/* 响应式适配 - 大屏设备 */
+@media (min-width: 1600px) {
+  .left-content {
+    width: 30%;
+  }
+
+  .right-content {
+    width: 70%;
+  }
+  .scan-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
+  }
+  .blog-container {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
+  .mainBlog-image {
+    height: 220px;
+  }
+  .mainBlog-box {
+    height: 380px;
+  }
+}
+
 /* 响应式适配 - 大型设备 */
-@media (max-width: 1200px) {
+@media (max-width: 1300px) {
+  .left-content {
+    width: 30%;
+  }
+
+  .right-content {
+    width: 70%;
+  }
+
+  .mainBlog-image {
+    height: 160px;
+  }
+  .scan-item {
+    width: 100%;
+  }
   .blog-container {
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   }
-
   .mainBlog-box {
     width: 100%;
-    height: 360px;
+    height: 320px;
   }
 }
 
@@ -947,8 +1042,7 @@ onUnmounted(() => {
   }
 
   .scan-item {
-    width: 48%;
-    margin-right: 2%;
+    width: 100%;
   }
 
   .scan-item:nth-child(2n) {
@@ -963,11 +1057,19 @@ onUnmounted(() => {
 
 /* 响应式适配 - 小型平板/大型手机 */
 @media (max-width: 768px) {
+  .mobile-nav-toggle {
+    display: flex;
+  }
+
   .content-wrapper {
     flex-direction: column;
     margin-top: 30vh;
     padding: 0 3vw;
     gap: 1rem;
+  }
+
+  .content-wrapper.mobile-nav-open {
+    margin-top: 30vh;
   }
 
   .top-banner {
@@ -982,6 +1084,21 @@ onUnmounted(() => {
 
   .left-content {
     margin-bottom: 20px;
+    position: fixed;
+    top: 30vh;
+    left: 0;
+    background-color: white;
+    z-index: 90;
+    padding: 0 3vw;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .content-wrapper.mobile-nav-open .left-content {
+    max-height: calc(100vh - 30vh - 70px);
+    overflow-y: auto;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   }
 
   .scan-item {
@@ -994,7 +1111,7 @@ onUnmounted(() => {
 
   .mainBlog-box {
     width: 100%;
-    height: 320px;
+    height: 300px;
   }
 }
 
@@ -1004,8 +1121,16 @@ onUnmounted(() => {
     margin-top: 25vh;
   }
 
+  .content-wrapper.mobile-nav-open {
+    margin-top: 25vh;
+  }
+
   .top-banner {
     height: 25vh;
+  }
+
+  .content-wrapper.mobile-nav-open .left-content {
+    max-height: calc(100vh - 25vh - 70px);
   }
 
   .scan-item {
@@ -1048,7 +1173,7 @@ onUnmounted(() => {
 
   .mainBlog-box {
     width: 100%;
-    height: 300px;
+    height: 280px;
   }
 }
 
@@ -1065,7 +1190,7 @@ onUnmounted(() => {
 
   .mainBlog-box {
     width: 100%;
-    height: 300px;
+    height: 280px;
   }
 }
 </style>

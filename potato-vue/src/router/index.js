@@ -27,6 +27,8 @@ import BackApply from "@/view/back/BackApply.vue";
 import BackBgImage from "@/view/back/BackBgImage.vue";
 import FrontDetail from "@/view/front/FrontDetail.vue";
 import FrontLogin from "@/components/FrontLogin.vue";
+import FrontTools from "@/view/front/FrontTools.vue";
+import RandomMeals from "@/view/front/toolCatalogue/RandomMeals.vue";
 
 
 const commonRoutes = [
@@ -77,10 +79,13 @@ const frontRoutes = [
             {  path: '/detail/:type/:id', component: FrontDetail, name: 'FrontDetail', meta: { title: '详情页面' }},
             { path: "diary", component: FrontDiary, name: 'FrontDiary', meta: { title: '日记列表' }},
             { path: "note", component: FrontNote, name: 'FrontNote', meta: { title: '笔记列表' }},
-            { path: "circle", component: FrontCircle},
-            { path: "love", component: FrontLove},
-            { path: "travel", component: FrontTravel},
-            { path: "message", component: FrontMessage},
+            { path: "circle", component: FrontCircle, name: 'FrontCircle', meta: { title: '朋友圈'}},
+            { path: "love", component: FrontLove, name: 'FrontLove', meta: { title: '爱情记录'}},
+            { path: "travel", component: FrontTravel, name: 'FrontTravel', meta: { title: '旅游相册'}},
+            { path: "message", component: FrontMessage, name: 'FrontMessage', meta: { title: '反馈消息'}},
+            { path: "tools", component: FrontTools, name: 'FrontTools', meta: { title: '小工具'}},
+            // 工具类下的小工具
+            { path: "randomMeals", component: RandomMeals, name: 'RandomMeals', meta: { title: '随机选餐'}},
         ]
     },
 

@@ -60,7 +60,7 @@
                            :initial-index="indexImage"
                            :preview-teleported="true"
                            :show-fullscreen-btn="true"
-                           :zoom-rate="1.2" >
+                           :zoom-rate="1.2">
                   <template #error>
                     <div class="image-error">
                       <el-icon><Picture /></el-icon>
@@ -394,13 +394,14 @@ const getButtonStyle = (item, index) => {
 }
 
 .album-card {
-  /* 改为最小高度，确保内容能完整显示 */
-  min-height: 320px;
+
   border-radius: 10px;
   overflow: hidden;
   transition: var(--transition);
   border: none;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
 }
 
 .album-card:hover {
@@ -417,10 +418,10 @@ const getButtonStyle = (item, index) => {
 
 /* 新增图片容器样式 */
 .image-container {
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
   position: relative;
+  width: 100%;
+  aspect-ratio: 16/9; /*  3/4、16/9  */
+  overflow: hidden;
 }
 
 .album-image {
@@ -477,9 +478,28 @@ const getButtonStyle = (item, index) => {
 }
 
 /* 响应式调整 */
+@media (min-width: 1600px) {
+  .album-picture {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .album-card {
+    min-height: 260px;
+  }
+}
+@media (max-width: 1300px) {
+  .album-picture {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .album-card {
+    min-height: 280px;
+  }
+}
 @media (max-width: 1024px) {
   .album-picture {
     grid-template-columns: repeat(2, 1fr);
+  }
+  .album-card {
+    min-height: 300px;
   }
 }
 

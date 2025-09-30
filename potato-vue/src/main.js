@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@/utils/fontawesome'
 
 import request from '@/utils/request'
 
+import '@/utils/defaultConfig.js'
 import '@/assets/globe.css'
 import '@/assets/backGlobe.css'
 import '@/assets/color.css'

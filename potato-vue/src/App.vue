@@ -8,8 +8,6 @@
 
 <script setup>
 
-
-
 </script>
 
 <style>
