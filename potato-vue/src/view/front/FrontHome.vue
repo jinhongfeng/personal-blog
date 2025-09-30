@@ -171,7 +171,7 @@
                       :type="item.styleType || 'danger'"
                       size="small"
                       :style="{ backgroundColor: item.astyle }">
-                    {{ item.badge || '生活' }}
+                    {{ item.description || '生活' }}
                   </el-button>
                 </div>
               </el-card>
@@ -923,7 +923,8 @@ watch(isMobile, (newValue) => {
 
 .mainBlog-box {
   transition: transform 0.3s ease;
-
+  width: 100%;
+  height: 350px;
   &:hover {
     transform: translateY(-5px);
   }
@@ -998,7 +999,7 @@ watch(isMobile, (newValue) => {
     height: 220px;
   }
   .mainBlog-box {
-    height: 380px;
+    height: 370px;
   }
 }
 
