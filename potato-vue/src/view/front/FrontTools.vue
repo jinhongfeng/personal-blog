@@ -54,6 +54,7 @@ import {defaultToolImg} from "@/utils/defaultConfig";
 // 工具数据
 const toolsList = [
   { title: '随机选餐', img: require('@/assets/tool/randomMeals.png'), address: '/front/randomMeals' },
+  { title: '英语学习', img: require('@/assets/tool/studyEnglish.svg'), address: '/front/studyEnglish' },
   { title: '计时器', img: '', address: '' },
   { title: '待办清单', img: '', address: '' },
   { title: '天气查询', img: '', address: '' },

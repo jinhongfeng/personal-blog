@@ -29,6 +29,7 @@ import FrontDetail from "@/view/front/FrontDetail.vue";
 import FrontLogin from "@/components/FrontLogin.vue";
 import FrontTools from "@/view/front/FrontTools.vue";
 import RandomMeals from "@/view/front/toolCatalogue/RandomMeals.vue";
+import StudyEnglish from "@/view/front/toolCatalogue/StudyEnglish.vue";
 
 
 const commonRoutes = [
@@ -86,6 +87,7 @@ const frontRoutes = [
             { path: "tools", component: FrontTools, name: 'FrontTools', meta: { title: '小工具'}},
             // 工具类下的小工具
             { path: "randomMeals", component: RandomMeals, name: 'RandomMeals', meta: { title: '随机选餐'}},
+            { path: "studyEnglish", component: StudyEnglish, name: 'StudyEnglish', meta: { title: '英语卡片学习'}},
         ]
     },
 
