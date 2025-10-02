@@ -11,7 +11,7 @@ body, html {
     position: absolute;
     top: 0;
     left: 0;
-    height: 50vh; /* 更改时，也需要更改banner-box */
+    height: 45vh; /* 更改时，也需要更改banner-box */
     width: 100%;
     display: flex;
     justify-content: center;

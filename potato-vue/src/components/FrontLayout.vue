@@ -1,11 +1,12 @@
 <template>
     <el-container class="layout-container">
       <!-- 头部内容-->
-      <el-header>
-        <FrontHeader />
-      </el-header>
+<!--      <el-header>-->
+
+<!--      </el-header>-->
       <!-- 显示内容-->
       <el-main >
+        <FrontHeader />
         <router-view />
       </el-main>
       <!-- 底部内容-->
@@ -46,6 +47,7 @@ import MouseTail from "@/components/subComponents/MouseTail.vue";
   flex-direction: column;
   min-height: 100vh;
   position: relative;
+
 }
 
 el-main {

@@ -3,7 +3,7 @@
     <!-- 全屏背景图 -->
     <div class="page-background" :style="{ backgroundImage: `url(${currentBgUrl})` }"></div>
 
-    <!-- 导航栏 - 透明且置顶 -->
+    <!-- 导航栏 -->
     <el-header class="transparent-header">
       <FrontHeader />
     </el-header>
@@ -514,7 +514,7 @@ html, body {
 }
 
 .layout-wrapper.compact {
-  top: 50%;
+  top: 35%;
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
@@ -526,7 +526,7 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 20px;
+  padding-top: 10vh;
 }
 
 /* 时间卡片样式 */
@@ -794,7 +794,7 @@ html, body {
   height: 100px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   color: #fff;
   cursor: pointer;
@@ -805,8 +805,8 @@ html, body {
 }
 
 .app-icon-container {
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.15);
   display: flex;

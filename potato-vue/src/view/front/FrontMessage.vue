@@ -23,22 +23,22 @@
       </div>
     </div>
 
-    <!-- 页面标题区域（压缩间距） -->
+    <!-- 页面标题区域 -->
     <div class="page-header">
       <h1 class="page-title">留言反馈</h1>
       <p class="page-subtitle">您的每一条建议都很重要</p>
     </div>
 
-    <!-- 留言表单卡片（紧凑化设计） -->
+    <!-- 留言表单卡片 -->
     <div class="form-card">
       <el-card class="custom-card">
-        <!-- 表单头部（缩小内边距） -->
+        <!-- 表单头部 -->
         <div class="form-header">
           <el-icon class="header-icon"><ChatRound /></el-icon>
           <h2 class="form-title">请告诉我们您的想法</h2>
         </div>
 
-        <!-- 表单内容（压缩行间距和内边距） -->
+        <!-- 表单内容 -->
         <el-form
             :model="form"
             :rules="formRules"
@@ -115,7 +115,7 @@
           </el-form-item>
         </el-form>
 
-        <!-- 表单按钮（压缩间距） -->
+        <!-- 表单按钮 -->
         <div class="form-actions">
           <el-button
               type="default"
@@ -286,6 +286,7 @@ onMounted(() => {
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+
 }
 
 .message-page.page-loaded {
@@ -359,8 +360,9 @@ onMounted(() => {
   100% { transform: translateY(0) translateX(0); }
 }
 
-/* 页面标题（压缩间距） */
+/* 页面标题 */
 .page-header {
+  margin-top: 7vh;
   text-align: center;
   margin-bottom: 1.5rem;  /* 大幅减少底部间距 */
   padding-top: 1.5rem;   /* 减少顶部间距 */

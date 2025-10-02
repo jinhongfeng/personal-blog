@@ -32,7 +32,7 @@
           <!-- 空数据状态 -->
           <div v-else-if="isEmptyState" class="state-container empty-container">
             <el-empty description="暂无个人信息数据"></el-empty>
-            <el-button type="primary" @click="loadData" style="margin-top: 20px;">重新加载</el-button>
+            <el-button type="primary" @click="loadData" style="margin-top: 40px;">重新加载</el-button>
           </div>
 
           <!-- 正常内容 -->
@@ -442,7 +442,7 @@ html, body {
 .card-wrapper {
   width: 90%;
   max-width: 1400px;
-  height: 100%;
+  height: 90%;
   display: flex;
   flex-direction: column;
 }
@@ -520,15 +520,17 @@ html, body {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+  margin-top: 10vh;
+  max-height: calc(100vh - 100px);
 }
 
 /* 大屏幕限制卡片最大高度 */
-@media (min-width: 993px) {
+@media (max-width: 1300px) {
   .concern-card {
     max-height: calc(100vh - 100px); /* 不超出屏幕 */
+    margin-top: 10vh;
   }
 }
-
 .card-content-wrapper {
   display: flex;
   flex-direction: row;

@@ -558,6 +558,7 @@ const toggleDropdown = (type) => {
   display: none;
   cursor: pointer;
   padding: 8px;
+  color: white;
 }
 
 /* 移动端导航菜单 */
@@ -599,6 +600,7 @@ const toggleDropdown = (type) => {
   display: flex;
   flex-direction: column;
   gap: 8px;
+
 }
 
 .mobile-nav-item {
@@ -682,9 +684,18 @@ const toggleDropdown = (type) => {
   .my-menu span {
     font-size: 15px;
   }
+  .desktop-nav {
+    display: none;
+  }
 
+  .mobile-menu-btn {
+    display: block;
+  }
   .scroll-menu {
     gap: 8px;
+  }
+  .toolbar-title h2 {
+    font-size: 1.5rem;
   }
 }
 

@@ -41,7 +41,7 @@
             <span>{{ formatDate(contentDetail.publishTime) }}</span>
           </span>
           <span class="meta-item">
-            <el-icon><Eye /></el-icon>
+            <font-awesome-icon icon="eye" />
             <span>浏览量: {{ contentDetail.pageview }}</span>
           </span>
         </div>
@@ -86,7 +86,7 @@
 <script setup>
 import {computed, onMounted, ref, watch} from "vue";
 import {useRoute, useRouter} from 'vue-router';
-import {ArrowLeft, Eye, Timer, User, Warning} from "@element-plus/icons-vue";
+import {ArrowLeft, Timer, User, Warning} from "@element-plus/icons-vue";
 import request from "@/utils/request";
 import {ElIcon, ElLoading, ElNotification} from "element-plus";
 import hljs from 'highlight.js/lib/core';
@@ -319,10 +319,10 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* 样式保持不变，与之前的详情页样式一致 */
+
 .detail-container {
   max-width: 1000px;
-  margin: 0 auto;
+  margin: 7vh auto;
   padding: 20px;
 }
 

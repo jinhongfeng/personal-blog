@@ -16,7 +16,7 @@
     </div>
 
     <!-- 主要内容 -->
-    <div style="margin-top: 50vh">
+    <div style="margin-top: 40vh">
       <!-- 加载状态 -->
       <div v-if="loading" class="loading-container">
         <el-loading :fullscreen="false" text="加载中..."></el-loading>

@@ -54,7 +54,7 @@
     </div>
 
     <!-- 主要内容 -->
-    <div :style="{ marginTop: isMobile ? '40vh' : '40vh' }">
+    <div :style="{ marginTop: isMobile ? '38vh' : '38vh' }">
       <div class="moment-card mt-10" v-for="(item, index) in circleList" :key="item.id">
         <div class="moment-wrapper">
           <div class="moment-header">
@@ -434,11 +434,10 @@ onUnmounted(() => {
 }
 
 .circle-rightAvatar {
-  width: 6vw;
+  width: auto;
   height: auto;
   margin: 0 10px;
   display: flex;
-  justify-content: right;
   align-items: center;
   text-align: right;
 }
@@ -479,14 +478,14 @@ onUnmounted(() => {
 
 .error-message {
   text-align: center;
-  margin-top: 30vh;
+  margin-top: 50vh;
   color: #f56c6c;
   padding: 20px;
 }
 
 .empty-state {
   text-align: center;
-  margin-top: 30vh;
+  margin-top: 60vh;
   padding: 20px;
 }
 
@@ -573,8 +572,10 @@ onUnmounted(() => {
   width: 60vw;
   display: grid;
   gap: 4px;
+
+
   /* 基础行高设置 */
-  --image-row-height: 30vh;
+  --image-row-height: 20vh;
 }
 
 /* 确保图片容器尺寸统一 */
@@ -598,7 +599,7 @@ onUnmounted(() => {
   grid-template-columns: 1fr;
   grid-template-rows: var(--image-row-height);
   height: var(--image-row-height);
-  width: 27%;
+  width: 30%;
 }
 
 /* 2-3张图片 */
@@ -618,6 +619,8 @@ onUnmounted(() => {
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2, var(--image-row-height));
   height: calc(2 * var(--image-row-height));
+
+
 }
 
 /* 7-9张图片 */
@@ -701,9 +704,40 @@ onUnmounted(() => {
 }
 
 /* 响应式调整 */
-@media (max-width: 768px) {
+
+@media (max-width: 1300px) {
   .circle-box {
     width: 80vw;
+  }
+
+  .circle-rightAvatar {
+    width: 10vw;
+  }
+
+  .moment-card {
+    width: 90%;
+    margin: 0 auto 16px;
+
+  }
+
+  /* 移动端图片布局调整 */
+  .moment-imageList {
+    width: 90vw;
+    --image-row-height: 20vh; /* 移动端减小行高 */
+  }
+
+  .moment-likeInfo {
+    width: 80vw;
+  }
+
+  .moment-content {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .circle-box {
+    width: 90vw;
   }
 
   .circle-rightAvatar {
@@ -718,8 +752,8 @@ onUnmounted(() => {
 
   /* 移动端图片布局调整 */
   .moment-imageList {
-    width: 80vw;
-    --image-row-height: 100px; /* 移动端减小行高 */
+    width: 90vw;
+    --image-row-height: 20vh; /* 移动端减小行高 */
   }
 
   .moment-likeInfo {

@@ -167,10 +167,12 @@
 
                 <!-- 标签 -->
                 <div class="mainBlog-badge">
+                  <el-button type="danger" size="small">{{ item.author || 'POTATO' }}</el-button>
                   <el-button
                       :type="item.styleType || 'danger'"
                       size="small"
                       :style="{ backgroundColor: item.astyle }">
+
                     {{ item.description || '生活' }}
                   </el-button>
                 </div>
