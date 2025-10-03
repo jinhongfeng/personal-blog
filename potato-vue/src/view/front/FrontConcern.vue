@@ -342,7 +342,7 @@ const setDefaultData = () => {
   };
   homepageContent.value = [
     '欢迎访问我的个人主页，这里展示了我的个人信息和兴趣爱好。',
-    '通过左侧导航可以浏览不同分类的内容，包括我的散文、技能、读书和观影记录等。'
+    '通过导航栏可以浏览不同分类的内容，包括我的散文、技能、读书和观影记录等。'
   ];
   personalProfile.value = [
     "'small potato' 意为小人物。今年24岁，喜欢篮球、健身、看书、敲代码。通信工程小破硕。",
@@ -382,29 +382,15 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* 全局样式 - 大屏幕禁止滚动，小屏幕允许 */
+
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-}
 
-/* 大屏幕样式 */
-@media (min-width: 993px) {
-  html, body {
-    overflow: hidden; /* 大屏幕禁止全局滚动 */
-  }
-}
-
-/* 小屏幕样式 */
-@media (max-width: 992px) {
-  html, body {
-    overflow-y: auto; /* 小屏幕允许垂直滚动 */
-  }
 }
 
 .full-container {
-  height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -424,27 +410,20 @@ html, body {
   flex-grow: 1;
 }
 
-/* 大屏幕禁止主内容区滚动 */
-@media (min-width: 993px) {
-  .el-main {
-    overflow: hidden;
-  }
-}
-
 .concern-container {
   width: 100%;
   display: flex;
   justify-content: center;
-  min-height: 100%;
   box-sizing: border-box;
+  overflow-y: hidden;
 }
 
 .card-wrapper {
   width: 90%;
   max-width: 1400px;
-  height: 90%;
   display: flex;
   flex-direction: column;
+  margin-top: 10vh;
 }
 
 /* 状态容器通用样式 */
@@ -511,38 +490,22 @@ html, body {
 }
 
 .concern-card {
-  flex-grow: 1;
+
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(10px);
   border-radius: 15px;
-  overflow: hidden;
+  overflow-y: auto;
   padding: 0 !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  margin-top: 10vh;
-  max-height: calc(100vh - 100px);
 }
 
-/* 大屏幕限制卡片最大高度 */
-@media (max-width: 1300px) {
-  .concern-card {
-    max-height: calc(100vh - 100px); /* 不超出屏幕 */
-    margin-top: 10vh;
-  }
-}
 .card-content-wrapper {
   display: flex;
   flex-direction: row;
   width: 100%;
   flex-grow: 1;
-}
-
-/* 小屏幕改为纵向布局 */
-@media (max-width: 992px) {
-  .card-content-wrapper {
-    flex-direction: column;
-  }
 }
 
 .avatar-container {
@@ -592,37 +555,6 @@ html, body {
   }
 }
 
-/* 小屏幕左侧区域调整 */
-@media (max-width: 992px) {
-  .concern-left-card {
-    width: 100% !important;
-    border-right: none;
-    border-bottom: 2px solid #F7F9FE; /* 小屏幕底部加边框区分 */
-  }
-
-  /* 小屏幕导航横向排列 - 增加宽度 */
-  .concern-left-card .concern-navigation {
-    width: 45%; /* 从30%增加到45%，每行显示2个更宽的导航项 */
-    margin: 5px 2.5%; /* 调整间距 */
-    display: inline-flex;
-    height: 40px;
-    font-size: 15px;
-  }
-
-  .navigation-container {
-    width: 100%;
-    text-align: center; /* 导航项居中 */
-  }
-}
-
-/* 超小屏幕导航调整 */
-@media (max-width: 576px) {
-  .concern-left-card .concern-navigation {
-    width: 90%; /* 超小屏幕导航项占比更大，每行显示1个 */
-    font-size: 14px !important;
-  }
-}
-
 .custom-form-spacing {
   width: 90%;
 
@@ -663,13 +595,7 @@ html, body {
   box-sizing: border-box;
 }
 
-/* 小屏幕右侧区域占满宽度 */
-@media (max-width: 992px) {
-  .concern-right-card {
-    width: 100% !important;
-    padding: 20px;
-  }
-}
+
 
 .right-image-container {
   width: 100%;
@@ -690,12 +616,7 @@ html, body {
   }
 }
 
-/* 小屏幕图片高度调整 */
-@media (max-width: 992px) {
-  .nav-related-image {
-    height: 180px;
-  }
-}
+
 
 .right-content-container {
   background-color: white;
@@ -839,23 +760,111 @@ html, body {
   text-overflow: ellipsis;
   padding: 0 5px;
 }
+@media (max-width: 1300px) {
+  .card-wrapper{
+    padding: 0;
+    margin-top: 0;
+  }
+
+}
+
+/* 小屏幕右侧区域占满宽度 */
+@media (max-width: 992px) {
+  .concern-right-card {
+    width: 100% !important;
+    padding: 20px;
+  }
+  .nav-related-image {
+    height: 180px;
+  }
+  .card-content-wrapper {
+    flex-direction: column;
+  }
+  .concern-left-card {
+    width: 100% !important;
+    border-right: none;
+    border-bottom: 2px solid #F7F9FE; /* 小屏幕底部加边框区分 */
+  }
+
+  /* 小屏幕导航横向排列 - 增加宽度 */
+  .concern-left-card .concern-navigation {
+    width: 45%; /* 从30%增加到45%，每行显示2个更宽的导航项 */
+    margin: 5px 2.5%; /* 调整间距 */
+    display: inline-flex;
+    height: 40px;
+    font-size: 15px;
+  }
+
+  .navigation-container {
+    width: 100%;
+    text-align: center; /* 导航项居中 */
+  }
+}
 
 /* 响应式调整 */
 @media (max-width: 768px) {
-  .media-item {
-    flex: 0 0 160px; /* 小屏幕缩小宽度 */
+  .concern-right-card {
+    width: 100% !important;
+
+  }
+  .nav-related-image {
+    height: 180px;
+  }
+  .card-content-wrapper {
+    flex-direction: column;
+  }
+  .concern-left-card {
+    width: 100% !important;
+    border-right: none;
+    border-bottom: 2px solid #F7F9FE; /* 小屏幕底部加边框区分 */
   }
 
-  .media-image {
-    height: 140px;
+  /* 小屏幕导航横向排列 - 增加宽度 */
+  .concern-left-card .concern-navigation {
+    width: 45%; /* 从30%增加到45%，每行显示2个更宽的导航项 */
+    margin: 5px 2.5%; /* 调整间距 */
+    display: inline-flex;
+    height: 40px;
+    font-size: 15px;
   }
 
-  .error-icon {
-    font-size: 48px;
-  }
-
-  .error-text {
-    font-size: 16px;
+  .navigation-container {
+    width: 100%;
+    text-align: center; /* 导航项居中 */
   }
 }
+
+/* 超小屏幕导航调整 */
+@media (max-width: 576px) {
+  .concern-right-card {
+    width: 100% !important;
+    padding: 20px;
+  }
+  .nav-related-image {
+    height: 180px;
+  }
+  .card-content-wrapper {
+    flex-direction: column;
+  }
+  .concern-left-card {
+    width: 100% !important;
+    border-right: none;
+    border-bottom: 2px solid #F7F9FE; /* 小屏幕底部加边框区分 */
+  }
+
+  /* 小屏幕导航横向排列 - 增加宽度 */
+  .concern-left-card .concern-navigation {
+    width: 45%; /* 从30%增加到45%，每行显示2个更宽的导航项 */
+    margin: 5px 2.5%; /* 调整间距 */
+    display: inline-flex;
+    height: 40px;
+    font-size: 15px;
+  }
+
+  .navigation-container {
+    width: 100%;
+    text-align: center; /* 导航项居中 */
+  }
+}
+
 </style>

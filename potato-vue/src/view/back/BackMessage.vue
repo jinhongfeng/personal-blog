@@ -18,6 +18,7 @@
             :class="isSmallScreen ? 'mt-2 w-full' : 'ml-10'"
             @click="handleSearch"
             :size="isSmallScreen ? 'small' : 'default'"
+            :icon="Search"
         >
           搜索
         </el-button>
@@ -39,6 +40,7 @@
             @click="batchDeleteVisible = true"
             :class="isSmallScreen ? 'mt-2 ml-0' : 'ml-10'"
             :size="isSmallScreen ? 'small' : 'default'"
+            :icon="Delete"
         >
           批量删除
         </el-button>
@@ -62,12 +64,12 @@
         <el-table-column
             prop="nickname"
             label="昵称"
-            :width="isSmallScreen ? 100 : 200"
+            :width="isSmallScreen ? 100 : 150"
         />
         <el-table-column
             prop="theme"
             label="主题"
-            :width="isSmallScreen ? 100 : 200"
+            :width="isSmallScreen ? 100 : 100"
         />
         <el-table-column
             prop="content"
@@ -77,11 +79,11 @@
         <el-table-column
             prop="contact"
             label="联系"
-            :width="isSmallScreen ? 100 : 200"
+            :width="isSmallScreen ? 100 : 150"
         />
         <el-table-column
             label="操作"
-            :width="isSmallScreen ? 140 : 180"
+            :width="isSmallScreen ? 'auto' : 'auto'"
         >
           <template #default="scope">
             <el-button-group>
@@ -493,8 +495,7 @@ const handleBatchDelete = async () => {
 }
 
 .homeMain-box {
-  margin: 15px 0;
-  min-height: calc(100vh - 220px);
+  margin: 0;
 }
 
 .table-scroll-container {

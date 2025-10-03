@@ -16,9 +16,12 @@
           <el-button
               type="info"
               :class="isSmallScreen ? 'mt-2 w-full' : 'ml-10'"
+              :size="isSmallScreen ? 'small' : 'default'"
               @click="handleSearch"
           >
-            搜索
+            <el-icon><Search /></el-icon>
+            <span :class="{ 'hidden-sm': isSmallScreen }">搜索</span>
+
           </el-button>
         </div>
 
@@ -47,7 +50,7 @@
     </el-card>
 
     <!-- 主体 -->
-    <el-card class="main-card">
+    <el-card class="homeMain-box">
       <el-table
           :data="tableData"
           stripe
@@ -252,7 +255,6 @@
                   :status="progress === 100 ? 'success' : null"
                   stroke-width="4"
                   class="mt-2"
-                  v-if="progress<100"
               />
             </div>
           </div>
@@ -397,6 +399,7 @@ import {ElLoading, ElMessage, ElMessageBox} from "element-plus";
 import request from '@/utils/request';
 import EmojiPicker from 'vue3-emoji-picker';
 import 'vue3-emoji-picker/css';
+import {defaultImage} from "@/utils/defaultConfig";
 
 // 响应式相关
 const isSmallScreen = ref(window.innerWidth < 768)
@@ -649,7 +652,7 @@ const handleImageUpload = (response, uploadFile, uploadFiles) => {
 
 // 图片加载错误处理
 const handleImageError = (e) => {
-  e.target.src = require('@/assets/defaultImage.jpeg');
+  e.target.src = defaultImage;
   ElMessage.warning('图片加载失败');
 };
 
@@ -813,11 +816,11 @@ const handleSave = async () => {
     return;
   }
 
-  // 验证图片（新建时必传）
-  if (payLoadData.value.images.length === 0 && !payLoadData.value.isEdit) {
-    ElMessage.warning('请至少上传一张图片');
-    return;
-  }
+  // // 验证图片（新建时必传）
+  // if (payLoadData.value.images.length === 0 && !payLoadData.value.isEdit) {
+  //   ElMessage.warning('请至少上传一张图片');
+  //   return;
+  // }
 
   const loading = ElLoading.service({ text: '保存中...' });
   try {
@@ -1048,22 +1051,24 @@ const resetForm = () => {
 
 <style scoped>
 .circle-management-container {
-  padding: 15px;
-  min-height: 100vh;
+  height: 88vh;
   box-sizing: border-box;
+  overflow-y: hidden;
 }
 
 .header-card {
-  margin-bottom: 10px;
+  margin-bottom: 0;
 }
 
-.main-card {
-  margin: 10px 0;
-  padding: 15px;
+.homeMain-box {
+  max-height: 70vh;
+
+  overflow-y: auto;
+
 }
 
 .pagination-card {
-  padding: 15px;
+  padding: 10px;
   display: flex;
   justify-content: center;
 }
@@ -1286,7 +1291,7 @@ const resetForm = () => {
     padding: 10px;
   }
 
-  .main-card {
+  .homeMain-box {
     padding: 10px;
   }
 

@@ -102,7 +102,7 @@
                 <div class="app-icon-container">
                   <img :src="app.icon" class="app-icon" :alt="app.name">
                 </div>
-                <div class="app-name">{{ app.name }}</div>
+                <div class="app-name">{{ app.title }}</div>
               </div>
             </div>
           </transition>
@@ -170,13 +170,13 @@ const activeEngine = ref(engines.value[0])
 // 应用列表
 const apps = ref([
   {
-    name: '豆包',
+    title: '豆包',
     icon: 'chrome-extension://dbjibobgilijgolhjdcbdebjhejelffo/assets/icon.png',
     link: 'https://doubao.com'
   },
 
   {
-    name: 'B站',
+    title: 'B站',
     icon: 'https://cdn.yuanshikong.net/NewTab/icons/61bc4a2410915ef5fe36eb8d.svg',
     link: 'https://www.bilibili.com/'
   }
@@ -785,8 +785,10 @@ html, body {
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
-  z-index: 15; /* 高于下拉菜单 */
+  z-index: 15;
   position: relative;
+  max-height: 400px;
+  overflow-y: auto;
 }
 
 .app-card {

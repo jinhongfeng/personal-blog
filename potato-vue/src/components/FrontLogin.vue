@@ -85,6 +85,7 @@ import { ref, onMounted, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import request from '@/utils/request';
 import { ElMessage } from "element-plus";
+import {setUserInfo} from "@/utils/auth";
 
 // 表单数据
 const username = ref('');
@@ -249,9 +250,9 @@ const handleSubmit = async () => {
     // 检查登录状态
     if (res.code === "200" && res.data && res.data.token) {
       // 保存用户信息
-      localStorage.setItem('user', JSON.stringify(res.data));
-      request.defaults.headers.common['token'] = res.data.token;
-      ElMessage.success('登录成功，正在跳转...');
+      setUserInfo(res.data);
+
+      ElMessage.success('登录成功');
 
       // 使用路由实例的currentRoute获取redirect参数
       const redirectPath = router.currentRoute.value.query.redirect || '/back/home';

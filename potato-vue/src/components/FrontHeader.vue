@@ -249,16 +249,18 @@
 </template>
 
 <script setup>
-import { getCurrentInstance, onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref} from 'vue'
 import { useRouter } from 'vue-router'
+import { useStore } from 'vuex';
+import { ElMessage } from 'element-plus';
 import { Menu, Close, ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import personalAvatar from "@/assets/personAvatar.jpg";
-
-// 网站名称
-const webName = ref('POTATO')
-
+import {removeUserInfo} from "@/utils/auth";
 // 路由实例
 const router = useRouter()
+const store = useStore();
+// 网站名称
+const webName = ref('POTATO')
 
 // 页面地址数据
 const pageAddress = ref([
@@ -333,22 +335,24 @@ const handleAddress = (url) => {
 
 // 处理退出登录
 const handleLogout = () => {
-  const { proxy } = getCurrentInstance();
-
-  // 清除本地存储中的token
-  localStorage.removeItem('token');
-
-  // 重置用户状态
-  if (proxy?.$store) {
-    proxy.$store.commit('resetUser');
+  // 检查用户是否登录
+  if (!localStorage.getItem('user')) {
+    ElMessage.info('还未登录');
+    return;
   }
 
-  // 跳转到登录页
-  proxy?.$router.push('/login');
+  // 清除 localStorage 和 axios 请求头
+  removeUserInfo();
 
-  // 显示退出提示
-  proxy?.$message.success('退出成功');
-}
+  // 这个 store 变量是一个确定的、已存在的对象，永远不会是 undefined 或 null
+  store.commit('resetUser');
+
+  // 跳转到首页
+  router.replace('/front/home');
+
+  // 显示退出成功的提示
+  ElMessage.success('退出成功');
+};
 
 // 切换移动端下拉菜单
 const toggleDropdown = (type) => {
@@ -573,6 +577,7 @@ const toggleDropdown = (type) => {
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow-y: auto;
 }
 
 .mobile-menu-content {

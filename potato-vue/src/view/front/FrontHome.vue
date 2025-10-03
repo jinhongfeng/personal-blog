@@ -525,7 +525,7 @@ watch(isMobile, (newValue) => {
   position: absolute;
   top: 0;
   left: 0;
-  height: 40vh; /* 更改时，也需要更改banner-box */
+  height: 30vh; /* 更改时，也需要更改banner-box */
   width: 100%;
   align-items: center;
   display: flex;
@@ -550,7 +550,7 @@ watch(isMobile, (newValue) => {
 
 .background-mask {
   margin-top: 20px;
-  padding: 10px 20px;
+  padding: 20px 20px;
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 20px;
   color: white;
@@ -875,8 +875,6 @@ watch(isMobile, (newValue) => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
 }
 
 .left-title {
@@ -1064,6 +1062,10 @@ watch(isMobile, (newValue) => {
     display: flex;
   }
 
+  .background-mask {
+    margin-top: 0;
+  }
+
   .content-wrapper {
     flex-direction: column;
     margin-top: 30vh;
@@ -1132,6 +1134,10 @@ watch(isMobile, (newValue) => {
     height: 25vh;
   }
 
+  .background-mask {
+    margin-top: 0;
+  }
+
   .content-wrapper.mobile-nav-open .left-content {
     max-height: calc(100vh - 25vh - 70px);
   }
@@ -1163,15 +1169,6 @@ watch(isMobile, (newValue) => {
 
   .second-content span {
     font-size: 24px;
-  }
-
-  .left-justify {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .right-justify {
-    align-self: flex-end;
   }
 
   .mainBlog-box {

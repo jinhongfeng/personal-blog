@@ -11,7 +11,9 @@
             clearable
             @keyup.enter="handleSearch"
         />
-        <el-button type="info" class="ml-2 sm:ml-4" @click="handleSearch">搜索</el-button>
+        <el-button type="info" class="ml-2 sm:ml-2" @click="handleSearch" :icon="Search">
+          <span class="ml-1 hidden sm:inline">搜索</span>
+        </el-button>
       </div>
 
       <!-- 中间区域：组件切换按钮 -->
@@ -36,8 +38,8 @@
             :disabled="currentComponent === '旅行相册'"
             size="small"
             class="mr-1 sm:mr-2"
+            :icon="CirclePlus"
         >
-          <el-icon><CirclePlus /></el-icon>
           <span class="ml-1 hidden sm:inline">新建</span>
         </el-button>
         <el-button
@@ -45,9 +47,9 @@
             :disabled="selectedRows.length === 0"
             @click="batchDeleteVisible = true"
             size="small"
+            :icon="Delete"
         >
           <span class="hidden sm:inline">批量删除</span>
-          <span class="sm:hidden">批量删</span>
         </el-button>
       </div>
     </div>
@@ -151,7 +153,7 @@
       <el-table-column type="selection" width="55" />
       <el-table-column prop="id" :width="isMobile ? 60 : 100" label="ID" />
       <el-table-column prop="content" label="内容" :show-overflow-tooltip="true" />
-      <el-table-column prop="publish" label="发布时间" :width="isMobile ? 120 : 200" />
+      <el-table-column prop="publishTime" label="发布时间" :width="isMobile ? 120 : 200" />
       <el-table-column label="操作" :width="isMobile ? 120 : 180">
         <template #default="scope">
           <el-button size="small" @click="handleEdit(scope.row)" class="mr-1">编</el-button>
@@ -292,7 +294,7 @@
 
 <script setup>
 import { ref, reactive, watch, onMounted, onBeforeUnmount } from "vue";
-import { CirclePlus, Search, Plus } from "@element-plus/icons-vue";
+import {CirclePlus, Search, Plus, Delete} from "@element-plus/icons-vue";
 import { ElMessage, ElMessageBox, ElLoading } from "element-plus";
 import router from "@/router";
 import request from "@/utils/request"; // 引入请求工具

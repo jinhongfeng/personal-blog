@@ -70,7 +70,7 @@
                  class="comment-avatar">
             <div class="user-info">
               <span class="username">{{ comment.author || defaultList.author }}</span>
-              <span class="comment-time">{{ formatTime(comment.publish) }}</span>
+              <span class="comment-time">{{ formatTime(comment.publishTime) }}</span>
             </div>
           </div>
           <div class="comment-content">
@@ -91,6 +91,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { Warning } from "@element-plus/icons-vue";
 import {ElNotification, ElLoading, ElEmpty, ElIcon} from "element-plus";
 import request from '@/utils/request';
+import {formatTime} from "../../../utils/defaultConfig";
 
 // 资源引用
 const illustrationImage = require('@/assets/love/chahua.jpg');
@@ -141,11 +142,6 @@ const adjustHeight = (e) => {
   textarea.style.height = `${newHeight}px`;
 };
 
-// 格式化时间显示
-const formatTime = (timeStr) => {
-  if (!timeStr) return '';
-  return dayjs(timeStr).format('YYYY-MM-DD HH:mm');
-};
 
 // 提交留言逻辑
 const handleSubmit = async () => {

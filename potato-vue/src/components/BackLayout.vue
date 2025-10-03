@@ -141,9 +141,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.app-container {
-  min-height: 100vh;
-}
 
 .full-height {
   height: 100vh;

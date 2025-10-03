@@ -1,309 +1,315 @@
 <template>
-  <!-- 头部 -->
-  <el-card :style="{ height: isSmallScreen ? 'auto' : '12%', padding: isSmallScreen ? '10px' : '0' }">
-    <div class="button-container">
-      <!-- 左侧区域：搜索框和搜索按钮 -->
-      <div class="left-group">
-        <el-input
-            v-model="inputSearch"
-            :style="{ width: isSmallScreen ? '100%' : '240px' }"
-            placeholder="输入标题搜索"
-            :prefix-icon="Search"
-            clearable
-            @keyup.enter="handleSearch"
-            :disabled="searchLoading"
-            :size="isSmallScreen ? 'small' : 'default'"
-        />
-        <el-button
-            type="info"
-            :class="isSmallScreen ? 'mt-2 w-full' : 'ml-2'"
-            @click="handleSearch"
-            :loading="searchLoading"
-            :size="isSmallScreen ? 'small' : 'default'"
-        >
-          搜索
-        </el-button>
-      </div>
+  <div class="apply-management-container">
+    <!-- 头部 -->
+    <el-card :style="{ height: isSmallScreen ? 'auto' : 'auto', padding: isSmallScreen ? '0' : '0' }">
+      <div class="button-container">
+        <!-- 左侧区域：搜索框和搜索按钮 -->
+        <div class="left-group">
+          <el-input
+              v-model="inputSearch"
+              :style="{ width: isSmallScreen ? '100%' : '240px' }"
+              placeholder="输入标题搜索"
+              :prefix-icon="Search"
+              clearable
+              @keyup.enter="handleSearch"
+              :disabled="searchLoading"
+              :size="isSmallScreen ? 'small' : 'default'"
+          />
+          <el-button
+              type="info"
+              :class="isSmallScreen ? 'mt-2 w-full' : 'ml-2'"
+              @click="handleSearch"
+              :loading="searchLoading"
+              :size="isSmallScreen ? 'small' : 'default'"
+              :icon="Search"
+          >
+            搜索
+          </el-button>
+        </div>
 
-      <!-- 右侧区域：新建和批量删除按钮 -->
-      <div class="right-group">
-        <el-button
-            type="primary"
-            @click="handleCreate"
-            :loading="saveLoading"
-            :size="isSmallScreen ? 'small' : 'default'"
-            :class="isSmallScreen ? 'w-full mb-2' : ''"
-        >
-          <el-icon class="mr-1"><CirclePlus /></el-icon>
-          <span class="ml-1">新建</span>
-        </el-button>
-        <el-button
-            type="warning"
-            :disabled="selectedRows.length === 0"
-            @click="batchDeleteVisible = true"
-            :class="isSmallScreen ? 'w-full' : 'ml-2'"
-            :loading="deleteLoading"
-            :size="isSmallScreen ? 'small' : 'default'"
-        >
-          批量删除
-        </el-button>
+        <!-- 右侧区域：新建和批量删除按钮 -->
+        <div class="right-group">
+          <el-button
+              type="primary"
+              @click="handleCreate"
+              :loading="saveLoading"
+              :size="isSmallScreen ? 'small' : 'default'"
+              :class="isSmallScreen ? 'w-full mb-2' : ''"
+          >
+            <el-icon class="mr-1"><CirclePlus /></el-icon>
+            <span class="ml-1">新建</span>
+          </el-button>
+          <el-button
+              type="warning"
+              :disabled="selectedRows.length === 0"
+              @click="batchDeleteVisible = true"
+              :class="isSmallScreen ? 'w-full' : 'ml-2'"
+              :loading="deleteLoading"
+              :size="isSmallScreen ? 'small' : 'default'"
+              :icon="Delete"
+          >
+            批量删除
+          </el-button>
+        </div>
       </div>
-    </div>
-  </el-card>
+    </el-card>
 
-  <!-- 主要内容 -->
-  <el-card class="homeMain-box mt-2" :style="{ padding: isSmallScreen ? '10px 5px' : '15px' }">
-    <div class="table-scroll-container">
-      <el-table
-          :data="tableData"
-          stripe
-          style="width: 100%"
-          v-loading="searchLoading"
-          @selection-change="handleSelectionChange"
-          empty-text="暂无数据"
-          :row-key="row => row.id"
-          :cell-style="{ padding: isSmallScreen ? '4px 8px' : '8px 12px' }"
-          :header-cell-style="{ padding: isSmallScreen ? '6px 8px' : '10px 12px' }"
-      >
-        <el-table-column type="selection" width="50" />
-        <el-table-column
-            prop="title"
-            label="名称"
-            :width="isSmallScreen ? 120 : ''"
-        />
-        <el-table-column
-            label="图标"
-            :width="isSmallScreen ? 100 : 150"
+    <!-- 主要内容 -->
+    <el-card class="homeMain-box" :style="{ height: isSmallScreen ? 'auto' : '75vh', padding: isSmallScreen ? '0' : '0' }">
+      <div class="table-scroll-container">
+        <el-table
+            :data="tableData"
+            stripe
+            style="width: 100%; margin-bottom: 10px"
+            v-loading="searchLoading"
+            @selection-change="handleSelectionChange"
+            empty-text="暂无数据"
+            :row-key="row => row.id"
+            :cell-style="{ padding: isSmallScreen ? '4px 8px' : '5px 5px' }"
+            :header-cell-style="{ padding: isSmallScreen ? '6px 8px' : '5px 12px' }"
         >
-          <template #default="scope">
-            <el-image
-                v-if="scope.row.icon"
-                :src="scope.row.icon"
-                alt="图标"
-                :style="{
+          <el-table-column type="selection" width="50" />
+          <el-table-column
+              prop="title"
+              label="名称"
+              :width="isSmallScreen ? 100 : 100"
+          />
+          <el-table-column
+              label="图标"
+              :width="isSmallScreen ? 100 : 150"
+          >
+            <template #default="scope">
+              <el-image
+                  v-if="scope.row.icon"
+                  :src="scope.row.icon"
+                  alt="图标"
+                  :style="{
                   width: isSmallScreen ? '60px' : '100px',
                   height: isSmallScreen ? '50px' : '80px',
                   objectFit: 'cover'
                 }"
-                fit="cover"
-                :preview-src-list="[scope.row.icon]"
-                preview-teleport="body"
-            >
-              <template #error>
-                <div class="image-error" :style="{
+                  fit="cover"
+                  :preview-src-list="[scope.row.icon]"
+                  preview-teleport="body"
+              >
+                <template #error>
+                  <div class="image-error" :style="{
                   width: isSmallScreen ? '60px' : '100px',
                   height: isSmallScreen ? '50px' : '80px'
                 }">
-                  加载失败
-                </div>
-              </template>
-            </el-image>
-            <span v-else>无封面</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-            prop="link"
-            label="链接"
-            :show-overflow-tooltip="true"
-            :width="isSmallScreen ? 150 : ''"
-        >
-          <template #default="scope">
-            <a
-                :href="scope.row.link"
-                target="_blank"
-                class="link-external"
-                v-if="scope.row.link"
-            >
-              {{ scope.row.link.length > (isSmallScreen ? 10 : 20)
-                ? scope.row.link.slice(0, isSmallScreen ? 10 : 20) + '...'
-                : scope.row.link
-              }}
-            </a>
-            <span v-else>无链接</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-            prop="publishTime"
-            label="添加时间"
-            :width="isSmallScreen ? 130 : 180"
-            :formatter="formatTime"
-        />
-        <el-table-column
-            label="操作"
-            :width="isSmallScreen ? 140 : 120"
-        >
-          <template #default="scope">
-            <el-button-group>
-              <el-button
-                  type="success"
-                  :icon="Edit"
-                  @click="handleEdit(scope.row)"
-                  size="small"
-                  :loading="saveLoading"
-                  title="编辑"
-              >
-                <span class="ml-1">编辑</span>
-              </el-button>
-              <el-popconfirm
-                  title="是否确认删除？"
-                  placement="top"
-                  @confirm="handleSingleDelete(scope.row)"
-                  @cancel="() => {}"
-              >
-                <template #reference>
-                  <el-button
-                      type="danger"
-                      :icon="Delete"
-                      size="small"
-                      :loading="deleteLoading"
-                      title="删除"
-                  >
-                    <span class="ml-1">删除</span>
-                  </el-button>
+                    加载失败
+                  </div>
                 </template>
-              </el-popconfirm>
-            </el-button-group>
-          </template>
-        </el-table-column>
-      </el-table>
-    </div>
-  </el-card>
+              </el-image>
+              <span v-else>无封面</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+              prop="link"
+              label="链接"
+              :show-overflow-tooltip="true"
+              :width="isSmallScreen ? 180 : 300"
+          >
+            <template #default="scope">
+              <a
+                  :href="scope.row.link"
+                  target="_blank"
+                  class="link-external"
+                  v-if="scope.row.link"
+              >
+                {{ scope.row.link.length > (isSmallScreen ? 10 : 20)
+                  ? scope.row.link.slice(0, isSmallScreen ? 10 : 20) + '...'
+                  : scope.row.link
+                }}
+              </a>
+              <span v-else>无链接</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+              prop="publishTime"
+              label="添加时间"
+              :width="isSmallScreen ? 130 : 180"
+              :formatter="formatTime"
+          />
+          <el-table-column
+              label="操作"
+              :width="isSmallScreen ? 140 : ''"
+          >
+            <template #default="scope">
+              <el-button-group>
+                <el-button
+                    type="success"
+                    :icon="Edit"
+                    @click="handleEdit(scope.row)"
+                    size="small"
+                    :loading="saveLoading"
+                    title="编辑"
+                >
+                  <span class="ml-1">编辑</span>
+                </el-button>
+                <el-popconfirm
+                    title="是否确认删除？"
+                    placement="top"
+                    @confirm="handleSingleDelete(scope.row)"
+                    @cancel="() => {}"
+                >
+                  <template #reference>
+                    <el-button
+                        type="danger"
+                        :icon="Delete"
+                        size="small"
+                        :loading="deleteLoading"
+                        title="删除"
+                    >
+                      <span class="ml-1">删除</span>
+                    </el-button>
+                  </template>
+                </el-popconfirm>
+              </el-button-group>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+    </el-card>
 
-  <!-- 分页 -->
-  <el-card
-      class="center-content mt-2"
-      :style="{
-      height: isSmallScreen ? 'auto' : '12%',
-      padding: isSmallScreen ? '10px' : '0'
+    <!-- 分页 -->
+    <el-card
+        class="center-content"
+        :style="{
+      height: isSmallScreen ? 'auto' : 'auto',
+      padding: isSmallScreen ? '0' : '0'
     }"
-  >
-    <div class="pagination-block" :style="{ textAlign: isSmallScreen ? 'center' : 'right' }">
-      <el-pagination
-          v-model:current-page="pagination.pageNum"
-          v-model:page-size="pagination.pageSize"
-          :page-sizes="[10, 15, 20, 30]"
-          layout="sizes, prev, pager, next, total"
-          :total="pagination.total"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :disabled="searchLoading"
-          :small="isSmallScreen"
-      />
-    </div>
-  </el-card>
-
-  <!-- 新建/编辑对话框 -->
-  <el-dialog
-      v-model="dialogBuildVisible"
-      :title="payloadData.id ? '编辑内容' : '新建内容'"
-      :width="isSmallScreen ? '90%' : '800px'"
-      :before-close="resetForm"
-      max-height="80vh"
-      overflow-y="auto"
-      :close-on-click-modal="false"
-  >
-    <el-form
-        :model="payloadData"
-        :label-width="isSmallScreen ? '80px' : '120px'"
-        ref="formRef"
-        :rules="formRules"
-        status-icon
     >
-      <el-form-item label="名称" prop="title">
-        <el-input
-            v-model="payloadData.title"
-            autocomplete="off"
-            style="width: 100%"
-            max-length="50"
-            show-word-limit
-            placeholder="请输入名称"
-            :size="isSmallScreen ? 'small' : 'default'"
+      <div class="pagination-block" :style="{ textAlign: isSmallScreen ? 'center' : 'right' }">
+        <el-pagination
+            v-model:current-page="pagination.pageNum"
+            v-model:page-size="pagination.pageSize"
+            :page-sizes="[10, 15, 20, 30]"
+            layout="sizes, prev, pager, next, total"
+            :total="pagination.total"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :disabled="searchLoading"
+            :small="isSmallScreen"
         />
-      </el-form-item>
+      </div>
+    </el-card>
 
-      <el-form-item label="链接" prop="link">
-        <el-input
-            v-model="payloadData.link"
-            autocomplete="off"
-            style="width: 100%"
-            max-length="200"
-            show-word-limit
-            placeholder="请输入链接"
-            :size="isSmallScreen ? 'small' : 'default'"
-        />
-      </el-form-item>
+    <!-- 新建/编辑对话框 -->
+    <el-dialog
+        v-model="dialogBuildVisible"
+        :title="payloadData.id ? '编辑内容' : '新建内容'"
+        :width="isSmallScreen ? '90%' : '800px'"
+        :before-close="resetForm"
+        max-height="80vh"
+        overflow-y="auto"
+        :close-on-click-modal="false"
+    >
+      <el-form
+          :model="payloadData"
+          :label-width="isSmallScreen ? '80px' : '120px'"
+          ref="formRef"
+          :rules="formRules"
+          status-icon
+      >
+        <el-form-item label="名称" prop="title">
+          <el-input
+              v-model="payloadData.title"
+              autocomplete="off"
+              style="width: 100%"
+              max-length="50"
+              show-word-limit
+              placeholder="请输入名称"
+              :size="isSmallScreen ? 'small' : 'default'"
+          />
+        </el-form-item>
 
-      <el-form-item label="图标" prop="icon">
-        <el-input
-            v-model="payloadData.icon"
-            autocomplete="off"
-            style="width: 100%"
-            max-length="200"
-            show-word-limit
-            placeholder="请输入图标URL"
-            :size="isSmallScreen ? 'small' : 'default'"
-        />
-        <el-text size="small" type="info" class="mt-1">
-          提示：请输入有效的图片URL地址
-        </el-text>
-      </el-form-item>
-    </el-form>
+        <el-form-item label="链接" prop="link">
+          <el-input
+              v-model="payloadData.link"
+              autocomplete="off"
+              style="width: 100%"
+              max-length="200"
+              show-word-limit
+              placeholder="请输入链接"
+              :size="isSmallScreen ? 'small' : 'default'"
+          />
+        </el-form-item>
 
-    <template #footer>
-      <div class="center-content">
+        <el-form-item label="图标" prop="icon">
+          <el-input
+              v-model="payloadData.icon"
+              autocomplete="off"
+              style="width: 100%"
+              max-length="200"
+              show-word-limit
+              placeholder="请输入图标URL"
+              :size="isSmallScreen ? 'small' : 'default'"
+          />
+          <el-text size="small" type="info" class="mt-1">
+            提示：请输入有效的图片URL地址
+          </el-text>
+        </el-form-item>
+      </el-form>
+
+      <template #footer>
+        <div class="center-content">
+          <el-button
+              type="danger"
+              @click="resetForm"
+              :size="isSmallScreen ? 'small' : 'default'"
+          >
+            取消
+          </el-button>
+          <el-button
+              type="success"
+              @click="handleSave"
+              :loading="saveLoading"
+              :size="isSmallScreen ? 'small' : 'default'"
+              class="ml-2"
+          >
+            保存
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
+
+    <!-- 批量删除对话框 -->
+    <el-dialog
+        v-model="batchDeleteVisible"
+        title="批量删除确认"
+        :width="isSmallScreen ? '90%' : '400px'"
+        :close-on-click-modal="false"
+    >
+      <p>您确定要删除选中的 <span class="text-danger font-bold">{{ selectedCount }}</span> 条数据吗？</p>
+      <p class="text-warning">此操作不可撤销，请谨慎操作！</p>
+      <template #footer>
         <el-button
-            type="danger"
-            @click="resetForm"
+            @click="batchDeleteVisible = false"
             :size="isSmallScreen ? 'small' : 'default'"
         >
           取消
         </el-button>
         <el-button
-            type="success"
-            @click="handleSave"
-            :loading="saveLoading"
+            type="danger"
+            @click="handleBatchDelete"
+            :loading="deleteLoading"
             :size="isSmallScreen ? 'small' : 'default'"
             class="ml-2"
         >
-          保存
+          确认删除
         </el-button>
-      </div>
-    </template>
-  </el-dialog>
+      </template>
+    </el-dialog>
+  </div>
 
-  <!-- 批量删除对话框 -->
-  <el-dialog
-      v-model="batchDeleteVisible"
-      title="批量删除确认"
-      :width="isSmallScreen ? '90%' : '400px'"
-      :close-on-click-modal="false"
-  >
-    <p>您确定要删除选中的 <span class="text-danger font-bold">{{ selectedCount }}</span> 条数据吗？</p>
-    <p class="text-warning">此操作不可撤销，请谨慎操作！</p>
-    <template #footer>
-      <el-button
-          @click="batchDeleteVisible = false"
-          :size="isSmallScreen ? 'small' : 'default'"
-      >
-        取消
-      </el-button>
-      <el-button
-          type="danger"
-          @click="handleBatchDelete"
-          :loading="deleteLoading"
-          :size="isSmallScreen ? 'small' : 'default'"
-          class="ml-2"
-      >
-        确认删除
-      </el-button>
-    </template>
-  </el-dialog>
+
 </template>
 
 <script setup>
 import {CirclePlus, Delete, Edit, Search} from '@element-plus/icons-vue'
 import {ref, onMounted, nextTick, reactive, watchEffect} from 'vue'
-import {ElMessage, ElMessageBox} from 'element-plus'
+import { ElMessage } from 'element-plus'
 import request from '@/utils/request';
 import {debounce} from 'lodash';
 
@@ -586,9 +592,11 @@ const handleBatchDelete = async () => {
 </script>
 
 <style scoped>
-/* 基础样式 */
-.mt-2 {
-  margin-top: 10px !important;
+.apply-management-container {
+  display: flex;
+  flex-direction: column;
+  height: 88vh;
+  overflow-y: hidden;
 }
 
 .ml-2 {
@@ -608,9 +616,19 @@ const handleBatchDelete = async () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 0;
+  padding: 0;
   flex-wrap: wrap;
   gap: 10px;
+}
+
+/* 让主体卡片自动伸缩，并成为内部Flex容器 */
+.homeMain-box {
+  margin: 0;
+
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
 }
 
 .left-group, .right-group {
@@ -676,11 +694,11 @@ const handleBatchDelete = async () => {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 0;
 }
 
-/* 表格滚动容器 */
 .table-scroll-container {
-  max-height: calc(100vh - 300px);
+  flex-grow: 1;
   overflow-y: auto;
   overflow-x: hidden;
   cursor: pointer;
@@ -741,9 +759,6 @@ const handleBatchDelete = async () => {
 
 /* 移动端适配 */
 @media (max-width: 768px) {
-  .table-scroll-container {
-    max-height: calc(100vh - 250px);
-  }
 
   /* 调整表格行高 */
   :deep(.el-table__row) {
@@ -761,14 +776,15 @@ const handleBatchDelete = async () => {
 }
 
 @media (max-width: 576px) {
-  .table-scroll-container {
-    max-height: calc(100vh - 220px);
-  }
-
   /* 简化分页显示 */
   :deep(.el-pagination__total) {
     display: none;
   }
+}
+
+/* 6. 确保头部和底部卡片不会被压缩 */
+.el-card:first-child, .el-card:last-child {
+  flex-shrink: 0; /* 关键：防止被压缩 */
 }
 </style>
 

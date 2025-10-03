@@ -8,10 +8,10 @@
 
     <!-- 控制区 -->
     <div class="control-group">
-      <el-button @click="shuffleCards" size="large">随机排序</el-button>
-      <el-button @click="resetProgress" size="large">重置进度</el-button>
-      <el-button @click="toggleTestMode" size="large">测试模式</el-button>
-      <el-button @click="showFavorites = true" size="large">收藏夹</el-button>
+      <el-button @click="shuffleCards" >随机排序</el-button>
+      <el-button @click="resetProgress" >重置进度</el-button>
+      <el-button @click="toggleTestMode">测试模式</el-button>
+      <el-button @click="showFavorites = true">收藏夹</el-button>
     </div>
 
     <!-- 难度控制 -->
@@ -21,7 +21,6 @@
           placeholder="选择卡片数量"
           class="select-style"
           @change="handleCountChange"
-          size="large"
       >
         <el-option :label="'5 张'" :value="5" />
         <el-option :label="'10 张'" :value="10" />
@@ -34,9 +33,9 @@
 
     <!-- 语速控制 -->
     <div class="control-group no-wrap">
-      <el-button class="auto-play-active" v-if="isAutoPlay === true" @click="toggleAutoPlay" size="large">自动朗读(开)</el-button>
-      <el-button v-else @click="toggleAutoPlay" size="large">自动朗读(关)</el-button>
-      <el-button size="large">语速控制</el-button>
+      <el-button class="auto-play-active" v-if="isAutoPlay === true" @click="toggleAutoPlay" >自动朗读(开)</el-button>
+      <el-button v-else @click="toggleAutoPlay" >自动朗读(关)</el-button>
+      <el-button >语速控制</el-button>
       <el-slider v-model="speechControl"></el-slider>
     </div>
 
@@ -106,8 +105,8 @@
             <p class="example-translation">{{ currentCard.translation }}</p>
           </div>
           <div class="card-actions mt-30">
-            <el-button size="large" @click.stop="handleAnswer(true)" class="card-btn-right">答对了</el-button>
-            <el-button size="large" @click.stop="handleAnswer(false)" class="card-btn-wrong">答错了</el-button>
+            <el-button  @click.stop="handleAnswer(true)" class="card-btn-right">答对了</el-button>
+            <el-button  @click.stop="handleAnswer(false)" class="card-btn-wrong">答错了</el-button>
           </div>
           <div class="pronunciation-btn" @click.stop="playPronunciation">
             <font-awesome-icon icon="volume-up" />
@@ -118,12 +117,12 @@
 
     <!-- 换卡控制 -->
     <div class="navigation-buttons">
-      <el-button @click="prevCard" :disabled="currentCardIndex === 0" size="large">上一张</el-button>
-      <el-button @click="flipCard" size="large">翻转卡片</el-button>
+      <el-button @click="prevCard" :disabled="currentCardIndex === 0" >上一张</el-button>
+      <el-button @click="flipCard" >翻转卡片</el-button>
       <!-- 禁用条件：1. 是最后一张 + 已回答；2. 无卡片数据 -->
       <el-button
           :disabled="(currentCardIndex === filteredCards.length - 1 && currentCard.isCorrect !== null) || filteredCards.length === 0"
-          @click="nextCard" size="large"
+          @click="nextCard"
       >
         下一张
       </el-button>
@@ -137,7 +136,7 @@
         :model-value="showFavorites"
         @update:model-value="showFavorites = $event"
         placement="right"
-        :width="isMobile ? '100%' : '450px'"
+        :size="isMobile ? '100%' : '50%'"
         :fullscreen="isMobile"
     >
       <div class="favorites-container">
@@ -496,7 +495,7 @@ onUnmounted(() => {
   position: relative;
   min-height: 100vh;
   padding: 2rem;
-  background-color: #4a6cf7;
+  background-color: #1570f8;
   background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px);
   background-size: 20px 20px;
   display: flex;
@@ -562,14 +561,13 @@ onUnmounted(() => {
   display: flex;
   justify-content: center;
   gap: 15px;
-  width: 90%;
+  width: 80%;
   max-width: 1000px;
-  flex-wrap: wrap;
 }
 
 .stat-card {
   flex: 1;
-  min-width: 100px;
+
   background-color: rgba(255, 255, 255, 0.15);
   border: none;
   color: white;
@@ -674,7 +672,6 @@ onUnmounted(() => {
 
 .difficulty-tag {
   position: absolute;
-  top: 20px;
   right: 20px;
   background-color: rgba(255, 255, 255, 0.3);
   padding: 4px 12px;
@@ -758,7 +755,8 @@ onUnmounted(() => {
   justify-content: center;
   gap: 15px;
   margin: 30px 0;
-
+  width: 90%;
+  flex-wrap: wrap;
   .card-btn-right {
     background-color: #39c5bb;
     border-color: #39c5bb;
@@ -966,133 +964,136 @@ onUnmounted(() => {
 /* 小设备适配（768px以下） */
 @media (max-width: 768px) {
   .page-studyEnglish-container {
-    padding: 1rem;
-    gap: 15px;
+    padding: 0.1rem;
+    gap: 5px;
   }
 
   .header-container {
-    margin-top: 4vh;
-    gap: 10px;
-
+    margin-top: 10vh;
+    gap: 4px;
     .header-image {
       height: 40px;
     }
 
     .header-title {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       letter-spacing: 0.1em;
     }
   }
 
   .control-group {
-    gap: 8px;
-    margin-top: 15px;
-
+    gap: 4px;
+    flex-wrap: wrap;
     .el-button {
-      font-size: 1rem;
-      padding: 8px 12px;
+      font-size: 0.6rem;
+      padding: 2px 5px;
     }
   }
 
   .stats-container {
-    margin-top: 15px;
-    width: 95%;
-    gap: 8px;
+    gap: 2px;
+    display: flex;
+    width: 90%;
   }
 
   .stat-card {
-    min-width: 120px;
+    width: 80%;
+    flex-wrap: wrap;
   }
 
   .card-content {
-    height: 120px;
-    margin: 30px 0;
+    height: 10px;
+    margin: 2px 0;
+    padding: 0;
+    display: flex;
   }
 
   .card-num {
-    font-size: 2.5rem;
-    margin-bottom: 8px;
+    font-size: 0.8rem;
   }
 
   .card-title {
-    font-size: 1.1rem;
+    font-size: 0.5rem;
   }
 
   .progress-container {
     width: 95%;
-    margin: 15px 0;
-    padding: 10px 0;
+    margin: 5px 0;
+    padding: 5px 0;
 
     :deep(.el-progress__text) {
-      font-size: 1.5rem !important;
+      font-size: 1rem !important;
     }
   }
 
   .card-wrapper, .test-mode-container {
     width: 95%;
-    height: 350px;
-    margin: 15px 0;
+    height: 250px;
+    margin: 10px 0;
   }
 
   .card-face {
-    padding: 25px;
+    padding: 10px;
   }
 
   .flip-hint {
-    font-size: 1.1rem;
-    margin: 8px 0;
+    font-size: 0.8rem;
+    margin: 4px 0;
   }
 
   .word-content {
     .word {
-      font-size: 3.5rem;
+      font-size: 2rem;
       margin: 20px 0;
     }
 
     .word-type {
-      font-size: 1.2rem;
-      margin: 8px 0;
+      font-size: 1rem;
+      margin: 4px 0;
     }
 
     .word-phonetic {
-      font-size: 1.5rem;
+      font-size: 1rem;
     }
   }
 
   .example-sentence {
     margin-top: 30px;
-    font-size: 1.3rem;
-    line-height: 1.7;
+    font-size: 1.2rem;
+    line-height: 1;
 
     .example-translation {
       margin-top: 15px;
-      font-size: 1.2rem;
+      font-size: 1rem;
     }
   }
 
   .pronunciation-btn {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     bottom: 20px;
   }
 
   .card-actions {
     gap: 15px;
-    margin: 35px 0 20px;
+    margin: 20px 10px;
 
     .el-button {
-      font-size: 1.2rem;
-      padding: 12px 20px;
+      font-size: 1rem;
+      padding: 15px 15px;
     }
   }
 
   .navigation-buttons {
-    gap: 15px;
-    margin: 25px 0 35px;
-
+    gap: 5px;
+    margin: 10px 10px;
     .el-button {
-      font-size: 1.2rem;
+      font-size: 1rem;
       padding: 10px 20px;
     }
+  }
+
+  .favorites-container {
+    width: 100%;
   }
 
   .favorites-header {
@@ -1114,21 +1115,22 @@ onUnmounted(() => {
   }
 
   .favorite-content {
-    gap: 10px;
+    gap: 5px;
   }
 
   .favorite-word {
-    font-size: 1.5rem;
-    min-width: 120px;
+    font-size: 1rem;
+    min-width: 50px;
   }
 
   .favorite-phonetic {
-    font-size: 1.2rem;
-    min-width: 130px;
+    font-size: 1rem;
+    min-width: 50px;
+    margin-right: 10px;
   }
 
   .favorite-translation {
-    font-size: 1.2rem;
+    font-size: 0.9rem;
   }
 
   .empty-favorites {
@@ -1147,8 +1149,12 @@ onUnmounted(() => {
 /* 中等设备适配（768px - 1300px） */
 @media (min-width: 769px) and (max-width: 1500px) {
 
+  .page-studyEnglish-container {
+    padding: 0.5rem;
+  }
+
   .header-container {
-    margin-top: 5vh;
+    margin-top: 7vh;
     gap: 10px;
 
     .header-image {
@@ -1162,74 +1168,159 @@ onUnmounted(() => {
   }
 
   .control-group {
-    gap: 8px;
-    margin-top: 15px;
+    gap: 5px;
     width: auto;
 
     .el-button {
-      font-size: 1.3rem;
-      padding: 12px 15px;
+      font-size: 0.8rem;
+      padding: 10px 10px;
     }
   }
 
   .stats-container {
-    margin: 30px 0;
+    margin: 6px 0;
     width: 95%;
     gap: 8px;
   }
 
-  .page-studyEnglish-container {
-    padding: 1.7rem;
+  .card-content {
+    height: 30px;
+    margin: 4px 0;
+    padding: 0;
+    display: flex;
+  }
+
+  .card-num {
+    font-size: 1.8rem;
+  }
+
+  .card-title {
+    font-size: 1rem;
   }
 
   .progress-container {
     width: 95%;
-    margin: 15px 0;
-    padding: 10px 0;
+    margin: 5px 0;
 
     :deep(.el-progress__text) {
-      font-size: 1.8rem !important;
+      font-size: 1.5rem !important;
     }
   }
+
   .difficulty-tag {
     font-size: 1rem;
   }
-  .card-wrapper, .test-mode-container {
-    width: 95%;
-    height: 350px;
-    margin: 30px 0;
-  }
 
-  .difficulty-tag {
-    font-size: 1.2rem;
+  .stat-card {
+    width: 80%;
+    flex-wrap: wrap;
   }
-
   .word-star {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
   }
   .header-title {
     font-size: 2.4rem;
   }
 
-  .card-num {
-    font-size: 2.4rem;
-  }
-
-  .card-title {
-    font-size: 1.3rem;
-  }
-
   .word {
-    font-size: 3.3rem;
-  }
-
-  .test-word {
-    font-size: 2.3rem;
+    font-size: 3rem;
   }
 
   .pronunciation-btn {
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     bottom: 20px;
+  }
+
+  .card-wrapper, .test-mode-container {
+    width: 95%;
+    height: 250px;
+    margin: 0px 0;
+  }
+
+  .card-face {
+    padding: 5px;
+  }
+
+  .flip-hint {
+    font-size: 0.8rem;
+    margin: 4px 0;
+  }
+
+  .word-content {
+    .word {
+      font-size: 2rem;
+      margin: 20px 0;
+    }
+
+    .word-type {
+      font-size: 1rem;
+      margin: 4px 0;
+    }
+
+    .word-phonetic {
+      font-size: 1rem;
+    }
+  }
+
+  .example-sentence {
+    margin-top: 30px;
+    font-size: 1.2rem;
+    line-height: 1;
+
+    .example-translation {
+      margin-top: 15px;
+      font-size: 1rem;
+    }
+  }
+
+  .navigation-buttons {
+    gap: 5px;
+    margin: 5px 5px;
+    .el-button {
+      font-size: 0.8rem;
+      padding: 5px 20px;
+    }
+  }
+
+  .favorites-container {
+    width: 100%;
+  }
+
+  .favorites-header {
+    padding: 15px;
+
+    h2 {
+      font-size: 1.5rem;
+    }
+  }
+
+  .favorites-list {
+    padding: 15px 10px;
+  }
+
+  .favorite-item {
+    padding: 15px;
+    margin-bottom: 12px;
+    min-height: 70px;
+  }
+
+  .favorite-content {
+    gap: 5px;
+  }
+
+  .favorite-word {
+    font-size: 1rem;
+    min-width: 50px;
+  }
+
+  .favorite-phonetic {
+    font-size: 1rem;
+    min-width: 50px;
+    margin-right: 10px;
+  }
+
+  .favorite-translation {
+    font-size: 0.9rem;
   }
 }
 

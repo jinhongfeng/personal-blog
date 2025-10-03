@@ -66,9 +66,8 @@ const handleTestAnswer = (selectedOption) => {
 .test-card {
   background-color: white;
   border-radius: 16px;
-  padding: 40px 0;
+  padding: 30px 0;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-  display: flex;
   flex-direction: column;
   align-items: center;
 }
@@ -138,5 +137,39 @@ const handleTestAnswer = (selectedOption) => {
   &:hover {
     background-color: #3a5ce7;
   }
+}
+
+@media (max-width: 768px) {
+  .test-card {
+    padding: 10px 0;
+
+  }
+  .test-word {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+  }
+
+  .test-phonetic {
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+  }
+
+}
+
+@media (min-width: 769px) and (max-width: 1500px) {
+  .test-card {
+    padding: 10px 0;
+
+  }
+  .test-word {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+  }
+
+  .test-phonetic {
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+  }
+
 }
 </style>

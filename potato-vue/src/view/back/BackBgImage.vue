@@ -19,6 +19,7 @@
             @click="handleSearch"
             :loading="searchLoading"
             :size="isSmallScreen ? 'small' : 'default'"
+            :icon="Search"
         >
           搜索
         </el-button>
@@ -43,6 +44,7 @@
             :class="isSmallScreen ? 'mt-2 ml-0' : 'ml-2'"
             :loading="deleteLoading"
             :size="isSmallScreen ? 'small' : 'default'"
+            :icon="Delete"
         >
           批量删除
         </el-button>

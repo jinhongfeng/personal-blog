@@ -18,7 +18,7 @@ request.interceptors.request.use(
             const userStr = localStorage.getItem('user');
             if (userStr) {
                 const user = JSON.parse(userStr);
-                // 向后端传递Token（键名需与后端JwtInterceptor中一致）
+                // 向后端传递Token
                 if (user.token) {
                     config.headers['token'] = user.token;
                 }
