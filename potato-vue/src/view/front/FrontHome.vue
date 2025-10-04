@@ -18,7 +18,7 @@
 
     <!-- 移动端导航按钮 -->
     <button class="mobile-nav-toggle" @click="toggleMobileNav" v-if="isMobile">
-      <el-icon><Menu /></el-icon>
+      <font-awesome-icon icon="globe" />
     </button>
 
     <!-- 内容主体 -->
@@ -272,7 +272,7 @@
 <script setup>
 import {onMounted, onUnmounted, reactive, ref, watch} from "vue";
 import router from "@/router";
-import {DArrowRight, Grid, Timer, Menu} from "@element-plus/icons-vue";
+import {DArrowRight, Grid, Timer } from "@element-plus/icons-vue";
 import CarAnimation from "@/view/front/subComponent/CarAnimation.vue";
 import request from "@/utils/request";
 import { ElNotification } from "element-plus";

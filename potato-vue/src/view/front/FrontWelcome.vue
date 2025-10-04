@@ -23,8 +23,8 @@
           </div>
           <div class="bg-thumbs">
             <div v-for="(bg, index) in backgroundImages" :key="index"
-                class="bg-thumb" :class="{ active: currentBgIndex === index }"
-                @click="setBackground(index)">
+                 class="bg-thumb" :class="{ active: currentBgIndex === index }"
+                 @click="setBackground(index)">
               <img :src="bg.thumbnail" :alt="bg.name" class="bg-thumb-img">
               <span class="bg-name">{{ bg.name }}</span>
             </div>
@@ -95,14 +95,16 @@
 
           <!-- 应用列表 -->
           <transition name="apps-transition" mode="out-in">
-            <div class="apps" v-if="isFullMode" key="apps">
-              <div v-for="(app, idx) in apps" :key="idx"
-                  class="app-card" @click="openApp(app.link)"
-                  :style="{ animationDelay: `${idx * 0.05}s` }">
-                <div class="app-icon-container">
-                  <img :src="app.icon" class="app-icon" :alt="app.name">
+            <div class="apps-container" v-if="isFullMode" key="apps">
+              <div class="apps">
+                <div v-for="(app, idx) in apps" :key="idx"
+                     class="app-card" @click="openApp(app.link)"
+                     :style="{ animationDelay: `${idx * 0.05}s` }">
+                  <div class="app-icon-container">
+                    <img :src="app.icon" class="app-icon" :alt="app.name">
+                  </div>
+                  <div class="app-name">{{ app.title }}</div>
                 </div>
-                <div class="app-name">{{ app.title }}</div>
               </div>
             </div>
           </transition>
@@ -174,11 +176,60 @@ const apps = ref([
     icon: 'chrome-extension://dbjibobgilijgolhjdcbdebjhejelffo/assets/icon.png',
     link: 'https://doubao.com'
   },
-
   {
     title: 'B站',
     icon: 'https://cdn.yuanshikong.net/NewTab/icons/61bc4a2410915ef5fe36eb8d.svg',
     link: 'https://www.bilibili.com/'
+  },
+  {
+    title: '知乎',
+    icon: 'https://static.zhihu.com/heifetz/favicon.ico',
+    link: 'https://www.zhihu.com/'
+  },
+  {
+    title: '微信',
+    icon: 'https://res.wx.qq.com/a/wx_fed/assets/res/OTE0YTA4.ico',
+    link: 'https://wx.qq.com/'
+  },
+  {
+    title: '微博',
+    icon: 'https://weibo.com/favicon.ico',
+    link: 'https://weibo.com/'
+  },
+  {
+    title: '抖音',
+    icon: 'https://sf1-cdn-tos.douyinstatic.com/obj/eden-cn/ljhwZthaaat/86b5ca0e89d48d212f11181871c5a0c4.ico',
+    link: 'https://www.douyin.com/'
+  },
+  {
+    title: '淘宝',
+    icon: 'https://img.alicdn.com/tfs/TB11Y85u7T2gK0jSZFkXXcIQFXa-256-256.png',
+    link: 'https://www.taobao.com/'
+  },
+  {
+    title: '京东',
+    icon: 'https://wq.360buyimg.com/ps/sa/20200812114714/764746d9-32e8-4536-910a-1a8e690592b7.png',
+    link: 'https://www.jd.com/'
+  },
+  {
+    title: '腾讯视频',
+    icon: 'https://v.qq.com/favicon.ico',
+    link: 'https://v.qq.com/'
+  },
+  {
+    title: '爱奇艺',
+    icon: 'https://www.iqiyi.com/favicon.ico',
+    link: 'https://www.iqiyi.com/'
+  },
+  {
+    title: '网易云音乐',
+    icon: 'https://s1.music.126.net/style/favicon.ico',
+    link: 'https://music.163.com/'
+  },
+  {
+    title: '腾讯文档',
+    icon: 'https://docs.qq.com/_next/static/images/favicon-4c6409d5a7c593b5a97a2acf117093d7.ico',
+    link: 'https://docs.qq.com/'
   }
 ])
 
@@ -340,9 +391,26 @@ html, body {
   padding: 0;
   height: 100%;
   width: 100%;
-  overflow-x: hidden;
+  overflow: hidden; /* 禁止页面滚动 */
 }
 
+.full-container {
+  height: 100vh;
+  width: 100vw;
+}
+
+/* 背景图样式 */
+.page-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 1;
+}
 
 /* 导航栏样式 */
 .transparent-header {
@@ -511,22 +579,22 @@ html, body {
   width: 100%;
   transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10vh;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .layout-wrapper.compact {
   top: 35%;
   transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding-top: 30vh;
 }
 
 .layout-wrapper.full {
   top: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 10vh;
 }
 
 /* 时间卡片样式 */
@@ -542,6 +610,10 @@ html, body {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 60%;
+  min-width: 400px;
+  z-index: 15;
+
 }
 
 .time-card:hover {
@@ -603,6 +675,8 @@ html, body {
   width: 60%;
   min-width: 400px;
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 20px;
+  z-index: 15;
 }
 
 .search-box {
@@ -773,22 +847,43 @@ html, body {
   transform: scale(1.05);
 }
 
+/* 应用列表容器 - 用于处理滚动 */
+.apps-container {
+  width: 60%;
+  min-width: 400px;
+  max-height: 45vh; /* 限制最大高度 */
+  margin-top: 20px;
+  z-index: 15;
+  position: relative;
+}
+
 /* 应用列表样式 */
 .apps {
   display: flex;
   flex-wrap: wrap;
-  justify-content: left;
+  justify-content: flex-start;
   gap: 24px;
-  margin-top: 40px;
-  width: 60%;
   padding: 20px;
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
-  z-index: 15;
-  position: relative;
-  max-height: 400px;
+  width: 100%;
+  box-sizing: border-box;
   overflow-y: auto;
+  max-height: 45vh;
+}
+
+.apps::-webkit-scrollbar {
+  width: 8px;
+}
+
+.apps::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.apps::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .app-card {
@@ -930,13 +1025,17 @@ html, body {
 
 /* 响应式适配 */
 @media (max-width: 1024px) {
-  .search-box-wrapper, .apps {
+  .time-card,
+  .search-box-wrapper,
+  .apps-container {
     width: 70%;
   }
 }
 
 @media (max-width: 768px) {
-  .search-box-wrapper, .apps {
+  .time-card,
+  .search-box-wrapper,
+  .apps-container {
     width: 90%;
   }
 
@@ -1026,5 +1125,12 @@ html, body {
   .bg-thumbs {
     grid-template-columns: repeat(3, 1fr);
   }
+
+  .apps-container {
+    min-width: auto;
+  }
 }
 </style>
+
+
+

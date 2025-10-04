@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer-container mt-30">
+  <footer class="footer-container mt-10">
     <!-- 左侧 -->
     <div class="left-footer">
       <el-image :src="imageFooter" class="footer-image" alt="飞机图标"></el-image>
@@ -37,14 +37,14 @@ const desc_4 = ref('如需联系，请点击导航栏的留言，看到了第一
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 30px;
-  padding: 20px;
+
   border-radius: 8px;
   user-select: none;
   background: url("@/assets/top-image/image_1.jpg") center/cover no-repeat;
-  width: 100%;
+
   min-height: 22vh;
   box-sizing: border-box;
+
 }
 
 .left-footer {

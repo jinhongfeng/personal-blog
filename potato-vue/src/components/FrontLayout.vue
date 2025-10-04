@@ -10,7 +10,7 @@
         <router-view />
       </el-main>
       <!-- 底部内容-->
-      <el-footer>
+      <el-footer style="padding: 0">
         <FrontFoot />
       </el-footer>
 

@@ -88,7 +88,6 @@
                 :preview-src-list="getImagePreviewList(item.images)"
                 :initial-index="imgIndex"
                 :zoom-rate="1.2"
-
                 :max-scale="3"
                 :min-scale="0.5"
                 :z-index="9999"
@@ -491,7 +490,6 @@ onUnmounted(() => {
 
 /* 主要内容 */
 .moment-card {
-  width: 80%;
   padding: 16px;
   border-radius: 8px;
   background-color: #fff;
@@ -499,7 +497,6 @@ onUnmounted(() => {
   margin-bottom: 16px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   animation: fadeIn 0.3s ease-out;
-
   margin-left: 10%;
   margin-right: 10%;
   .moment-wrapper {
@@ -569,10 +566,9 @@ onUnmounted(() => {
 .moment-imageList {
   margin-bottom: 12px;
   margin-left: 4vw;
-  width: 60vw;
+  width: 80vw;
   display: grid;
   gap: 4px;
-
 
   /* 基础行高设置 */
   --image-row-height: 20vh;
@@ -596,10 +592,10 @@ onUnmounted(() => {
 /* 根据图片数量设置不同的网格布局 */
 /* 1张图片 */
 .image-count-1 {
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(3, 1fr);
   grid-template-rows: var(--image-row-height);
   height: var(--image-row-height);
-  width: 30%;
+
 }
 
 /* 2-3张图片 */

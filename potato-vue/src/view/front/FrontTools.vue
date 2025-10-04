@@ -30,10 +30,21 @@
                   :alt="tool.title"
                   fit="cover"
                   :preview-teleported="true"
+                  :style="{ background: `${tool.astyle}`|| 'none' }"
+                  class="tool-image"
               />
             </div>
-            <!-- 工具名称 -->
-            <div class="tool-name">{{ tool.title }}</div>
+            <!-- 工具名称信息 -->
+            <div class="tool-information">
+              <div class="name-wrapper">
+                <h2 class="tool-name">{{ tool.title }}</h2>
+              </div>
+
+              <div class="desc-wrapper">
+                <p class="tool-desc">{{ tool.description }}</p>
+              </div>
+
+            </div>
           </div>
 
           <!-- 空状态提示 -->
@@ -53,8 +64,9 @@ import {defaultToolImg} from "@/utils/defaultConfig";
 
 // 工具数据
 const toolsList = [
-  { title: '随机选餐', img: require('@/assets/tool/randomMeals.png'), address: '/front/randomMeals' },
-  { title: '英语学习', img: require('@/assets/tool/studyEnglish.svg'), address: '/front/studyEnglish' },
+  { title: '随机选餐', img: require('@/assets/tool/randomMeals.png'), address: '/front/randomMeals', description: '小组件，解决每天吃什么的烦恼' },
+  { title: '英语学习', img: require('@/assets/tool/studyEnglish.svg'), address: '/front/studyEnglish', description: '小组件，用于背英语单词' },
+  { title: '答案之书', img: require('@/assets/tool/answerBook.svg'), address: '/front/answerBook', description: '小组件，遇到抉择时的选择' },
   { title: '计时器', img: '', address: '' },
   { title: '待办清单', img: '', address: '' },
   { title: '天气查询', img: '', address: '' },
@@ -62,31 +74,35 @@ const toolsList = [
   { title: '二维码生成', img: '', address: '' },
 ];
 
-const gamesList = [
-  { title: '贪吃蛇', img: '', address: '' },
-  { title: '2048', img: '', address: '' },
-  { title: '扫雷', img: '', address: '' },
+const websiteList = [
+  { title: 'bootCDN', img: 'https://cdn.yuanshikong.net/NewTab/icons/60b9eadfae5a9ba4024b397e.png', address: 'https://www.bootcdn.cn/', description: '中文网开源项目，免费CDN加速服务', astyle: 'rgb(39, 174, 96)' },
+  { title: 'Element Plus', img: 'https://cn.element-plus.org/images/element-plus-logo-small.svg', address: 'https://cn.element-plus.org/zh-CN/', description: '一套组件，方便设计师使用的UI组件库' },
+  { title: 'Editor.md', img: 'https://pandao.github.io/editor.md/images/logos/editormd-logo-180x180.png', address: 'https://pandao.github.io/editor.md/', description: 'Markdown编译器' },
+  { title: 'iconfont', img: 'https://cdn.yuanshikong.net/NewTab/icons/60b9ea7bae5a9ba4024b3746.svg', address: 'https://www.iconfont.cn/', description: '阿里巴巴矢量图标库'},
+  { title: '阿里云', img: 'https://cdn.yuanshikong.net/NewTab/icons/60b9ea7aae5a9ba4024b3744.svg', address: 'https://www.aliyun.com/', description: '阿里云平台', astyle: 'rgb(253, 119, 23)'},
+  { title: 'MyBatis-Plus', img: 'https://cdn.yuanshikong.net/NewTab/icons/6317140325463126bf0ec342.png', address: 'https://baomidou.com/', description: '为简化开发而生'},
+  { title: 'MaTools', img: 'https://www.matools.com/static/img/common/matools-favicon.png', address: 'https://www.matools.com/', description: '是程序员的代码在线工具箱' },
+  { title: 'Road To Coding', img: 'http://r2coding.com/favicon.ico', address: 'https://r2coding.com/', description: '自学编程网站，持续更新中' },
+  { title: 'HuTool', img: 'https://cdn.yuanshikong.net/NewTab/icons/60b9ed78ae5a9ba4024b41de.png', address: 'https://hutool.cn/docs/#/', description: '小而全的java工具类，使用DateUtil类' },
 ];
 
-const appToolsList = [
-  { title: '文件转换', img: '', address: '' },
-  { title: '截图工具', img: '', address: '' },
-  { title: '笔记应用', img: '', address: '' },
+const blogList = [
+  { title: 'CSDN', img: 'https://cdn.yuanshikong.net/NewTab/icons/60b9ea71ae5a9ba4024b36fe.svg', address: 'https://blog.csdn.net/m0_60069818?spm=1000.2115.3001.5343', description: '啥也没有', astyle:'#CC001BFF' },
+  { title: 'GitHub仓库', img: 'https://cdn.yuanshikong.net/NewTab/icons/60b9ea6fae5a9ba4024b36ed.svg', address: 'https://github.com/jinhongfeng/personal-blog', description: '啥也没有', astyle: "#000" },
 ];
 
 // 分类数据
 const subTitleList = ref([
   { title: '小工具', dataList: toolsList },
-  { title: '小游戏', dataList: gamesList },
-  { title: '应用工具', dataList: appToolsList },
+  { title: '一些网站', dataList: websiteList },
+  { title: '博客', dataList: blogList },
 ]);
 
 // 路由跳转
+// eslint-disable-next-line no-unused-vars
 const router = useRouter();
 const navigateTo = (address) => {
-  if (address) {
-    router.push(address);
-  }
+  window.open(address)
 };
 </script>
 
@@ -94,9 +110,8 @@ const navigateTo = (address) => {
 /* 基础样式 */
 .tools-page {
   min-height: 100vh;
-  padding: 2rem;
+  padding: 1.5rem;
   background-color: #f5f7fa;
-  font-family: 'Inter', system-ui, sans-serif;
 }
 
 /* 页面标题 */
@@ -125,13 +140,13 @@ const navigateTo = (address) => {
 
 /* 分类标题与分割线 */
 .category-section {
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
 }
 
 .category-header {
   display: flex;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .category-title {
@@ -152,8 +167,9 @@ const navigateTo = (address) => {
 /* 工具网格布局 */
 .tools-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 0 8vw;
+  gap: 1rem;
 }
 
 /* 工具卡片 */
@@ -161,35 +177,130 @@ const navigateTo = (address) => {
   background-color: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  padding: 1.5rem 1rem;
+  padding: 0.8rem 0.8rem;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  text-align: center;
   transition: all 0.3s ease;
   cursor: pointer;
+  overflow: hidden;
 }
 
 .tool-card:hover {
-  transform: translateY(-5px);
   box-shadow: 0 8px 25px rgba(52, 152, 219, 0.15);
+  background: #5B6FF1;
 }
 
 /* 工具图标 */
 .tool-icon {
   width: 80px;
   height: 80px;
-  border-radius: 12px;
+  border-radius: 100%;
   overflow: hidden;
-  margin-bottom: 1rem;
+  padding: 0.2rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+
+  background-color: #f0f2f5;
+  .tool-image {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+  }
 }
 
+.tool-card:hover .tool-icon {
+  width: 0;
+  opacity: 0;
+
+}
+
+/* 工具信息 */
+.tool-information {
+  text-align: left;
+  margin: 0 6px;
+  flex-grow: 1;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.tool-card:hover .tool-information {
+  margin-left: 0;
+  text-align: left;
+}
+
+.name-wrapper {
+  position: relative;
+  overflow: hidden;
+  height: 24px;
+}
 /* 工具名称 */
 .tool-name {
   font-size: 1rem;
-  font-weight: 500;
-  color: #2c3e50;
+  color: rgb(0, 0, 0);
+  font-family: "黑体",serif;
+  margin: 0;
+  /* --- 单行文本截断 --- */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  /* --- 核心动画样式 --- */
+  position: absolute;
+  left: 0;
+  max-width: 100%;
+  transition: max-width 0.3s ease, color 0.3s ease;
+
+}
+
+.tool-card:hover .tool-name {
+  color: #fff;
+
+  /* --- 移除截断限制，显示全部文本 --- */
+  display: block;
+  -webkit-line-clamp: none;
+  overflow: visible;
+}
+
+.desc-wrapper {
+  height: 40px;
+  position: relative;
+  overflow: hidden;
+}
+/* 工具描述 */
+.tool-desc {
+  font-size: 0.8rem;
+  color: #7f7c7c;
+  font-family: "宋体", serif;
+  margin: 0;
+  padding-right: 2px;
+
+  /* --- 核心动画样式 --- */
+  position: absolute;
+  width: 100%;
+  transition: max-height 0.6s ease, color 0.3s ease;
+
+
+
+  /* --- 多行文本截断 --- */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* 显示的行数 */
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: auto;
+}
+
+.tool-card:hover .tool-desc {
+  color: rgba(255, 255, 255, 0.8);
+
+  /* --- 移除截断限制，显示全部文本 --- */
+  display: block;
+  -webkit-line-clamp: none;
+  overflow: visible;
+  height: auto;
+  max-height: 500px;
 }
 
 /* 空状态 */
@@ -203,18 +314,59 @@ const navigateTo = (address) => {
 }
 
 /* 响应式设计 */
+@media (max-width: 1300px) {
+  .page-title {
+    font-size: 2rem;
+  }
+
+  .tools-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .tool-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .tool-card:hover .tool-icon {
+    margin-right: -60px;
+  }
+}
 @media (max-width: 768px) {
   .page-title {
     font-size: 2rem;
   }
 
   .tools-grid {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .tool-icon {
     width: 60px;
     height: 60px;
+  }
+
+  .tool-card:hover .tool-icon {
+    margin-right: -60px;
+  }
+}
+
+@media (max-width: 600px) {
+  .page-title {
+    font-size: 2rem;
+  }
+
+  .tools-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .tool-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .tool-card:hover .tool-icon {
+    margin-right: -60px;
   }
 }
 </style>
