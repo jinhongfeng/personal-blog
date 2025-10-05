@@ -39,7 +39,7 @@
         v-if="isLoading && circleList.length === 0"
         class="loading-skeleton"
         :count="3"
-        style="margin-top: 30vh; padding: 0 16px;"
+        style="margin-top: 50vh; padding: 0 16px;"
     />
 
     <!-- 错误提示 -->
@@ -402,7 +402,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/* 样式部分 */
+
 .top-banner {
   height: 40vh;
   animation: slideDown 0.8s ease-out forwards;
@@ -419,12 +419,11 @@ onUnmounted(() => {
   }
 }
 
-/* 背景上布局 */
 .circle-box {
   width: 30vw;
   height: 20vh;
   z-index: 0;
-  margin: auto 20px 10px auto; /* 上右下左 */
+  margin: auto 20px 10px auto;
 }
 
 .circle-rightLower {
@@ -469,7 +468,6 @@ onUnmounted(() => {
   }
 }
 
-/* 加载状态和错误提示 */
 .loading-skeleton {
   width: 80%;
   margin: 30vh auto 0;
@@ -488,7 +486,6 @@ onUnmounted(() => {
   padding: 20px;
 }
 
-/* 主要内容 */
 .moment-card {
   padding: 16px;
   border-radius: 8px;
@@ -562,70 +559,68 @@ onUnmounted(() => {
   margin-left: 4vw;
 }
 
-/* 九宫格图片优化 */
+/* --- 九宫格图片样式 --- */
+
+/* 基础容器样式 */
 .moment-imageList {
   margin-bottom: 12px;
   margin-left: 4vw;
-  width: 80vw;
   display: grid;
   gap: 4px;
-
-  /* 基础行高设置 */
-  --image-row-height: 20vh;
 }
 
-/* 确保图片容器尺寸统一 */
+/* 所有图片的通用样式 */
 .moment-image {
-  width: 100%;
-  height: 100%;
   cursor: pointer;
-  object-fit: cover;
   border-radius: 4px;
   transition: transform 0.2s ease;
-  padding: 2px; /* 减小内边距确保图片填满 */
+  padding: 2px;
 }
 
 .moment-image:hover {
   transform: scale(1.02);
 }
 
-/* 根据图片数量设置不同的网格布局 */
-/* 1张图片 */
+/* --- 单张图片样式 --- */
 .image-count-1 {
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: var(--image-row-height);
-  height: var(--image-row-height);
+  height: auto;
+  max-height: 2fr;
+  max-width: 2fr;
+}
+.image-count-1 .moment-image {
+  width: auto;
+  height: auto;
+  max-width: 30vw;
+  max-height: 30vh;
+  object-fit: contain;
 
 }
 
-/* 2-3张图片 */
-.image-count-2, .image-count-3 {
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: var(--image-row-height);
-  height: var(--image-row-height);
-}
 
-.image-count-2 .moment-image:nth-child(1) {
-  grid-column: span 1;
-}
-
-
-/* 4-6张图片 */
-.image-count-4, .image-count-5, .image-count-6 {
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, var(--image-row-height));
-  height: calc(2 * var(--image-row-height));
-
-
-}
-
-/* 7-9张图片 */
+/* --- 多张图片 (2-9张) 样式 --- */
+.image-count-2, .image-count-3,
+.image-count-4, .image-count-5, .image-count-6,
 .image-count-7, .image-count-8, .image-count-9 {
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, var(--image-row-height));
-  height: calc(3 * var(--image-row-height));
+  grid-template-columns: repeat(3, 1fr); /* 3列，每列等宽 */
+  grid-auto-rows: 1fr;
 }
 
+.image-count-2 .moment-image,
+.image-count-3 .moment-image,
+.image-count-4 .moment-image,
+.image-count-5 .moment-image,
+.image-count-6 .moment-image,
+.image-count-7 .moment-image,
+.image-count-8 .moment-image,
+.image-count-9 .moment-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  aspect-ratio: 1/1;
+}
+
+
+/* --- 图片占位符和错误状态 --- */
 .image-placeholder {
   width: 100%;
   height: 100%;
@@ -693,13 +688,10 @@ onUnmounted(() => {
   }
 }
 
-/* 加载更多 */
 .load-more {
   text-align: center;
   padding: 20px 0;
 }
-
-/* 响应式调整 */
 
 @media (max-width: 1300px) {
   .circle-box {
@@ -716,10 +708,9 @@ onUnmounted(() => {
 
   }
 
-  /* 移动端图片布局调整 */
   .moment-imageList {
-    width: 90vw;
-    --image-row-height: 20vh; /* 移动端减小行高 */
+    margin-left: auto; /* 在小屏幕上也居中 */
+    margin-right: auto;
   }
 
   .moment-likeInfo {
@@ -746,10 +737,9 @@ onUnmounted(() => {
 
   }
 
-  /* 移动端图片布局调整 */
   .moment-imageList {
-    width: 90vw;
-    --image-row-height: 20vh; /* 移动端减小行高 */
+    margin-left: auto; /* 在小屏幕上也居中 */
+    margin-right: auto;
   }
 
   .moment-likeInfo {

@@ -304,6 +304,7 @@ import request from '@/utils/request';
 import { debounce } from 'lodash';
 // 导入封装的Markdown编辑器组件
 import MarkdownEditor from '@/view/back/subComponent/MarkdownEditor.vue';
+import {defaultWebName} from "@/utils/defaultConfig";
 
 // 响应式相关
 const isSmallScreen = ref(window.innerWidth < 768)
@@ -615,7 +616,7 @@ const handleSave = async () => {
     saveLoading.value = true
     // 处理标签：将数组转为字符串
     payloadData.value.badge = payloadData.value.badgeList.join(',')
-    payloadData.value.author = "POTATO"
+    payloadData.value.author = defaultWebName
     let res
     if (payloadData.value.id) {
       // 编辑操作：调用更新接口

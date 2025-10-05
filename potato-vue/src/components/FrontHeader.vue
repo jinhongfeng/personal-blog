@@ -10,7 +10,7 @@
         <!-- 网站名称 -->
         <div class="toolbar-title" @click="handleAddress('/welcome')">
           <h2 :class="{ 'text-white': scrollTop > 80 || isHovered || isScrollingUp}">
-            {{ webName }}
+            {{ defaultWebName }}
           </h2>
         </div>
 
@@ -26,11 +26,7 @@
 
             <!-- 记录下拉菜单 -->
             <div class="nav-item-wrapper dropdown-wrapper">
-              <el-dropdown
-                  trigger="hover"
-                  placement="bottom"
-                  class="dropdown-container"
-              >
+              <el-dropdown trigger="hover" placement="bottom" class="dropdown-container">
                 <div class="dropdown-trigger">
                   <div class="my-menu">
                     📒 <span :class="{ 'text-white': scrollTop > 80 || isHovered || isScrollingUp}">记录</span>
@@ -116,9 +112,9 @@
             </div>
 
             <!-- 个人中心下拉菜单 -->
-            <div class="nav-item-wrapper center-box">
+            <div class=" center-box">
               <el-dropdown placement="bottom-end" class="user-dropdown">
-                <el-avatar class="user-avatar" :size="36" :src="personalAvatar" />
+                <el-avatar class="user-avatar" :size="36" :src="defaultAvatar" />
                 <template #dropdown>
                   <el-dropdown-menu class="custom-dropdown-menu user-dropdown-menu">
                     <el-dropdown-item class="custom-dropdown-item">
@@ -254,13 +250,11 @@ import { useRouter } from 'vue-router'
 import { useStore } from 'vuex';
 import { ElMessage } from 'element-plus';
 import { Menu, Close, ArrowDown, ArrowUp } from '@element-plus/icons-vue'
-import personalAvatar from "@/assets/personAvatar.jpg";
 import {removeUserInfo} from "@/utils/auth";
+import {defaultAvatar, defaultWebName} from "@/utils/defaultConfig";
 // 路由实例
 const router = useRouter()
 const store = useStore();
-// 网站名称
-const webName = ref('POTATO')
 
 // 页面地址数据
 const pageAddress = ref([
@@ -270,7 +264,7 @@ const pageAddress = ref([
 ])
 
 const TreasureBox = ref([
-  { title: '音乐', address: '/music', icon: '🎵' },
+  // { title: '音乐', address: '/music', icon: '🎵' },
   { title: '小工具', address: '/front/tools', icon: '🔧' },
 ])
 
@@ -448,11 +442,17 @@ const toggleDropdown = (type) => {
   height: 100%;
   align-items: center;
   gap: 12px;
+
 }
 
 .nav-item-wrapper {
   cursor: pointer;
   position: relative;
+  padding-top: 8px;
+  padding-bottom: 12px;
+  &:hover {
+    border-bottom: solid 3px #ff4b2b;
+  }
 }
 
 .my-menu {

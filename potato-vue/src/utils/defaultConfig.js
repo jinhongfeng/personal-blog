@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-
+import {ref} from "vue";
 
 /**
  * 默认图片，当图片地址错误时显示
@@ -7,9 +7,10 @@ import dayjs from "dayjs";
 export const defaultImage = require('@/assets/defaultImage.jpeg')
 
 /**
- * 用户默认头像
+ * 用户默认头像和默认网站名称
  */
 export const defaultAvatar = require('@/assets/personAvatar.jpg')
+export const defaultWebName = ref('POTATO')
 
 /**
  * 工具类默认图片，当工具类图片失效或不存在时显示

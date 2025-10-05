@@ -4,7 +4,7 @@ import {
         faSun, faCameraRetro, faStickyNote, faPencilSquare, faArrowUp, faAreaChart, faGlobe, faRandom,
         faDesktop, faFileText, faCamera, faNoteSticky, faComments, faHeartbeat, faCalendar, faCommenting,
         faEllipsisV, faUniversalAccess, faVolumeOff, faVolumeDown, faVolumeUp, faPlay, faQ, faPencil,
-    faShoppingBag, faMusic, faImage, faAlignCenter, faAlignLeft, faAlignRight, faBook
+    faShoppingBag, faMusic, faImage, faAlignCenter, faAlignLeft, faAlignRight, faBook, faWrench
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -13,7 +13,8 @@ library.add(faHome, faUser, faCog, faCircleNotch, faBullhorn, faEye, faEyeSlash,
     faSun, faCameraRetro, faStickyNote, faPencilSquare, faArrowUp, faAreaChart, faGlobe, faRandom,
     faDesktop, faFileText, faCamera, faComments, faNoteSticky, faHeartbeat, faCalendar, faCommenting,
     faEllipsisV, faUniversalAccess, faVolumeOff, faVolumeDown, faVolumeUp, faCompress,faExpand, faQ,
-    faPlay, faPencil, faShoppingBag, faMusic, faImage, faAlignCenter, faAlignLeft, faAlignRight, faBook
+    faPlay, faPencil, faShoppingBag, faMusic, faImage, faAlignCenter, faAlignLeft, faAlignRight, faBook,
+    faWrench
     )
 
 export { FontAwesomeIcon }

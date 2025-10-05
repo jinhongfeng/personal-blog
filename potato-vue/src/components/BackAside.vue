@@ -1,8 +1,7 @@
 <template>
-  <div
-      class="sidebar-wrapper sidebar-collapsed">
+  <div class="sidebar-wrapper sidebar-collapsed">
     <el-menu
-        default-active="0"
+        default-active="home"
         class="el-menu-vertical-demo"
         :collapse-transition="true"
         background-color="#f5f7fa"
@@ -10,89 +9,113 @@
         active-text-color="#ff7d00"
     >
       <!-- 首页 -->
-      <el-menu-item index="0" @click="router.push(nameList[0].address)" >
-        <font-awesome-icon :icon="nameList[0].icon" />
+      <el-menu-item index="home" @click="router.push(menuItems.home.address)">
+        <font-awesome-icon :icon="menuItems.home.icon" />
         <template #title>
-          <span class="ml-10">{{ nameList[0].title }}</span>
+          <span class="ml-10">{{ menuItems.home.title }}</span>
         </template>
       </el-menu-item>
+
       <!-- 记录 -->
-      <el-sub-menu index="1">
+      <el-sub-menu index="record">
         <template #title>
-          <font-awesome-icon :icon="nameList[1].icon" />
-          <span class="ml-10">{{ nameList[1].title }}</span>
+          <font-awesome-icon :icon="menuItems.record.icon" />
+          <span class="ml-10">{{ menuItems.record.title }}</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="2-1" @click="router.push(nameList[2].address)">
-            <font-awesome-icon :icon="nameList[2].icon" />
-            <span class="ml-10">{{ nameList[2].title }}</span>
+          <el-menu-item
+              index="record-blog"
+              @click="router.push(menuItems.record.blog.address)"
+              class="ml-2"
+          >
+            <font-awesome-icon :icon="menuItems.record.blog.icon" />
+            <span class="ml-10">{{ menuItems.record.blog.title }}</span>
           </el-menu-item>
-          <el-menu-item index="2-2" @click="router.push(nameList[3].address)">
-            <font-awesome-icon :icon="nameList[3].icon" />
-            <span class="ml-10">{{ nameList[3].title }}</span>
+          <el-menu-item
+              index="record-diary"
+              @click="router.push(menuItems.record.diary.address)"
+          >
+            <font-awesome-icon :icon="menuItems.record.diary.icon" />
+            <span class="ml-10">{{ menuItems.record.diary.title }}</span>
           </el-menu-item>
-          <el-menu-item index="2-3" @click="router.push(nameList[4].address)">
-            <font-awesome-icon :icon="nameList[4].icon" />
-            <span class="ml-10">{{ nameList[4].title }}</span>
+          <el-menu-item
+              index="record-note"
+              @click="router.push(menuItems.record.note.address)"
+          >
+            <font-awesome-icon :icon="menuItems.record.note.icon" />
+            <span class="ml-10">{{ menuItems.record.note.title }}</span>
           </el-menu-item>
         </el-menu-item-group>
       </el-sub-menu>
+
       <!-- 朋友圈 -->
-      <el-menu-item index="3" @click="router.push(nameList[5].address)">
-        <font-awesome-icon :icon="nameList[5].icon" />
+      <el-menu-item index="circle" @click="router.push(menuItems.circle.address)">
+        <font-awesome-icon :icon="menuItems.circle.icon" />
         <template #title>
-          <span class="ml-10">{{ nameList[5].title }}</span>
+          <span class="ml-10">{{ menuItems.circle.title }}</span>
         </template>
       </el-menu-item>
+
       <!-- 爱情买卖 -->
-      <el-menu-item index="4" @click="router.push(nameList[6].address)">
-        <font-awesome-icon :icon="nameList[6].icon" />
+      <el-menu-item index="love" @click="router.push(menuItems.love.address)">
+        <font-awesome-icon :icon="menuItems.love.icon" />
         <template #title>
-          <span class="ml-10">{{ nameList[6].title }}</span>
+          <span class="ml-10">{{ menuItems.love.title }}</span>
         </template>
       </el-menu-item>
+
       <!-- 旅拍 -->
-      <el-menu-item index="5" @click="router.push(nameList[7].address)">
-        <font-awesome-icon :icon="nameList[7].icon" />
+      <el-menu-item index="travel" @click="router.push(menuItems.travel.address)">
+        <font-awesome-icon :icon="menuItems.travel.icon" />
         <template #title>
-          <span class="ml-10">{{ nameList[7].title }}</span>
+          <span class="ml-10">{{ menuItems.travel.title }}</span>
         </template>
       </el-menu-item>
+
       <!-- 留言 -->
-      <el-menu-item index="6" @click="router.push(nameList[8].address)">
-        <font-awesome-icon :icon="nameList[8].icon" />
+      <el-menu-item index="message" @click="router.push(menuItems.message.address)">
+        <font-awesome-icon :icon="menuItems.message.icon" />
         <template #title>
-          <span class="ml-10">{{ nameList[8].title }}</span>
+          <span class="ml-10">{{ menuItems.message.title }}</span>
         </template>
       </el-menu-item>
+
       <!-- 关于 -->
-      <el-menu-item index="7" @click="router.push(nameList[9].address)">
-        <font-awesome-icon :icon="nameList[9].icon" />
+      <el-menu-item index="concern" @click="router.push(menuItems.concern.address)">
+        <font-awesome-icon :icon="menuItems.concern.icon" />
         <template #title>
-          <span class="ml-10">{{ nameList[9].title }}</span>
+          <span class="ml-10">{{ menuItems.concern.title }}</span>
         </template>
       </el-menu-item>
+
       <!-- 应用 -->
-      <el-menu-item index="8" @click="router.push(nameList[10].address)">
-        <font-awesome-icon :icon="nameList[10].icon" />
+      <el-menu-item index="apply" @click="router.push(menuItems.apply.address)">
+        <font-awesome-icon :icon="menuItems.apply.icon" />
         <template #title>
-          <span class="ml-10">{{ nameList[10].title }}</span>
+          <span class="ml-10">{{ menuItems.apply.title }}</span>
         </template>
       </el-menu-item>
+
       <!-- 百宝箱 -->
-      <el-sub-menu index="9">
+      <el-sub-menu index="box">
         <template #title>
-          <font-awesome-icon :icon="nameList[11].icon" />
-          <span class="ml-10">{{ nameList[11].title }}</span>
+          <font-awesome-icon :icon="menuItems.box.icon" />
+          <span class="ml-10">{{ menuItems.box.title }}</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="9-1" @click="router.push(nameList[12].address)">
-            <font-awesome-icon :icon="nameList[12].icon" />
-            <span class="ml-10">{{ nameList[12].title }}</span>
+          <el-menu-item
+              index="box-tool"
+              @click="router.push(menuItems.box.tool.address)"
+          >
+            <font-awesome-icon :icon="menuItems.box.tool.icon" />
+            <span class="ml-10">{{ menuItems.box.tool.title }}</span>
           </el-menu-item>
-          <el-menu-item index="9-2" @click="router.push(nameList[13].address)">
-            <font-awesome-icon :icon="nameList[13].icon" />
-            <span class="ml-10">{{ nameList[13].title }}</span>
+          <el-menu-item
+              index="box-bg"
+              @click="router.push(menuItems.box.bgImage.address)"
+          >
+            <font-awesome-icon :icon="menuItems.box.bgImage.icon" />
+            <span class="ml-10">{{ menuItems.box.bgImage.title }}</span>
           </el-menu-item>
         </el-menu-item-group>
       </el-sub-menu>
@@ -104,29 +127,32 @@
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import router from "@/router";
 
-// 菜单数据
-const nameList = [
-  { title: '首页', icon: 'home', address: '/back/home' },
-
-  { title: '记录', icon: 'file-text', address: '' },
-  { title: '博客', icon: 'area-chart', address: '/back/blog' },
-  { title: '个人日记', icon: 'calendar', address: '/back/diary' },
-  { title: '学习笔记', icon: 'sticky-note', address: '/back/note' },
-  { title: '朋友圈', icon: 'comments', address: '/back/circle' },
-  { title: '爱情买卖', icon: 'heartbeat', address: '/back/love' },
-  { title: '旅拍', icon: 'camera', address: '/back/travel' },
-  { title: '留言', icon: 'pencil', address: '/back/message' },
-  { title: '关于', icon: 'user', address: '/back/concern' },
-  { title: '应用', icon: 'desktop', address: '/back/apply' },
-  { title: '百宝箱', icon: 'shopping-bag', address: '' },
-  { title: '音乐', icon: 'music', address: '/back/music' },
-  { title: '背景图', icon: 'image', address: '/back/bgImage' },
-];
-
+// 语义化菜单配置
+const menuItems = {
+  home: { title: '首页', icon: 'home', address: '/back/home' },
+  record: {
+    title: '记录',
+    icon: 'file-text',
+    blog: { title: '博客', icon: 'area-chart', address: '/back/blog' },
+    diary: { title: '个人日记', icon: 'calendar', address: '/back/diary' },
+    note: { title: '学习笔记', icon: 'sticky-note', address: '/back/note' }
+  },
+  circle: { title: '朋友圈', icon: 'comments', address: '/back/circle' },
+  love: { title: '爱情买卖', icon: 'heartbeat', address: '/back/love' },
+  travel: { title: '旅拍', icon: 'camera', address: '/back/travel' },
+  message: { title: '留言', icon: 'pencil', address: '/back/message' },
+  concern: { title: '关于', icon: 'user', address: '/back/concern' },
+  apply: { title: '应用', icon: 'desktop', address: '/back/apply' },
+  box: {
+    title: '百宝箱',
+    icon: 'shopping-bag',
+    tool: { title: '工具图标', icon: 'wrench', address: '/back/apps' },
+    bgImage: { title: '背景图', icon: 'image', address: '/back/bgImage' }
+  }
+};
 </script>
 
 <style scoped>
-/* 侧边栏容器 */
 .sidebar-wrapper {
   position: fixed;
   top: 10vh;
@@ -137,20 +163,19 @@ const nameList = [
   overflow: hidden;
 }
 
-/* 展开状态 */
 .sidebar-collapsed {
   width: 180px;
 }
 
-/* 菜单基础样式 */
 .el-menu-vertical-demo {
   height: 100%;
   border-right: 1px solid #ebeef5;
   transition: all 0.3s ease;
   padding-bottom: 20px;
+  overflow-y: auto;
 }
 
-/* 菜单滚动优化 */
+/* 滚动条样式保持不变 */
 .el-menu-vertical-demo::-webkit-scrollbar {
   width: 6px;
 }
@@ -172,7 +197,6 @@ const nameList = [
   right: -10px;
 }
 
-/* 菜单项样式优化 */
 .el-menu-item, .el-sub-menu__title {
   height: 50px !important;
   line-height: 50px !important;
@@ -187,31 +211,27 @@ const nameList = [
   background-color: rgba(255, 125, 0, 0.1) !important;
 }
 
-/* 图标与文字间距 */
 .ml-10 {
   margin-left: 10px;
 }
 
-/* 子菜单样式调整 */
-.el-sub-menu .el-menu-item {
-  padding-left: 40px !important;
+.el-menu-item-group .el-menu-item {
+  padding-left: 25px !important;
+
 }
 
-/* 折叠状态下的样式调整 */
 .el-menu--collapse .el-sub-menu .el-sub-menu__list {
   left: 100% !important;
   top: 0;
   min-width: 180px;
 }
 
-/* 移动端适配 */
 @media (max-width: 767px) {
   .sidebar-wrapper {
     top: 10vh;
     height: 100vh;
   }
 
-  /* 移动端点击展开后全屏显示 */
   .sidebar-wrapper:not(.sidebar-collapsed) {
     width: 100%;
     background-color: rgba(0, 0, 0, 0.7);
@@ -233,7 +253,6 @@ const nameList = [
   }
 }
 
-/* 平板及以上设备样式 */
 @media (min-width: 768px) and (max-width: 1023px) {
   .sidebar-wrapper {
     top: 10vh;

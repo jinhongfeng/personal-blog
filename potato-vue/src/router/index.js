@@ -31,6 +31,7 @@ import FrontTools from "@/view/front/FrontTools.vue";
 import RandomMeals from "@/view/front/toolCatalogue/RandomMeals.vue";
 import StudyEnglish from "@/view/front/toolCatalogue/StudyEnglish.vue";
 import AnswerBook from "@/view/front/toolCatalogue/AnswerBook.vue";
+import BackApps from "@/view/back/BackApps.vue";
 
 
 const commonRoutes = [
@@ -115,6 +116,7 @@ const backRoutes = [
             { path: "apply", component: BackApply},
             { path: "music", component: BackMusic},
             { path: "bgImage", component: BackBgImage},
+            { path: "apps", component: BackApps}
         ]
     }
 ]

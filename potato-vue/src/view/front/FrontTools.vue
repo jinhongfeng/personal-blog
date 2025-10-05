@@ -21,12 +21,12 @@
               v-for="(tool, toolIndex) in category.dataList"
               :key="toolIndex"
               class="tool-card"
-              @click="navigateTo(tool.address)"
+              @click="navigateTo(tool.link)"
           >
             <!-- 工具图标 -->
             <div class="tool-icon">
               <el-image
-                  :src="tool.img || defaultToolImg"
+                  :src="tool.icon || defaultToolImg"
                   :alt="tool.title"
                   fit="cover"
                   :preview-teleported="true"
@@ -58,40 +58,26 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import {onMounted, ref} from 'vue';
 import {defaultToolImg} from "@/utils/defaultConfig";
+import {ElNotification} from "element-plus";
+import request from "@/utils/request";
 
+const errorMessage = ref("");
 // 工具数据
-const toolsList = [
-  { title: '随机选餐', img: require('@/assets/tool/randomMeals.png'), address: '/front/randomMeals', description: '小组件，解决每天吃什么的烦恼' },
-  { title: '英语学习', img: require('@/assets/tool/studyEnglish.svg'), address: '/front/studyEnglish', description: '小组件，用于背英语单词' },
-  { title: '答案之书', img: require('@/assets/tool/answerBook.svg'), address: '/front/answerBook', description: '小组件，遇到抉择时的选择' },
-  { title: '计时器', img: '', address: '' },
-  { title: '待办清单', img: '', address: '' },
-  { title: '天气查询', img: '', address: '' },
-  { title: '计算器', img: '', address: '' },
-  { title: '二维码生成', img: '', address: '' },
-];
+const toolsList = ref([
+  { title: '计时器', img: '', link: '', description: '' },
+  { title: '待办清单', img: '', link: '' },
+  { title: '天气查询', img: '', link: '' },
+  { title: '计算器', img: '', link: '' },
+  { title: '二维码生成', img: '', link: '' },
+]);
 
-const websiteList = [
-  { title: 'bootCDN', img: 'https://cdn.yuanshikong.net/NewTab/icons/60b9eadfae5a9ba4024b397e.png', address: 'https://www.bootcdn.cn/', description: '中文网开源项目，免费CDN加速服务', astyle: 'rgb(39, 174, 96)' },
-  { title: 'Element Plus', img: 'https://cn.element-plus.org/images/element-plus-logo-small.svg', address: 'https://cn.element-plus.org/zh-CN/', description: '一套组件，方便设计师使用的UI组件库' },
-  { title: 'Editor.md', img: 'https://pandao.github.io/editor.md/images/logos/editormd-logo-180x180.png', address: 'https://pandao.github.io/editor.md/', description: 'Markdown编译器' },
-  { title: 'iconfont', img: 'https://cdn.yuanshikong.net/NewTab/icons/60b9ea7bae5a9ba4024b3746.svg', address: 'https://www.iconfont.cn/', description: '阿里巴巴矢量图标库'},
-  { title: '阿里云', img: 'https://cdn.yuanshikong.net/NewTab/icons/60b9ea7aae5a9ba4024b3744.svg', address: 'https://www.aliyun.com/', description: '阿里云平台', astyle: 'rgb(253, 119, 23)'},
-  { title: 'MyBatis-Plus', img: 'https://cdn.yuanshikong.net/NewTab/icons/6317140325463126bf0ec342.png', address: 'https://baomidou.com/', description: '为简化开发而生'},
-  { title: 'MaTools', img: 'https://www.matools.com/static/img/common/matools-favicon.png', address: 'https://www.matools.com/', description: '是程序员的代码在线工具箱' },
-  { title: 'Road To Coding', img: 'http://r2coding.com/favicon.ico', address: 'https://r2coding.com/', description: '自学编程网站，持续更新中' },
-  { title: 'HuTool', img: 'https://cdn.yuanshikong.net/NewTab/icons/60b9ed78ae5a9ba4024b41de.png', address: 'https://hutool.cn/docs/#/', description: '小而全的java工具类，使用DateUtil类' },
-];
+const websiteList = ref([]);
 
-const blogList = [
-  { title: 'CSDN', img: 'https://cdn.yuanshikong.net/NewTab/icons/60b9ea71ae5a9ba4024b36fe.svg', address: 'https://blog.csdn.net/m0_60069818?spm=1000.2115.3001.5343', description: '啥也没有', astyle:'#CC001BFF' },
-  { title: 'GitHub仓库', img: 'https://cdn.yuanshikong.net/NewTab/icons/60b9ea6fae5a9ba4024b36ed.svg', address: 'https://github.com/jinhongfeng/personal-blog', description: '啥也没有', astyle: "#000" },
-];
+const blogList = ref([]);
 
-// 分类数据
+// 分类数据 更改时后台上传字段也要修改
 const subTitleList = ref([
   { title: '小工具', dataList: toolsList },
   { title: '一些网站', dataList: websiteList },
@@ -99,11 +85,28 @@ const subTitleList = ref([
 ]);
 
 // 路由跳转
-// eslint-disable-next-line no-unused-vars
-const router = useRouter();
-const navigateTo = (address) => {
-  window.open(address)
+const navigateTo = (link) => {
+  window.open(link)
 };
+const loadData = async () => {
+  try {
+    const res = await request.get('/apps');
+    if (res.code === '200') {
+      toolsList.value = res.data.filter(it => it.category === 'toolsList') || []
+      websiteList.value = res.data.filter(it => it.category === 'websiteList') || []
+      blogList.value = res.data.filter(it => it.category === 'blogList') || []
+    }
+  } catch (error) {
+    errorMessage.value = '无法连接到服务器，请检查网络';
+    ElNotification.error({
+      title: '网络错误',
+      message: errorMessage.value
+    });
+  }
+}
+onMounted(() => {
+  loadData();
+})
 </script>
 
 <style scoped>
@@ -166,9 +169,10 @@ const navigateTo = (address) => {
 
 /* 工具网格布局 */
 .tools-grid {
+
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  margin: 0 8vw;
+  margin: 0 4vw 0 8vw;
   gap: 1rem;
 }
 

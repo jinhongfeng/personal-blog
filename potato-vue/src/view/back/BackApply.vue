@@ -173,13 +173,8 @@
     </el-card>
 
     <!-- 分页 -->
-    <el-card
-        class="center-content"
-        :style="{
-      height: isSmallScreen ? 'auto' : 'auto',
-      padding: isSmallScreen ? '0' : '0'
-    }"
-    >
+    <el-card class="center-content"
+        :style="{ height: isSmallScreen ? 'auto' : 'auto', padding: isSmallScreen ? '0' : '0' }">
       <div class="pagination-block" :style="{ textAlign: isSmallScreen ? 'center' : 'right' }">
         <el-pagination
             v-model:current-page="pagination.pageNum"

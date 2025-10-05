@@ -5,7 +5,7 @@
       <el-header class="header-style">
         <!-- 左侧网站名称 -->
         <div class="top-box" @click="router.push('/front/home')">
-          <h2>{{ webName }}</h2>
+          <h2>{{ defaultWebName }}</h2>
         </div>
 
         <!-- 右侧用户头像区域 -->
@@ -15,7 +15,7 @@
             <el-image
                 class="user-avatar"
                 :src="avatarData"
-                :alt="webName || '用户头像'"
+                :alt="defaultWebName || '用户头像'"
                 fit="cover"
                 @click.stop
             >
@@ -69,10 +69,10 @@ import router from "@/router";
 import {User} from "@element-plus/icons-vue";
 import {ElLoading, ElMessage} from "element-plus";
 import request from "@/utils/request";
+import {defaultAvatar, defaultWebName} from "@/utils/defaultConfig";
 
-const webName = ref('POTATO')
+
 const avatarData = ref('');
-const personalAvatar = require("@/assets/personAvatar.jpg");
 // 处理头像URL的标准化
 const normalizeAvatarUrl = (url) => {
   // 检查是否为空
@@ -106,7 +106,7 @@ const loadData = async () => {
     if (res.code === '200') {
       // 处理网站名称
       if (res.data?.nickname) {
-        webName.value = res.data.nickname;
+        defaultWebName.value = res.data.nickname;
       }
 
       // 处理头像URL
@@ -114,14 +114,14 @@ const loadData = async () => {
       const normalizedUrl = normalizeAvatarUrl(rawAvatarUrl);
 
       // 如果有有效的头像URL则使用，否则使用默认头像
-      avatarData.value = normalizedUrl || personalAvatar;
+      avatarData.value = normalizedUrl || defaultAvatar;
     } else {
       // 接口返回成功但状态码不正确
-      avatarData.value = personalAvatar;
+      avatarData.value = defaultAvatar;
     }
   } catch (error) {
     ElMessage.error('加载用户信息失败，使用默认头像');
-    avatarData.value = personalAvatar;
+    avatarData.value = defaultAvatar;
   } finally {
     loading.close();
   }
@@ -130,7 +130,7 @@ const loadData = async () => {
 // 监听头像数据变化，确保异常时使用默认头像
 watch(avatarData, (newVal) => {
   if (!newVal || newVal.trim() === '') {
-    avatarData.value = personalAvatar;
+    avatarData.value = defaultAvatar;
   }
 });
 
@@ -153,7 +153,7 @@ onMounted(() => {
 .header-style {
   height: 60px !important;
   padding: 0 20px;
-  background-color: #fff;
+  background-color: #abd1e1;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   border-bottom: 1px solid #eee;
   display: flex;
