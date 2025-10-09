@@ -114,11 +114,11 @@ onMounted(() => {
 .tools-page {
   min-height: 100vh;
   padding: 1.5rem;
-  background-color: #f5f7fa;
 }
 
 /* 页面标题 */
 .page-header {
+  margin-top: 5vh;
   text-align: center;
   margin-bottom: 3rem;
 }
@@ -333,7 +333,8 @@ onMounted(() => {
   }
 
   .tool-card:hover .tool-icon {
-    margin-right: -60px;
+    margin-right: 0;
+    letter-spacing: 0.2em;
   }
 }
 @media (max-width: 768px) {
@@ -351,7 +352,8 @@ onMounted(() => {
   }
 
   .tool-card:hover .tool-icon {
-    margin-right: -60px;
+    margin-right: -10px;
+    letter-spacing: 0.4em;
   }
 }
 
@@ -370,7 +372,8 @@ onMounted(() => {
   }
 
   .tool-card:hover .tool-icon {
-    margin-right: -60px;
+    margin-right: -10px;
+    letter-spacing: 0.2em;
   }
 }
 </style>

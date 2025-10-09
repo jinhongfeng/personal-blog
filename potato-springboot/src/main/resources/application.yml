@@ -1,6 +1,6 @@
 server:
-  port: 9092
-#  port: 9090
+#  port: 9092
+  port: 9090
 
 spring:
   application:
@@ -22,8 +22,8 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/person_blog?serverTimezone=GMT%2b8&useUnicode=true&characterEncoding=utf-8&useSSL=true
     username: root
-    password: 123456
-#    password: jin2474921543
+#    password: 123456
+    password: jin2474921543
 
   servlet:
     multipart:
@@ -32,8 +32,8 @@ spring:
 
 files:
   upload:
-    path: /opt/deploy/person_blog/files
-#    path: E:\java\MyProject\potato-master\potato-springboot\files
+#    path: /opt/deploy/person_blog/files
+    path: E:\java\MyProject\potato-master\potato-springboot\files
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: myself.springboot.entity
@@ -45,11 +45,11 @@ mybatis-plus:
 
 fileUrl:
   upload:
-    address: "http://39.96.202.75:9092"
-#    address: "http://localhost:9090"
+#    address: "http://39.96.202.75:9092"
+    address: "http://localhost:9090"
 
 cors:
   allowed-origins:
-    http://39.96.202.75:8082
-#    http://localhost:8080/
+#    http://39.96.202.75:8082
+    http://localhost:8080/
 

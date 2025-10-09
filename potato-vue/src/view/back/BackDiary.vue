@@ -349,12 +349,11 @@
 
         <el-form-item label="内容" prop="information">
           <div class="markdown-container">
-            <MarkdownEditor
+            <EditorMD
                 v-model="payloadData.information"
                 :disabled="saveLoading"
                 :height="isSmallScreen ? '300px' : '500px'"
                 :autofocus="false"
-                @change="handleContentChange"
             />
           </div>
         </el-form-item>
@@ -416,12 +415,11 @@
 import { CirclePlus, Delete, Edit, Search } from '@element-plus/icons-vue'
 import { ref, computed, onMounted, nextTick, watchEffect } from 'vue'
 import { ElMessage } from 'element-plus'
-import MarkdownIt from 'markdown-it'
-import hljs from 'highlight.js'
 import 'highlight.js/styles/github.css'
 import request from '@/utils/request';
 import { debounce } from 'lodash';
-import MarkdownEditor from "@/view/back/subComponent/MarkdownEditor.vue";
+import EditorMD from "@/components/subComponents/EditorMD.vue";
+import {defaultWebName} from "@/utils/defaultConfig";
 
 // 响应式相关
 const isSmallScreen = ref(window.innerWidth < 768)
@@ -478,10 +476,6 @@ const loadData = async () => {
 
 const saveLoading = ref(false)    // 保存/编辑加载状态
 
-// Markdown编辑器内容变化处理
-const handleContentChange = (value) => {
-  payloadData.value.information = value;
-}
 
 // 封面上传模式管理
 const coverUploadMode = ref('url'); // 默认使用URL方式
@@ -598,14 +592,14 @@ const formRef = ref(null)  // 表单引用
 
 // 表单数据
 const payloadData = ref({
-  id: null,  // 用于编辑时的唯一标识
-  title: '',  // 标题
-  picture: '',  // 封面图片URL（后端字段）
-  information: '',  // 内容（后端字段）
-  badge: '',  // 标签（后端存储的字符串，如"标签1,标签2"）
-  badgeList: [],  // 标签数组（前端临时使用）
-  author: '',  // 作者
-  pageview: 0  // 浏览量
+  id: null,
+  title: '',
+  picture: '',
+  information: '',
+  badge: '',
+  badgeList: [],
+  author: '',
+  pageview: 0
 })
 const tagInput = ref('')  // 标签输入框
 
@@ -699,21 +693,6 @@ const handleUploadExceed = () => {
   ElMessage.warning('最多只能上传1张封面图片')
 }
 
-// Markdown解析
-const md = new MarkdownIt({
-  html: true,
-  linkify: true,
-  typographer: true,
-  highlight: (str, lang) => {
-    if (lang && hljs.getLanguage(lang)) {
-      try {
-        return hljs.highlight(str, {language: lang}).value
-      } catch (e) {
-      }
-    }
-    return ''  // 不高亮未识别的语言
-  }
-})
 
 // 保存/更新操作
 const handleSave = async () => {
@@ -722,9 +701,9 @@ const handleSave = async () => {
     await formRef.value.validate();
 
     saveLoading.value = true
-    // 处理标签：将数组转为字符串
+    // 处理标签
     payloadData.value.badge = payloadData.value.badgeList.join(',')
-    payloadData.value.author = "POTATO"
+    payloadData.value.author = defaultWebName
     let res
     if (payloadData.value.id) {
       // 编辑操作：调用更新接口

@@ -49,7 +49,7 @@
             :header-cell-style="tableHeaderStyle"
         >
           <el-table-column type="selection" width="35" />
-          <el-table-column prop="title" label="标题" :width="isSmallScreen ? 150 : 200" />
+          <el-table-column label="标题" prop="title" :width="isSmallScreen ? 150 : 200" />
           <el-table-column label="封面" :width="isSmallScreen ? 120 : 200">
             <template #default="scope">
               <img
@@ -61,8 +61,8 @@
               <span v-else>无封面</span>
             </template>
           </el-table-column>
-          <el-table-column prop="publishTime" label="发布时间" :width="isSmallScreen ? 120 : 150" />
-          <el-table-column prop="author" label="作者" :width="isSmallScreen ? 80 : 100" />
+          <el-table-column label="发布时间" prop="publishTime" :width="isSmallScreen ? 120 : 150" />
+          <el-table-column label="作者" prop="author" :width="isSmallScreen ? 80 : 100" />
           <el-table-column label="标签" :show-overflow-tooltip="true" :width="isSmallScreen ? 130 : 180">
             <template #default="scope">
               <el-tag
@@ -75,7 +75,7 @@
               </el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="pageview" label="浏览量" :width="100" />
+          <el-table-column label="浏览量" prop="pageview" :width="100" />
           <el-table-column label="操作" :width="isSmallScreen ? 'auto' : 'auto'">
             <template #default="scope">
               <el-button-group size="small">
@@ -265,15 +265,14 @@
         </el-form-item>
 
         <el-form-item label="内容" prop="information">
-          <div class="markdown-container">
-            <MarkdownEditor
-                v-model="payloadData.information"
-                :disabled="saveLoading"
-                :height="isSmallScreen ? '300px' : '500px'"
-                :autofocus="false"
-                @change="handleContentChange"
-            />
-          </div>
+            <div class="markdown-container">
+              <EditorMD
+                  v-model="payloadData.information"
+                  :disabled="saveLoading"
+                  :height="isSmallScreen ? '300px' : '500px'"
+                  :autofocus="false"
+              />
+            </div>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -303,8 +302,8 @@ import { ElMessage } from 'element-plus'
 import request from '@/utils/request';
 import { debounce } from 'lodash';
 // 导入封装的Markdown编辑器组件
-import MarkdownEditor from '@/view/back/subComponent/MarkdownEditor.vue';
 import {defaultWebName} from "@/utils/defaultConfig";
+import EditorMD from "@/components/subComponents/EditorMD.vue";
 
 // 响应式相关
 const isSmallScreen = ref(window.innerWidth < 768)
@@ -405,7 +404,6 @@ const handleUploadModeChange = async (mode) => {
       // 切换到本地模式时无需清空URL，保持数据连贯性
     }
   } catch (error) {
-    console.error('切换上传方式错误:', error);
     ElMessage.error(`切换失败: ${error.message || '未知错误'}`);
   }
 };
@@ -499,15 +497,15 @@ const formRef = ref(null)  // 表单引用
 
 // 表单数据
 const payloadData = ref({
-  id: null,  // 用于编辑时的唯一标识
-  title: '',  // 标题
-  picture: '',  // 封面图片URL（后端字段）
-  pictureList: [],  // 上传组件的文件列表（前端临时使用）
-  information: '',  // 内容（后端字段）
-  badge: '',  // 标签（后端存储的字符串，如"标签1,标签2"）
-  badgeList: [],  // 标签数组（前端临时使用）
-  author: '',  // 作者
-  pageview: 0  // 浏览量
+  id: null,
+  title: '',
+  picture: '',
+  pictureList: [],
+  information: '',
+  badge: '',
+  badgeList: [],
+  author: '',
+  pageview: 0
 })
 const tagInput = ref('')  // 标签输入框
 
@@ -602,11 +600,6 @@ const handleUploadExceed = () => {
   ElMessage.warning('最多只能上传1张封面图片')
 }
 
-// 内容变化处理
-const handleContentChange = (value) => {
-  payloadData.value.information = value;
-}
-
 // 保存/更新操作
 const handleSave = async () => {
   try {
@@ -614,21 +607,21 @@ const handleSave = async () => {
     await formRef.value.validate();
 
     saveLoading.value = true
-    // 处理标签：将数组转为字符串
+    // 处理标签
     payloadData.value.badge = payloadData.value.badgeList.join(',')
     payloadData.value.author = defaultWebName
     let res
     if (payloadData.value.id) {
-      // 编辑操作：调用更新接口
+      // 编辑操作
       res = await request.post('/blog/update', payloadData.value)
     } else {
-      // 新建操作：调用保存接口
+      // 新建操作
       res = await request.post('/blog', payloadData.value)
     }
 
     if (res.code === "200") {
       ElMessage.success(payloadData.value.id ? '更新成功' : '创建成功')
-      dialogBuildVisible.value = false  // 关闭对话框
+      dialogBuildVisible.value = false
       await loadData()
     } else {
       ElMessage.error(res.msg || '操作失败')

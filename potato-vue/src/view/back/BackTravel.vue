@@ -349,6 +349,7 @@ import {nextTick, onBeforeUnmount, onMounted, reactive, ref} from "vue";
 import {CirclePlus, Delete, Plus, Search} from "@element-plus/icons-vue";
 import {ElLoading, ElMessage, ElMessageBox} from "element-plus";
 import request from '@/utils/request';
+import {defaultImage} from "@/utils/defaultConfig";
 
 // 响应式状态 - 判断是否为移动设备
 const isMobile = ref(false);
@@ -384,7 +385,7 @@ const imageFileList = ref([]);
 // 拖拽排序相关状态
 const dragIndex = ref(-1);
 const dropIndex = ref(-1);
-// 新增：上传方式切换
+// 上传方式切换
 const uploadMode = ref('local'); // 默认本地上传
 const urlInput = ref(''); // URL输入框
 
@@ -765,8 +766,7 @@ const handleImageUpload = (response, uploadFile, uploadFiles) => {
 
 // 图片加载错误处理
 const handleImageError = (e) => {
-  e.target.src = require('@/assets/defaultImage.jpeg');
-  ElMessage.warning('图片加载失败');
+  e.target.src = defaultImage;
 };
 
 // 移除图片方法
@@ -849,7 +849,7 @@ const handleDrop = (e) => {
   }
 };
 
-// 新增：上传方式切换处理
+// 上传方式切换处理
 const handleUploadModeChange = (mode) => {
   // 切换模式时清空当前输入
   if (mode === 'url') {
@@ -857,7 +857,7 @@ const handleUploadModeChange = (mode) => {
   }
 };
 
-// 新增：验证URL是否有效
+// 验证URL是否有效
 const isValidUrl = (url) => {
   if (!url) return false;
   try {
@@ -868,7 +868,7 @@ const isValidUrl = (url) => {
   }
 };
 
-// 新增：通过URL添加图片
+// 通过URL添加图片
 const addImageByUrl = () => {
   if (!isValidUrl(urlInput.value)) {
     ElMessage.warning('请输入有效的图片URL');

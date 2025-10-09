@@ -4,11 +4,8 @@
     <!-- 顶部背景 -->
     <div class="top-banner"
          :style="{
-          backgroundImage: `url('${backgroundImage}')`,
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center center',
-          backgroundSize: 'cover'
-        }">
+          backgroundImage: `url('${backgroundImage}')`,backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center center', backgroundSize: 'cover' }">
       <div class="circle-box">
         <div class="circle-rightLower">
           <!-- 左侧内容 -->
@@ -448,9 +445,9 @@ onUnmounted(() => {
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
-
+  font-family: var(--globalFont);
   .circle-leftTitle {
-    font-size: 22px;
+    font-size: 1rem;
     color: white;
     margin-bottom: 10px;
     text-align: right;
@@ -458,7 +455,7 @@ onUnmounted(() => {
   }
 
   .circle-leftDesc {
-    font-size: 14px;
+    font-size: 0.8rem;
     color: white;
     text-align: right;
     max-width: 100%;
@@ -496,6 +493,8 @@ onUnmounted(() => {
   animation: fadeIn 0.3s ease-out;
   margin-left: 10%;
   margin-right: 10%;
+  font-family: var(--globalFont);
+  font-weight: bold;
   .moment-wrapper {
     margin-right: 5vw;
   }
@@ -723,6 +722,14 @@ onUnmounted(() => {
 }
 
 @media (max-width: 768px) {
+  .circle-leftTitle {
+    font-size: 0.8rem;
+  }
+
+  .circle-leftDesc {
+    font-size: 0.4rem;
+  }
+
   .circle-box {
     width: 90vw;
   }

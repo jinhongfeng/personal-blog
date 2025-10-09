@@ -82,7 +82,7 @@ body, html {
 /* 欢迎页字体 */
 .pageFont {
     font-size: 30px;
-    font-family: 楷体, serif;
+    font-family: var(--globalFont);
     font-weight: bold;
     color: var(--gradientBG);
     padding: 10px 10px;
@@ -91,14 +91,16 @@ body, html {
 /* 第一级字体 */
 .firstFont {
     font-size: 30px;
-    font-family: "楷体", serif;
+    font-family: var(--globalFont);
+    font-weight: bold;
     color: #616161;
     padding: 10px 10px;
 }
 /* 第二级字体 */
  .secondFont {
      font-size: 17px;
-     font-family: "华文新魏", serif;
+     font-family: var(--globalFont);
+     font-weight: bold;
      color: black;
      margin-top: 10px;
      padding: 5px 2px;
@@ -258,9 +260,10 @@ body, html {
         height: 15%;
         display: flex;
         justify-content: flex-start;
-        font-family: "华文新魏", serif;
-        font-size: 23px;
+        font-family: var(--globalFont);
         font-weight: bold;
+        font-size: 23px;
+
         margin-top: 10%;
         margin-bottom: 20px;
         color: var(--fontColor);
@@ -271,23 +274,26 @@ body, html {
         text-align: left;
         font-size: 17px;
         color: var(--fontColor);
+        font-family: var(--globalFont);
+        font-weight: bold;
 
     }
     .card-publishTime {
         display: flex;
         justify-content: flex-start;
         margin-top: auto;
-        font-size: 12px;
-        font-family: "华文新魏", serif;
+        font-size: 14px;
+        font-family: var(--globalFont);
+        font-weight: bold;
         color: var(--articleGreyFontColor);
     }
     .card-dataContent {
         display: flex;
         justify-content: flex-start;
         margin-top: 5px;
-
-        font-size: 12px;
-        font-family: "华文新魏", serif;
+        font-size: 14px;
+        font-family: var(--globalFont);
+        font-weight: bold;
         color: var(--articleGreyFontColor);
     }
     .card-badge {

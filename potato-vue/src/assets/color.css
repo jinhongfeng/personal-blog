@@ -70,6 +70,27 @@
     --green: #67C23A;
     --black: #7f7c7c;
     --lightYellow: #F4E1C0;
+    --globalFont: '棉花糖', serif;
+}
 
-    --globalFont: poetize-font;
+html.dark-mode {
+    --el-color-primary: #409eff;
+    --el-bg-color: #141414;
+    --el-text-color-primary: #E5E7EB;
+    --el-text-color-regular: #9CA3AF;
+    --el-text-color-secondary: #6B7280;
+    --el-border-color: #374151;
+    --el-bg-color-overlay: #ffffff;
+}
+
+html.dark-mode .layout-container {
+    background-color: #141414;
+}
+
+@font-face {
+    font-family: '棉花糖'; /* 自定义字体名称，使用时要一致 */
+    src: url('../assets/fonts/ZiTiGuanJiaMianHuaTang-2.ttf') format('truetype'); /* 只保留ttf格式 */
+    font-weight: normal; /* 若字体是“常规字重”，用normal；若本身是粗体，再用bold */
+    font-style: normal;
+    font-display: swap; /* 可选：字体加载时先显示后备字体，避免空白 */
 }

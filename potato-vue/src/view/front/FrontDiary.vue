@@ -77,7 +77,7 @@
               <div class="card-publishTime">
                 <el-icon><Timer /></el-icon>
                 <span style="margin-left: 5px">发布时间： </span>
-                <span style="margin-left: 5px">{{ formatDate(item.publishTime) }}</span>  <!-- 添加日期格式化 -->
+                <span style="margin-left: 5px">{{ formatDate(item.publishTime) }}</span>
               </div>
               <!-- 数据 -->
               <div class="card-dataContent">
@@ -234,7 +234,7 @@ onMounted(() => {
 
 .noticeBox {
   color: #e6e6e6;
-  font-family: "华文新魏", serif;
+  font-family: var(--globalFont);
   font-size: 25px;
   display: inline-block;
 }
@@ -325,18 +325,15 @@ onMounted(() => {
 
 .card-title {
   margin-bottom: 15px;
-  color: #333;
   font-size: 20px;
 }
 
 .card-description {
   margin-bottom: 15px;
-  color: #666;
 }
 
 .card-publishTime, .card-dataContent {
   margin-bottom: 10px;
-  color: #999;
   font-size: 14px;
 }
 

@@ -43,7 +43,7 @@
               <div class="concern-left-card">
                 <!-- 头像 -->
                 <div class="avatar-container">
-                  <el-avatar :size="100" :src="avatarUrl" class="personal-avatar" />
+                  <el-avatar :size="100" :src="personInfo.avatar" class="personal-avatar" />
                 </div>
                 <!-- 简介 -->
                 <el-form :model="personInfo" label-width="60px"
@@ -105,7 +105,7 @@
                     <div class="media-scroll-container">
                       <div class="media-slider">
                         <div class="media-item" v-for="(item, index) in readBook" :key="item.id || index"
-                             @click="handleLinkClick(item.url)">
+                             @click="handleClickLink(item.url)">
                           <el-image :src="item.image" class="media-image" fit="cover"
                                     lazy :alt="item.title"></el-image>
                           <div class="media-title">{{ item.title }}</div>
@@ -118,7 +118,7 @@
                     <div class="media-scroll-container">
                       <div class="media-slider">
                         <div class="media-item" v-for="(item, index) in readFilm" :key="item.id || index"
-                             @click="handleLinkClick(item.url)">
+                             @click="handleClickLink(item.url)">
                           <el-image :src="item.image" class="media-image"
                                     fit="cover" lazy :alt="item.title"></el-image>
                           <div class="media-title">{{ item.title }}</div>
@@ -142,6 +142,7 @@ import {ref, watch, onMounted, computed} from "vue";
 import { Warning } from "@element-plus/icons-vue";
 import request from '@/utils/request';
 import {ElLoading, ElMessage, ElEmpty, ElIcon} from 'element-plus';
+import {defaultAvatar, defaultWebName, handleClickLink} from "@/utils/defaultConfig";
 
 // 状态管理
 const loading = ref(true);         // 加载状态
@@ -149,11 +150,11 @@ const showError = ref(false);      // 错误状态标识
 const errorMessage = ref("");      // 错误信息
 
 // 头像URL
-const avatarUrl = ref(require("@/assets/personAvatar.jpg"));
 const backgroundImage = require("@/assets/blueSkies.png")
 // 个人信息
 const personInfo = ref({
   id: null,
+  avatar: '',
   nickname: '',
   age: '',
   hobby: [],
@@ -225,7 +226,6 @@ const parseJsonData = (data, defaultVal) => {
       const parsed = JSON.parse(data.replace(/\\/g, ''));
       return Array.isArray(parsed) ? parsed : [parsed];
     } catch (e) {
-      console.warn('JSON解析失败:', e);
       return [data];
     }
   }
@@ -249,7 +249,7 @@ const loadData = async () => {
       background: 'rgba(0, 0, 0, 0.7)'
     });
 
-    // 1. 查询sys_concern获取用户基本信息
+    //  查询sys_concern获取用户基本信息
     const sysRes = await request.get('/concern')
     if (sysRes.code !== '200') {
       throw new Error('获取用户信息失败: ' + (sysRes.msg || '未知错误'))
@@ -257,23 +257,23 @@ const loadData = async () => {
 
     const sysData = Array.isArray(sysRes.data) ? sysRes.data[0] : sysRes.data;
 
-    // 2. 从concern_info查询所有关联数据，通过theme区分类型
+    // 从concern_info查询所有关联数据，通过theme区分类型
     const allConcernsRes = await request.get('/concern_info');
     if (allConcernsRes.code === '200') {
       const allConcerns = allConcernsRes.data || [];
 
-      // 3. 按theme字段筛选出书籍和电影
+      // 按theme字段筛选出书籍和电影
       readBook.value = allConcerns.filter(item => item.theme === 'book');
       readFilm.value = allConcerns.filter(item => item.theme === 'film');
     }
 
     // 4. 加载其他基本信息
     personInfo.value.id = sysData.id;
-    personInfo.value.nickname = sysData.nickname || '未知用户';
+    personInfo.value.nickname = sysData.nickname || defaultWebName;
     personInfo.value.age = sysData.age || '';
     personInfo.value.email = sysData.email || '未填写';
     personInfo.value.hobby = handleHobbySplit(sysData.hobby || '');
-    avatarUrl.value = sysData.avatar || require("@/assets/personAvatar.jpg");
+    personInfo.value.avatar = sysData.avatar || defaultAvatar;
 
     // 5. 加载其他内容数据
     homepageContent.value = parseJsonData(sysData.homedesc, [
@@ -296,7 +296,6 @@ const loadData = async () => {
     loadingInstance.close();
     loading.value = false;
   } catch (error) {
-    console.error('加载失败：', error);
     loading.value = false;
     showError.value = true;
     errorMessage.value = error.message || '数据加载异常，请稍后重试';
@@ -329,51 +328,10 @@ const clearData = () => {
   readFilm.value = [];
 };
 
-// 设置默认数据
-// eslint-disable-next-line no-unused-vars
-const setDefaultData = () => {
-  avatarUrl.value = require("@/assets/personAvatar.jpg");
-  personInfo.value = {
-    id: 1,
-    name: 'POTATO',
-    age: 24,
-    hobby: ['篮球', '健身', '看书', '敲代码'],
-    email: '2474921543@qq.com'
-  };
-  homepageContent.value = [
-    '欢迎访问我的个人主页，这里展示了我的个人信息和兴趣爱好。',
-    '通过导航栏可以浏览不同分类的内容，包括我的散文、技能、读书和观影记录等。'
-  ];
-  personalProfile.value = [
-    "'small potato' 意为小人物。今年24岁，喜欢篮球、健身、看书、敲代码。通信工程小破硕。",
-    "性格介于开朗和沉默之间，热爱生活，对新鲜事物充满好奇心，始终保持学习的热情。偶尔高兴，偶尔沉闷。",
-    "闲的时候，简简单单写个代码。"
-  ];
-  myProse.value = [
-    '写什么呢？写我不知上进，写我贪玩勿学，写我缺乏志向，写我蹉跎二十余载，也未学一技之长傍身，终日违心陪笑，苟且于市井之间，' +
-    '写我多年八方奔跑，跌跌撞撞一事无成，还是写花有重开日，人无再少年？',
-    '如果自己还不够强大，就得把自己藏起来不断学习。学历阅历能力都是铺垫，在无人问津的地方练、在万众瞩目的地方出现，时间就是最好的证明。'
-  ];
-  mySkill.value = [
-    '我掌握的技能包括编程、设计等，不断学习新的知识和技术。',
-    '编程语言：JavaScript、Vue、Python、C++、java、Springboot、matlab',
-    '设计工具：PS、PR'
-  ];
-  readBook.value = [];
-  readFilm.value = [];
-};
-
 // 监听导航切换，更新图片
 watch(activeNavIndex, (newIndex) => {
   currentNavImage.value = navigation.value[newIndex].image;
 });
-
-// 处理链接点击
-const handleLinkClick = (url) => {
-  if (url && typeof window !== 'undefined') {
-    window.open(url, '_blank');
-  }
-};
 
 // 页面加载时获取数据
 onMounted(() => {
@@ -540,7 +498,7 @@ html, body {
     transition: all 0.3s ease;
     font-size: 15px; /* 略微增大字体 */
     padding: 0 10px; /* 增加内边距，给文字更多空间 */
-
+    color: #000000;
     &:hover {
       background-color: #F4E1C0;
       border: 1px solid #666666;

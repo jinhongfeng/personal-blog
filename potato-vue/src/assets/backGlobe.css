@@ -49,6 +49,7 @@
 .markdown-container {
     width: 100%;
     padding-right: 10px; /* 增加一点右侧内边距，避免内容太靠边 */
+    text-align: left;
 }
 
 /* 距离左右距离 */

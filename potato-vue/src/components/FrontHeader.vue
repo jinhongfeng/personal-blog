@@ -1,12 +1,8 @@
 <template>
   <div>
     <transition name="fade">
-      <div
-          class="toolbar-content"
-          v-show="isVisible"
-          @mouseleave="isHovered = false"
-          @mouseenter="isHovered = true"
-      >
+      <div class="toolbar-content" v-show="isVisible"
+          @mouseleave="isHovered = false" @mouseenter="isHovered = true">
         <!-- 网站名称 -->
         <div class="toolbar-title" @click="handleAddress('/welcome')">
           <h2 :class="{ 'text-white': scrollTop > 80 || isHovered || isScrollingUp}">
@@ -124,6 +120,12 @@
                       </div>
                     </el-dropdown-item>
                     <el-dropdown-item class="custom-dropdown-item">
+                      <div class="dropdown-item-content" @click="handleClickLink('/front/contact')">
+                        <span class="dropdown-item-icon">🤖</span>
+                        <span class="dropdown-item-text">联系我</span>
+                      </div>
+                    </el-dropdown-item>
+                    <el-dropdown-item class="custom-dropdown-item">
                       <div class="dropdown-item-content" @click="handleLogout()">
                         <span class="dropdown-item-icon">🚪</span>
                         <span class="dropdown-item-text">退出</span>
@@ -229,7 +231,9 @@
             <div class="mobile-nav-item" @click="handleAddress('/login'); showMobileMenu = false">
               🔑 登录
             </div>
-
+            <div class="mobile-nav-item" @click="handleClickLink('/front/contact'); showMobileMenu = false">
+              🤖 联系我
+            </div>
             <div class="mobile-nav-item" @click="handleLogout(); showMobileMenu = false">
               🚪 退出
             </div>
@@ -251,7 +255,7 @@ import { useStore } from 'vuex';
 import { ElMessage } from 'element-plus';
 import { Menu, Close, ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import {removeUserInfo} from "@/utils/auth";
-import {defaultAvatar, defaultWebName} from "@/utils/defaultConfig";
+import {defaultAvatar, defaultWebName, handleAddress, handleClickLink} from "@/utils/defaultConfig";
 // 路由实例
 const router = useRouter()
 const store = useStore();
@@ -322,10 +326,6 @@ onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll);
 })
 
-// 处理地址跳转
-const handleAddress = (url) => {
-  router.push(url);
-}
 
 // 处理退出登录
 const handleLogout = () => {
@@ -450,9 +450,21 @@ const toggleDropdown = (type) => {
   position: relative;
   padding-top: 8px;
   padding-bottom: 12px;
-  &:hover {
-    border-bottom: solid 3px #ff4b2b;
-  }
+}
+
+.nav-item-wrapper::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 4px; /* 底部横岗的高度 */
+  background-color: #f49407;
+  transition: width 0.5s ease;
+
+}
+.nav-item-wrapper:hover::after {
+  width: 100%;
 }
 
 .my-menu {

@@ -5,7 +5,6 @@ import store from './store';
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import VueQuillEditor from 'vue-quill-editor';
 import { FontAwesomeIcon } from '@/utils/fontawesome'
 
 import request from '@/utils/request'
@@ -14,11 +13,6 @@ import '@/utils/defaultConfig.js'
 import '@/assets/globe.css'
 import '@/assets/backGlobe.css'
 import '@/assets/color.css'
-
-// 编辑器样式
-import  'quill/dist/quill.core.css';
-import 'quill/dist/quill.snow.css';
-import 'quill/dist/quill.bubble.css';
 
 const app = createApp(App)
 
@@ -32,7 +26,6 @@ app.use(router)
 app.use(store);
 app.component('font-awesome-icon', FontAwesomeIcon)
 app.use(ElementPlus)
-app.use(VueQuillEditor)
 
 app.config.globalProperties.$request = request
 

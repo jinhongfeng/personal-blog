@@ -32,6 +32,7 @@ import RandomMeals from "@/view/front/toolCatalogue/RandomMeals.vue";
 import StudyEnglish from "@/view/front/toolCatalogue/StudyEnglish.vue";
 import AnswerBook from "@/view/front/toolCatalogue/AnswerBook.vue";
 import BackApps from "@/view/back/BackApps.vue";
+import FrontContact from "@/view/front/FrontContact.vue";
 
 
 const commonRoutes = [
@@ -88,7 +89,7 @@ const frontRoutes = [
             { path: "travel", component: FrontTravel, name: 'FrontTravel', meta: { title: '旅游相册'}},
             { path: "message", component: FrontMessage, name: 'FrontMessage', meta: { title: '反馈消息'}},
             { path: "tools", component: FrontTools, name: 'FrontTools', meta: { title: '小工具'}},
-
+            { path: "contact", component: FrontContact, name: 'FrontContact', meta: { title: '联系我'}},
             // 工具类下的小工具
             { path: "randomMeals", component: RandomMeals, name: 'RandomMeals', meta: { title: '随机选餐'}},
             { path: "studyEnglish", component: StudyEnglish, name: 'StudyEnglish', meta: { title: '英语卡片学习'}},

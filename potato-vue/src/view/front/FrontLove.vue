@@ -315,11 +315,11 @@ onUnmounted(() => {
   text-align: center;
   padding: 10px;
   color: #333333;
-  font-family: "Microsoft YaHei", sans-serif;
+  font-family: var(--globalFont);
+  font-weight: bold;
   margin-top: 50vh;
   .timeBox-title {
     font-size: 2.5rem;
-    font-family: "华文新魏", serif;
     color: #4b89dc;
     margin-bottom: 15px;
     font-weight: 500;
@@ -330,7 +330,6 @@ onUnmounted(() => {
     font-weight: bold;
     margin-bottom: 20px;
     letter-spacing: 1px;
-    font-family: "华文新魏",serif;
     .static-text {
       font-size: 2.5rem;
       vertical-align: bottom;
@@ -345,7 +344,6 @@ onUnmounted(() => {
   }
   .timeBox-timeDown {
     font-size: 1.5rem;
-    font-family: "楷体", serif;
     color: #666;
   }
 }
@@ -400,8 +398,9 @@ onUnmounted(() => {
 .text-container {
   display: flex;
   justify-content: left;
+  font-family: var(--globalFont);
+  font-weight: bold;
   .car-text {
-    font-family: "华文新魏", serif;
     font-size: 1.5rem;
     color: #e94c6d;
     font-weight: bold;
@@ -473,12 +472,13 @@ onUnmounted(() => {
   flex: 1;
 
   padding: 0 10px;
+  font-family: var(--globalFont);
+  font-weight: bold;
   .naviCard-title{
     display: flex;
 
     color: var(--text-color);
     font-size: 1.5rem;
-    font-family: "华文新魏", serif;
     margin-bottom: 5px;
     transition: all 0.3s ease;
     font-weight: bold;
@@ -486,11 +486,9 @@ onUnmounted(() => {
   .naviCard-desc {
     color: #666;
     font-size: 0.9rem;
-    font-family: "楷体", serif;
     display: flex;
     align-items: center;
     margin: 5px 0;
-
   }
 }
 

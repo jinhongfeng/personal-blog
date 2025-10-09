@@ -16,7 +16,7 @@
     </div>
 
     <!-- 主要内容 -->
-    <div style="margin-top: 40vh">
+    <div style="margin-top: 50vh">
       <!-- 加载状态 -->
       <div v-if="loading" class="loading-container">
         <el-loading :fullscreen="false" text="加载中..."></el-loading>
@@ -221,7 +221,7 @@ onMounted(() => {
 
 .noticeBox {
   color: #e6e6e6;
-  font-family: "华文新魏", serif;
+  font-family: var(--globalFont);
   font-size: 25px;
 }
 
@@ -282,6 +282,8 @@ onMounted(() => {
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  font-family: var(--globalFont);
+  font-weight: bold;
 }
 
 /* 添加悬停效果，提升用户体验 */
@@ -298,7 +300,6 @@ onMounted(() => {
 
 .right-mainContent {
   flex: 2;
-
   padding: 20px;
 }
 
@@ -311,18 +312,15 @@ onMounted(() => {
 
 .card-title {
   margin-bottom: 15px;
-  color: #333;
   font-size: 20px;
 }
 
 .card-description {
   margin-bottom: 15px;
-  color: #666;
 }
 
 .card-publishTime, .card-dataContent {
   margin-bottom: 10px;
-  color: #999;
   font-size: 14px;
 }
 

@@ -337,12 +337,11 @@
 
         <el-form-item label="内容" prop="information">
           <div class="markdown-container">
-            <MarkdownEditor
+            <EditorMD
                 v-model="payloadData.information"
                 :disabled="saveLoading"
                 :height="isSmallScreen ? '300px' : '500px'"
                 :autofocus="false"
-                @change="handleContentChange"
             />
           </div>
         </el-form-item>
@@ -409,7 +408,8 @@ import hljs from 'highlight.js'
 import 'highlight.js/styles/github.css'
 import request from '@/utils/request';
 import {debounce} from 'lodash';
-import MarkdownEditor from '@/view/back/subComponent/MarkdownEditor.vue';
+import EditorMD from "@/components/subComponents/EditorMD.vue";
+import {defaultWebName} from "@/utils/defaultConfig";
 
 // 响应式相关
 const isSmallScreen = ref(window.innerWidth < 768)
@@ -604,15 +604,15 @@ const batchDeleteLoading = ref(false)
 
 // 表单数据
 const payloadData = ref({
-  id: null,                      // 对应Integer id
-  title: '',                     // 对应String title
-  picture: '',                   // 对应String picture
-  pictureList: [],               // 前端上传组件临时使用
-  information: '',               // 对应String information
-  badge: '',                     // 对应String badge
-  badgeList: [],                 // 前端标签数组转字符串用
-  author: 'POTATO',              // 对应String author
-  pageview: 0                    // 对应Integer pageview
+  id: null,
+  title: '',
+  picture: '',
+  pictureList: [],
+  information: '',
+  badge: '',
+  badgeList: [],
+  author: '',
+  pageview: 0
 })
 const tagInput = ref('')
 const activeTab = ref('edit')
@@ -623,31 +623,6 @@ const initFileList = computed(() => {
       ? [{url: payloadData.value.picture, name: 'cover'}]
       : [];
 });
-
-// Markdown解析
-const md = new MarkdownIt({
-  html: true,
-  linkify: true,
-  typographer: true,
-  highlight: (str, lang) => {
-    if (lang && hljs.getLanguage(lang)) {
-      try {
-        return hljs.highlight(str, {language: lang}).value
-      } catch (e) {
-        console.error('Markdown解析错误:', e)
-      }
-    }
-    return ''
-  }
-})
-const parsedMarkdown = computed(() => {
-  return md.render(payloadData.value.information || '')
-})
-
-// Markdown编辑器内容变化处理
-const handleContentChange = (value) => {
-  payloadData.value.information = value;
-}
 
 // 重置表单
 const resetForm = () => {
@@ -709,7 +684,7 @@ const handleSave = async () => {
 
     // 处理标签转换
     payloadData.value.badge = payloadData.value.badgeList.join(',')
-
+    payloadData.value.author = defaultWebName
     let res
     if (payloadData.value.id) {
       // 编辑操作

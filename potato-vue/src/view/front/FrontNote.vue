@@ -343,18 +343,15 @@ onMounted(() => {
 
 .card-title {
   margin-bottom: 15px;
-  color: #333;
   font-size: 20px;
 }
 
 .card-description {
   margin-bottom: 15px;
-  color: #666;
 }
 
 .card-publishTime, .card-dataContent {
   margin-bottom: 10px;
-  color: #999;
   font-size: 14px;
 }
 

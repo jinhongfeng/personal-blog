@@ -10,7 +10,7 @@
         <router-view />
       </el-main>
       <!-- 底部内容-->
-      <el-footer style="padding: 0">
+      <el-footer>
         <FrontFoot />
       </el-footer>
 
@@ -20,9 +20,11 @@
       <ClickEffect />
       <!-- 鼠标拖尾 -->
       <MouseTail />
+
       <!-- 右下角固定按钮：显示滚动百分比 + 回顶 -->
       <ScrollingUp />
-
+      <!-- 右下角固定按钮：页面换颜色 -->
+      <ConvertColor />
 
     </el-container>
 
@@ -36,7 +38,7 @@ import RopeEffect from "@/components/subComponents/RopeEffect.vue";
 import ScrollingUp from "@/components/subComponents/ScrollingUp.vue";
 import ClickEffect from "@/components/subComponents/ClickEffect.vue";
 import MouseTail from "@/components/subComponents/MouseTail.vue";
-
+import ConvertColor from "@/components/subComponents/ConvertColor.vue";
 
 </script>
 
@@ -47,7 +49,6 @@ import MouseTail from "@/components/subComponents/MouseTail.vue";
   flex-direction: column;
   min-height: 100vh;
   position: relative;
-
 }
 
 el-main {
@@ -69,4 +70,14 @@ el-header, el-footer {
   flex-shrink: 0; /* 防止头部和底部被挤压 */
 }
 
+.el-footer {
+  min-height: 80px;
+  --el-footer-padding: 0;
+
+}
+@media (max-width: 768px) {
+  .el-footer {
+    height: 40px;
+  }
+}
 </style>

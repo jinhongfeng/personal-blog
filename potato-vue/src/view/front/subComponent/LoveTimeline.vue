@@ -40,7 +40,7 @@
           <div class="divider"></div>
           <!-- 下方时间 -->
           <div class="card-bottomTime">
-            <span>{{ line.publishTime }}</span>
+            <span>{{ formatTime(line.publishTime) }}</span>
           </div>
         </el-card>
       </el-timeline-item>
@@ -53,6 +53,7 @@ import { onMounted, ref } from "vue";
 import request from '@/utils/request';
 import { Warning } from "@element-plus/icons-vue";
 import { ElNotification, ElLoading } from "element-plus";
+import {formatTime} from "@/utils/defaultConfig";
 
 // 时间线内容列表
 const LineContentList = ref([
@@ -152,7 +153,8 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   margin-bottom: 30px;
-  font-family: "华文新魏", serif;
+  font-family: var(--globalFont);
+  font-weight: bold;
   color: var(--articleFontColor);
   font-size: 30px;
   width: 100%;
@@ -241,6 +243,8 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   transition: box-shadow 0.3s ease;
+  font-family: var(--globalFont);
+  font-weight: bold;
 }
 
 .timeline-card:hover {

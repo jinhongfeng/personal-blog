@@ -294,7 +294,7 @@
 
 <script setup>
 import { ref, reactive, watch, onMounted, onBeforeUnmount } from "vue";
-import {CirclePlus, Search, Plus, Delete} from "@element-plus/icons-vue";
+import {CirclePlus, Search, Delete} from "@element-plus/icons-vue";
 import { ElMessage, ElMessageBox, ElLoading } from "element-plus";
 import router from "@/router";
 import request from "@/utils/request"; // 引入请求工具
@@ -371,7 +371,7 @@ watch(currentComponent, () => {
 }, {immediate: false});
 
 // 表格单元格样式处理函数
-const tableCellClass = ({column, row, rowIndex, columnIndex}) => {
+const tableCellClass = () => {
   return isMobile.value ? 'mobile-table-cell' : '';
 };
 

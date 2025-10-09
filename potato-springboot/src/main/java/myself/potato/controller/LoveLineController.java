@@ -12,7 +12,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import myself.potato.common.Constants;
 import myself.potato.common.Result;
 import myself.potato.entity.LoveLine;
-import myself.potato.entity.LoveMessage;
 import myself.potato.service.ILoveLineService;
 
 import org.springframework.beans.factory.annotation.Autowired;

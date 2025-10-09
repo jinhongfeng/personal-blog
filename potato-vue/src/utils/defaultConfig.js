@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import {ref} from "vue";
+import router from "@/router";
 
 /**
  * 默认图片，当图片地址错误时显示
@@ -17,6 +18,10 @@ export const defaultWebName = ref('POTATO')
  */
 export const defaultToolImg = require('@/assets/tool/default.svg')
 
+export const defaultChat = require('@/assets/love/love_default.jpg')
+
+// 默认图片
+export const defaultBg = require('@/assets/desktop.jpg')
 /**
  * 格式化时间显示，将时间显示转换成符合的样式
  */
@@ -24,3 +29,18 @@ export const formatTime = (timeStr) => {
     if (!timeStr) return '';
     return dayjs(timeStr).format('YYYY-MM-DD HH:mm');
 };
+
+/**
+ * 处理点击后跳转到链接
+ */
+export const handleClickLink = (url) => {
+    if (url && typeof window !== 'undefined') {
+        window.open(url, '_blank');
+    }
+};
+/**
+ * 处理点击后地址跳转
+ */
+export const handleAddress = (url) => {
+    router.push(url);
+}

@@ -87,7 +87,7 @@
         <div class="mt-30 dashed-border">
           <font-awesome-icon icon="bullhorn" class="animated-icon"/>
           <div class="text-content" >
-            <span style="margin-left: 10px">{{ information }}</span>
+            <span style="margin-left: 20px">{{ information }}</span>
           </div>
         </div>
         <!-- BLOG -->
@@ -104,32 +104,14 @@
             </div>
           </div>
           <div class="blog-container">
-            <div v-for="(item, index) in blogContent" :key="index" class="mainBlog-box">
-              <el-card class="mt-10 mainBlog-card" @click="navigateToDetail(item.id, 'blog')"
-                       style="cursor: pointer; transition: transform 0.2s;">
-                <!-- 图片 -->
-                <div class="mainBlog-image">
-                  <el-image :src="item.picture" class="card-img" lazy :alt="item.title"/>
-                </div>
-                <!-- 发布时间 -->
-                <div class="mainBlog-time">
-                  <el-icon size="15" color="orange"><Timer /></el-icon>
-                  <span style="margin-left: 5px;">发布于 {{ item.publishTime }}</span>
-                </div>
-                <!-- 主题 -->
-                <el-popover trigger="hover" placement="top-start" effect="dark"
-                            :content="item.title" :width="200">
-                  <template #reference>
-                    <span class="secondFont">{{ item.title }}</span>
-                  </template>
-                </el-popover>
-                <!-- 标签 -->
-                <div class="mainBlog-badge">
-                  <el-button type="danger" size="small">{{ item.author }}</el-button>
-                  <el-button type="info" size="small" plain>{{ item.badge }}</el-button>
-                </div>
-              </el-card>
-            </div>
+            <BlogCard
+                v-for="(item, index) in blogContent"
+                :key="index"
+                :item="item"
+                :type="'blog'"
+                :index="index"
+                @click="navigateToDetail"
+            />
           </div>
         </div>
         <!-- 生活倒影 -->
@@ -145,39 +127,14 @@
             </div>
           </div>
           <div class="blog-container">
-            <div v-for="(item, index) in invertedContent" :key="index" class="mainBlog-box">
-              <el-card class="mt-10 mainBlog-card" @click="router.push('/front/travel')"
-                       style="cursor: pointer; transition: transform 0.2s;">
-                <!-- 图片 -->
-                <div class="mainBlog-image">
-                  <el-image :src="item.coverImage" class="card-img" :alt="item.title" lazy/>
-                </div>
-                <!-- 发布时间 -->
-                <div class="mainBlog-time">
-                  <el-icon size="15" color="orange"><Timer /></el-icon>
-                  <span style="margin-left: 5px;">发布于 {{ item.publishTime || '未知时间' }}</span>
-                </div>
-                <!-- 主题 -->
-                <el-popover trigger="hover" placement="top-start" effect="dark"
-                            :content="item.title" :width="200">
-                  <template #reference>
-                    <span class="secondFont">{{ item.title }}</span>
-                  </template>
-                </el-popover>
-
-                <!-- 标签 -->
-                <div class="mainBlog-badge">
-                  <el-button type="danger" size="small">{{ item.author || 'POTATO' }}</el-button>
-                  <el-button
-                      :type="item.styleType || 'danger'"
-                      size="small"
-                      :style="{ backgroundColor: item.astyle }">
-
-                    {{ item.description || '生活' }}
-                  </el-button>
-                </div>
-              </el-card>
-            </div>
+            <BlogCard
+                v-for="(item, index) in invertedContent"
+                :key="index"
+                :item="item"
+                :type="'travel'"
+                :index="index"
+                @click="navigateToDetail"
+            />
           </div>
         </div>
         <!-- 个人日记 -->
@@ -193,33 +150,14 @@
             </div>
           </div>
           <div class="blog-container">
-            <div v-for="(item, index) in personalDiary" :key="index" class="mainBlog-box">
-              <el-card class="mt-10 mainBlog-card" @click="navigateToDetail(item.id, 'diary')"
-                       style="cursor: pointer; transition: transform 0.2s;">
-                <!-- 图片 -->
-                <div class="mainBlog-image">
-                  <el-image :src="item.picture" class="card-img" :alt="item.title" lazy/>
-                </div>
-                <!-- 发布时间 -->
-                <div class="mainBlog-time">
-                  <el-icon size="15" color="orange"><Timer /></el-icon>
-                  <span style="margin-left: 5px;">发布于 {{ item.publishTime }}</span>
-                </div>
-                <!-- 主题 -->
-                <el-popover trigger="hover" placement="top-start" effect="dark"
-                            :content="item.title" :width="200">
-                  <template #reference>
-                    <span class="secondFont">{{ item.title }}</span>
-                  </template>
-                </el-popover>
-                <!-- 描述 -->
-                <div class="mainBlog-badge">
-                  <el-button type="danger" size="small">{{ item.author }}</el-button>
-                  <el-button type="info" size="small" plain>{{ item.badge }}</el-button>
-
-                </div>
-              </el-card>
-            </div>
+            <BlogCard
+                v-for="(item, index) in personalDiary"
+                :key="index"
+                :item="item"
+                :type="'diary'"
+                :index="index"
+                @click="navigateToDetail"
+            />
           </div>
         </div>
         <!-- 学习笔记 -->
@@ -235,33 +173,14 @@
             </div>
           </div>
           <div class="blog-container">
-            <div v-for="(item, index) in learningNote" :key="index" class="mainBlog-box">
-              <el-card class="mt-10 mainBlog-card" @click="navigateToDetail(item.id, 'note')"
-                       style="cursor: pointer; transition: transform 0.2s;">
-                <!-- 图片 -->
-                <div class="mainBlog-image">
-                  <el-image :src="item.picture" class="card-img" :alt="item.title" lazy/>
-                </div>
-                <!-- 发布时间 -->
-                <div class="mainBlog-time">
-                  <el-icon size="15" color="orange"><Timer /></el-icon>
-                  <span style="margin-left: 5px;">发布于 {{ item.publishTime }}</span>
-                </div>
-                <!-- 主题 -->
-                <el-popover trigger="hover" placement="top-start" effect="dark"
-                            :content="item.title" :width="200">
-                  <template #reference>
-                    <span class="secondFont">{{ item.title }}</span>
-                  </template>
-                </el-popover>
-
-                <!-- 描述 -->
-                <div class="mainBlog-badge">
-                  <el-button type="danger" size="small">{{ item.author }}</el-button>
-                  <el-button type="info" size="small" plain>{{ item.badge }}</el-button>
-                </div>
-              </el-card>
-            </div>
+            <BlogCard
+                v-for="(item, index) in learningNote"
+                :key="index"
+                :item="item"
+                :type="'note'"
+                :index="index"
+                @click="navigateToDetail"
+            />
           </div>
         </div>
       </div>
@@ -270,12 +189,15 @@
 </template>
 
 <script setup>
-import {onMounted, onUnmounted, reactive, ref, watch} from "vue";
+import {onMounted, onUnmounted, ref, watch} from "vue";
 import router from "@/router";
-import {DArrowRight, Grid, Timer } from "@element-plus/icons-vue";
+import {DArrowRight, Grid } from "@element-plus/icons-vue";
 import CarAnimation from "@/view/front/subComponent/CarAnimation.vue";
 import request from "@/utils/request";
 import { ElNotification } from "element-plus";
+import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
+import BlogCard from "@/view/front/subComponent/BlogCard.vue";
+import {defaultAvatar, defaultWebName} from "@/utils/defaultConfig";
 
 let timer = null;
 const noticeList = [
@@ -286,14 +208,14 @@ const noticeList = [
 const currentNotice = ref(noticeList[0])
 
 // 头像
-const avatarName = ref(require('@/assets/personAvatar.jpg'))
-const webName = ref('POTATO')
+const avatarName = ref('');
+const webName = ref('');
 const contentRecords = ref(0)
 const contentClasses = ref(0)
 const contentVisits = ref(0)
 
 // 右侧内容
-const information = ref("我骄傲的是，从那些阴暗的人和事上吃过亏后，依旧不屑于成为那样的人。")
+const information = ref("人生海海，山山而川，不过尔尔")
 const backgroundImage = require("@/assets/top-image/image_3.jpg")
 // 主题内容数据保存
 const blogContent = ref([])
@@ -303,19 +225,11 @@ const invertedContent = ref([])  // 生活倒影数据
 
 // 速览
 const navigationScan = ref([
-  {title: 'BLOG', desc: '我的博客，记录所有', bg: 'linear-gradient(135deg, #23d5ab 0%, #67C23A 100%)'},
+  {title: 'BLOG', desc: '博客记录所有', bg: 'linear-gradient(135deg, #23d5ab 0%, #67C23A 100%)'},
   {title: '生活倒影', desc: '记录美好生活', bg: 'linear-gradient(135deg, #e52e71 0%, #e81526 100%)' },
   {title: '个人日记', desc: '怕老年痴呆', bg: 'linear-gradient(135deg, #ff4b2b 0%, #ff9a00 100%)' },
   {title: '学习笔记', desc: '日常记录亿点点', bg: 'linear-gradient(135deg, #23a6d5 0%, #39c5bb 100%)' },
 ])
-
-// 分页参数
-// eslint-disable-next-line no-unused-vars
-const pagination = reactive({
-  currentPage: 1,
-  pageSize: 10,
-  total: 0
-});
 
 // 移动端导航状态
 const mobileNavOpen = ref(false);
@@ -338,8 +252,8 @@ const loadData = async () => {
 
     if (allSuccess) {
       // 处理个人信息
-      avatarName.value = resConcern.data[0]?.avatar || avatarName.value;
-      webName.value = resConcern.data[0]?.nickname || webName.value;
+      avatarName.value = resConcern.data[0]?.avatar || defaultAvatar;
+      webName.value = resConcern.data[0]?.nickname || defaultWebName;
 
       // 处理其他内容数据
       blogContent.value = resBlog.data.splice(0, 6);
@@ -452,20 +366,14 @@ const handleAddress = (url) => {
 // 跳转到详情页
 const navigateToDetail = (id, type) => {
   if (!id) {
-    ElNotification.warning({
-      title: '提示',
-      message: '缺少内容ID，无法查看详情'
-    });
+    ElNotification.warning({title: '提示', message: '缺少内容ID，无法查看详情'});
     return;
   }
 
   // 根据路由配置跳转到详情页
   router.push({
     name: 'FrontDetail',
-    params: {
-      type: type,
-      id: id
-    }
+    params: { type: type, id: id }
   });
 }
 
@@ -490,7 +398,6 @@ onMounted(() => {
     currentNotice.value = noticeList[nextIndex]
   }, 3000)
 
-  // 加载数据
   loadData();
 
   // 初始化屏幕尺寸检测
@@ -512,12 +419,11 @@ watch(isMobile, (newValue) => {
 </script>
 
 <style scoped>
-/* 基础样式 */
+
 .page-container {
-  min-height: 100vh;
-  position: relative;
-  width: 100%;
   box-sizing: border-box;
+  --right-content-width: 60vw;
+  font-family: var(--globalFont);
 }
 
 /* 顶部横幅 */
@@ -525,7 +431,7 @@ watch(isMobile, (newValue) => {
   position: absolute;
   top: 0;
   left: 0;
-  height: 30vh; /* 更改时，也需要更改banner-box */
+  height: 40vh; /* 更改时，也需要更改banner-box */
   width: 100%;
   align-items: center;
   display: flex;
@@ -587,25 +493,27 @@ watch(isMobile, (newValue) => {
 .content-wrapper {
   display: flex;
   align-items: flex-start;
+  justify-content: space-between;
   padding: 0 2vw;
   margin-top: 40vh;
-  width: 100%;
+  width: 80vw;
   box-sizing: border-box;
   gap: 2rem;
   transition: all 0.3s ease;
+  margin-left: 10vw;
+  margin-right: 6vw;
 }
 
 /* 左侧内容样式 */
 .left-content {
-  width: 25%;
-  min-width: 250px;
+  width: 30%;
+  min-width: 150px;
   transition: all 0.3s ease;
 }
 
 /* 右侧内容样式 */
 .right-content {
-  width: 75%;
-  min-width: 300px;
+  min-width: 400px;
   transition: all 0.3s ease;
 }
 
@@ -729,29 +637,32 @@ watch(isMobile, (newValue) => {
 
 .record-label {
   font-size: 16px;
-  font-family: "华文新魏", serif;
   color: white;
   margin-bottom: 5px;
 }
 
 .record-value {
   font-size: 18px;
-  font-family: "华文新魏", serif;
   color: white;
   font-weight: bold;
 }
 /* 头部介绍 */
 .dashed-border {
-  width: 100%;
+  flex-grow: 1;
   height: 50px;
   border: 2px dashed rgba(110, 110, 110, 0.4);
   border-radius: 8px;
   padding: 10px;
+  background-color: #fff;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
+  white-space: nowrap; /* 一行显示 */
+  text-overflow: ellipsis; /* 省略号代替 */
+  overflow: hidden;
+  width: 100%;
   &:hover {
     border: 2px dashed rgba(0, 0, 0, 0.5);
   }
@@ -779,7 +690,9 @@ watch(isMobile, (newValue) => {
 .text-content {
   flex: 1;
   min-width: 0;
-
+  text-align: left;
+  font-family: var(--globalFont);
+  font-weight: bold;
   span {
     display: block;
     white-space: nowrap;
@@ -825,7 +738,6 @@ watch(isMobile, (newValue) => {
   justify-content: left;
 
   & span {
-    font-family: "华文新魏", serif;
     font-size: 17px;
     color: #e6e6e6;
   }
@@ -837,7 +749,6 @@ watch(isMobile, (newValue) => {
   margin-top: 10px;
 
   & span {
-    font-family: "黑体", serif;
     font-size: 30px;
     color: #e6e6e6;
     font-weight: bold;
@@ -851,8 +762,6 @@ watch(isMobile, (newValue) => {
   margin-top: 10px;
 
   & span {
-    font-family: "黑体", serif;
-    font-size: 17px;
     color: #e6e6e6;
   }
 }
@@ -901,80 +810,10 @@ watch(isMobile, (newValue) => {
   margin: 10px 0;
 }
 
-.secondFont {
-  font-size: clamp(1rem, 2vw, 1.25rem);
-  font-weight: 500;
-  color: #333;
-  transition: color 0.3s ease;
-  display: block;
-  margin: 10px 0;
-
-  &:hover {
-    color: #ff7d00;
-  }
-}
-
 /* 博客容器 */
 .blog-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-}
-
-.mainBlog-box {
-  transition: transform 0.3s ease;
-  width: 100%;
-  height: 350px;
-  &:hover {
-    transform: translateY(-5px);
-  }
-}
-
-.mainBlog-card {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  transition: all 0.3s ease;
-  overflow: hidden;
-
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-}
-
-.mainBlog-image {
-  width: 100%;
-  height: 180px;
-  overflow: hidden;
-
-  .card-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-
-    &:hover {
-      transform: scale(1.05);
-    }
-  }
-}
-
-.mainBlog-time {
-  font-size: 12px;
-  color: #999;
-  margin: 8px 0 5px;
-  display: flex;
-  align-items: center;
-}
-
-/* 标签样式 */
-.mainBlog-badge {
-  margin-top: auto;
-  padding-top: 10px;
-  display: flex;
-  gap: 5px;
-  flex-wrap: wrap;
+  grid-template-columns: repeat(3, 1fr);
 }
 
 /* 响应式适配 - 大屏设备 */
@@ -992,15 +831,6 @@ watch(isMobile, (newValue) => {
     gap: 10px;
     width: 100%;
   }
-  .blog-container {
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  }
-  .mainBlog-image {
-    height: 220px;
-  }
-  .mainBlog-box {
-    height: 370px;
-  }
 }
 
 /* 响应式适配 - 大型设备 */
@@ -1013,18 +843,11 @@ watch(isMobile, (newValue) => {
     width: 70%;
   }
 
-  .mainBlog-image {
-    height: 160px;
-  }
   .scan-item {
     width: 100%;
   }
   .blog-container {
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  }
-  .mainBlog-box {
-    width: 100%;
-    height: 320px;
   }
 }
 
@@ -1038,10 +861,6 @@ watch(isMobile, (newValue) => {
     width: 70%;
   }
 
-  .mainBlog-image {
-    height: 160px;
-  }
-
   .scan-item {
     width: 100%;
   }
@@ -1049,15 +868,11 @@ watch(isMobile, (newValue) => {
   .scan-item:nth-child(2n) {
     margin-right: 0;
   }
-
-  .mainBlog-box {
-    width: 100%;
-    height: 320px;
-  }
 }
 
 /* 响应式适配 - 小型平板/大型手机 */
-@media (max-width: 768px) {
+@media (max-width: 854px) {
+
   .mobile-nav-toggle {
     display: flex;
   }
@@ -1066,25 +881,18 @@ watch(isMobile, (newValue) => {
     margin-top: 0;
   }
 
-  .content-wrapper {
-    flex-direction: column;
-    margin-top: 30vh;
-    padding: 0 3vw;
-    gap: 1rem;
-  }
-
   .content-wrapper.mobile-nav-open {
     margin-top: 30vh;
   }
 
   .top-banner {
-    height: 30vh;
+    height: 40vh;
   }
 
   .left-content, .right-content {
-    width: 100%;
+    width: 90vw;
     min-width: auto;
-    margin-left: 0;
+    grid-template-columns: repeat(1, 1fr);
   }
 
   .left-content {
@@ -1108,15 +916,6 @@ watch(isMobile, (newValue) => {
 
   .scan-item {
     width: 48%;
-  }
-
-  .mainBlog-image {
-    height: 150px;
-  }
-
-  .mainBlog-box {
-    width: 100%;
-    height: 300px;
   }
 }
 
@@ -1151,10 +950,6 @@ watch(isMobile, (newValue) => {
     grid-template-columns: 1fr;
   }
 
-  .mainBlog-image {
-    height: 140px;
-  }
-
   .record-content {
     padding: 5px 0;
   }
@@ -1170,11 +965,6 @@ watch(isMobile, (newValue) => {
   .second-content span {
     font-size: 24px;
   }
-
-  .mainBlog-box {
-    width: 100%;
-    height: 280px;
-  }
 }
 
 /* 极小屏幕适配 */
@@ -1186,11 +976,6 @@ watch(isMobile, (newValue) => {
   .dashed-border {
     height: auto;
     min-height: 50px;
-  }
-
-  .mainBlog-box {
-    width: 100%;
-    height: 280px;
   }
 }
 </style>

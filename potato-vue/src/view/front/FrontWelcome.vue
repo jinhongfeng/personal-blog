@@ -1,7 +1,7 @@
 <template>
   <el-container class="full-container">
     <!-- 全屏背景图 -->
-    <div class="page-background" :style="{ backgroundImage: `url(${currentBgUrl})` }"></div>
+    <div class="page-background" :style="{ backgroundImage: `url(${currentBgUrl || defaultBg})` }"></div>
 
     <!-- 导航栏 -->
     <el-header class="transparent-header">
@@ -10,27 +10,12 @@
 
     <el-main class="main-content">
       <div class="desktop-container">
-        <!-- 背景切换按钮 -->
-        <div class="bg-switcher" @click="toggleBgSelector">
-          <font-awesome-icon icon="globe" />
-        </div>
 
-        <!-- 背景选择面板 -->
-        <div class="bg-selector" v-if="showBgSelector">
-          <div class="bg-selector-header">
-            <h3>选择背景</h3>
-            <el-icon class="close-btn" @click="toggleBgSelector"><Close /></el-icon>
-          </div>
-          <div class="bg-thumbs">
-            <div v-for="(bg, index) in backgroundImages" :key="index"
-                 class="bg-thumb" :class="{ active: currentBgIndex === index }"
-                 @click="setBackground(index)">
-              <img :src="bg.thumbnail" :alt="bg.name" class="bg-thumb-img">
-              <span class="bg-name">{{ bg.name }}</span>
-            </div>
-          </div>
-        </div>
-
+        <!-- 背景切换组件 -->
+        <ToggleBackgroundSelector
+            v-model:show="isBgSelectorVisible"
+            @change="handleBgChange"
+        />
         <!-- 动态布局容器 -->
         <div class="layout-wrapper" :class="{ full: isFullMode, compact: !isFullMode }">
           <!-- 时间区域 -->
@@ -115,51 +100,40 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
-import { ArrowDown, Search, Close } from '@element-plus/icons-vue'
+import {ref, computed, onMounted } from 'vue'
+import { ArrowDown, Search } from '@element-plus/icons-vue'
 import {ElIcon, ElNotification} from 'element-plus'
 import FrontHeader from "@/components/FrontHeader.vue";
 import { Solar } from 'lunar-javascript';
 import request from "@/utils/request";
+import ToggleBackgroundSelector from "@/view/front/subComponent/ToggleBackgroundSelector.vue";
+import {defaultBg} from "@/utils/defaultConfig";
 
 // 响应式状态
-const isFullMode = ref(false)
-const isEngineDropdownOpen = ref(false)
 const searchQuery = ref('')
 const searchFocused = ref(false)
-const currentBgIndex = ref(0)
 
-// 背景图片列表
-const backgroundImages = ref([
-  {
-    name: '动漫',
-    url: require('@/assets/desktop.jpg'),
-    thumbnail: require('@/assets/desktop.jpg'),
-  },
-  {
-    name: '精灵之泪',
-    url: 'https://cdn.yuanshikong.net/NewTab/wallpaper/itab/645324c962269728166a7246.jpe?imageMogr2',
-    thumbnail: 'https://cdn.yuanshikong.net/NewTab/wallpaper/itab/645324c962269728166a7246.jpe?imageMogr2/thumbnail/450x300'
-  },
+// 当前背景索引 & 面板显隐
+const isBgSelectorVisible = ref(false);
+const currentBgUrl = ref('');
 
-])
-
-// 当前背景图URL
-const currentBgUrl = computed(() => {
-  return backgroundImages.value[currentBgIndex.value].url
-})
+const handleBgChange = (bgObject) => {
+  if (bgObject && bgObject.url) {
+    currentBgUrl.value = bgObject.url;
+  }
+};
 
 // 搜索引擎列表
 const engines = ref([
   {
-    name: '百度',
-    icon: 'https://www.baidu.com/favicon.ico',
-    url: 'https://www.baidu.com/s?wd='
-  },
-  {
     name: '必应',
     icon: 'https://www.bing.com/favicon.ico',
     url: 'https://www.bing.com/search?q='
+  },
+  {
+    name: '百度',
+    icon: 'https://www.baidu.com/favicon.ico',
+    url: 'https://www.baidu.com/s?wd='
   },
   {
     name: '搜狗',
@@ -185,66 +159,16 @@ const apps = ref([
     title: '知乎',
     icon: 'https://static.zhihu.com/heifetz/favicon.ico',
     link: 'https://www.zhihu.com/'
-  },
-  {
-    title: '微信',
-    icon: 'https://res.wx.qq.com/a/wx_fed/assets/res/OTE0YTA4.ico',
-    link: 'https://wx.qq.com/'
-  },
-  {
-    title: '微博',
-    icon: 'https://weibo.com/favicon.ico',
-    link: 'https://weibo.com/'
-  },
-  {
-    title: '抖音',
-    icon: 'https://sf1-cdn-tos.douyinstatic.com/obj/eden-cn/ljhwZthaaat/86b5ca0e89d48d212f11181871c5a0c4.ico',
-    link: 'https://www.douyin.com/'
-  },
-  {
-    title: '淘宝',
-    icon: 'https://img.alicdn.com/tfs/TB11Y85u7T2gK0jSZFkXXcIQFXa-256-256.png',
-    link: 'https://www.taobao.com/'
-  },
-  {
-    title: '京东',
-    icon: 'https://wq.360buyimg.com/ps/sa/20200812114714/764746d9-32e8-4536-910a-1a8e690592b7.png',
-    link: 'https://www.jd.com/'
-  },
-  {
-    title: '腾讯视频',
-    icon: 'https://v.qq.com/favicon.ico',
-    link: 'https://v.qq.com/'
-  },
-  {
-    title: '爱奇艺',
-    icon: 'https://www.iqiyi.com/favicon.ico',
-    link: 'https://www.iqiyi.com/'
-  },
-  {
-    title: '网易云音乐',
-    icon: 'https://s1.music.126.net/style/favicon.ico',
-    link: 'https://music.163.com/'
-  },
-  {
-    title: '腾讯文档',
-    icon: 'https://docs.qq.com/_next/static/images/favicon-4c6409d5a7c593b5a97a2acf117093d7.ico',
-    link: 'https://docs.qq.com/'
   }
 ])
 
-// 时间计算逻辑
-const now = ref(new Date())
-const updateTime = () => {
-  now.value = new Date()
-}
+
 
 // 加载数据相关
 const loading = ref(true);         // 加载状态
 const showError = ref(false);      // 错误状态标识
 const errorMessage = ref("");      // 错误信息
 const loaded = ref(false);         // 用于动画触发
-const showBgSelector = ref(false)  // 是否展示背景切换面板
 
 // 加载数据
 const loadData = async () => {
@@ -255,22 +179,7 @@ const loadData = async () => {
   loaded.value = false;
 
   try {
-    const res = await request.get('/bgImage');
     const resApply = await request.get('/apply')
-    if (res.code === '200') {
-      backgroundImages.value = res.data || [];
-      // 数据加载完成后触发动画
-      setTimeout(() => {
-        loaded.value = true;
-      }, 100);
-    } else {
-      showError.value = true;
-      errorMessage.value = res.msg || '获取背景图片列表失败';
-      ElNotification.error({
-        title: '背景图片加载失败',
-        message: errorMessage.value
-      });
-    }
     if (resApply.code === '200') {
       apps.value = resApply.data || [];
     } else {
@@ -292,11 +201,15 @@ const loadData = async () => {
   }
 };
 
-
 onMounted(() => {
   setInterval(updateTime, 1000)
   loadData();
 })
+// 时间计算逻辑
+const now = ref(new Date())
+const updateTime = () => {
+  now.value = new Date()
+}
 // 时间转换逻辑
 const year = now.value.getFullYear();
 const month = now.value.getMonth() + 1; // 月份从0开始，需+1
@@ -315,6 +228,8 @@ const minutes = computed(() => String(now.value.getMinutes()).padStart(2, '0'))
 const seconds = computed(() => String(now.value.getSeconds()).padStart(2, '0'))
 
 // 核心逻辑
+const isFullMode = ref(true)
+const isEngineDropdownOpen = ref(false)
 const toggleMode = () => {
   if (isEngineDropdownOpen.value) {
     isEngineDropdownOpen.value = false
@@ -339,49 +254,6 @@ const handleSearch = () => {
 
 const openApp = (link) => window.open(link, '_blank')
 
-// 背景切换逻辑
-const toggleBgSelector = () => {
-  showBgSelector.value = !showBgSelector.value
-}
-
-const setBackground = (index) => {
-  currentBgIndex.value = index
-  showBgSelector.value = false
-  localStorage.setItem('selectedBgIndex', index)
-}
-
-// 点击外部关闭下拉菜单
-document.addEventListener('click', (e) => {
-  const enginePicker = document.querySelector('.engine-picker')
-  if (enginePicker && !enginePicker.contains(e.target)) {
-    isEngineDropdownOpen.value = false
-  }
-
-  const bgSwitcher = document.querySelector('.bg-switcher')
-  const bgSelector = document.querySelector('.bg-selector')
-  if (showBgSelector.value && bgSwitcher && !bgSwitcher.contains(e.target) &&
-      bgSelector && !bgSelector.contains(e.target)) {
-    showBgSelector.value = false
-  }
-})
-
-// 加载保存的用户偏好
-onMounted(() => {
-  const mode = localStorage.getItem('desktopMode')
-  if (mode !== null) {
-    isFullMode.value = mode === 'full'
-  }
-
-  const savedBgIndex = localStorage.getItem('selectedBgIndex')
-  if (savedBgIndex !== null) {
-    currentBgIndex.value = parseInt(savedBgIndex)
-  }
-})
-
-// 保存用户偏好
-watch(isFullMode, (val) => {
-  localStorage.setItem('desktopMode', val ? 'full' : 'compact')
-})
 </script>
 
 <style scoped>
@@ -440,45 +312,7 @@ html, body {
   overflow: hidden;
 }
 
-/* 背景切换按钮 */
-.bg-switcher {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease;
-  z-index: 100;
-}
 
-.bg-switcher:hover {
-  background: rgba(255, 255, 255, 0.25);
-  transform: scale(1.1);
-}
-
-/* 背景选择面板 */
-.bg-selector {
-  position: fixed;
-  bottom: 80px;
-  right: 20px;
-  width: 300px;
-  background: rgba(15, 15, 15, 0.85);
-  backdrop-filter: blur(15px);
-  border-radius: 12px;
-  padding: 15px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-  z-index: 100;
-  animation: slideUp 0.3s ease-out forwards;
-}
 
 @keyframes slideUp {
   from {
@@ -491,89 +325,6 @@ html, body {
   }
 }
 
-.bg-selector-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.bg-selector-header h3 {
-  color: white;
-  font-size: 16px;
-  margin: 0;
-}
-
-.close-btn {
-  color: rgba(255, 255, 255, 0.7);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.close-btn:hover {
-  color: white;
-  transform: scale(1.1);
-}
-
-.bg-thumbs {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  max-height: 300px;
-  overflow-y: auto;
-  padding-right: 5px;
-}
-
-.bg-thumbs::-webkit-scrollbar {
-  width: 5px;
-}
-
-.bg-thumbs::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 5px;
-}
-
-.bg-thumb {
-  border-radius: 8px;
-  overflow: hidden;
-  cursor: pointer;
-  position: relative;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
-}
-
-.bg-thumb.active {
-  border-color: #42b983;
-}
-
-.bg-thumb:hover {
-  transform: translateY(-3px);
-}
-
-.bg-thumb-img {
-  width: 100%;
-  height: 80px;
-  object-fit: cover;
-  display: block;
-}
-
-.bg-name {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(transparent, rgba(0,0,0,0.7));
-  color: white;
-  font-size: 12px;
-  padding: 5px 8px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* 布局容器样式 */
 .layout-wrapper {
   position: absolute;
   width: 100%;
@@ -708,7 +459,7 @@ html, body {
 }
 
 .engine-picker.full {
-  padding-top: 8px; /* 为向上弹出的菜单预留空间 */
+  padding-top: 8px;
 }
 
 .engine-current {
@@ -746,11 +497,11 @@ html, body {
 }
 
 .dropdown-arrow.flipped {
-  transform: rotate(180deg); /* 完整模式下箭头朝上 */
+  transform: rotate(180deg);
 }
 
 .engine-picker:hover .dropdown-arrow:not(.flipped) {
-  transform: translateY(2px); /* 精简模式箭头向下移动 */
+  transform: translateY(2px);
 }
 
 .engine-picker:hover .dropdown-arrow.flipped {
@@ -802,7 +553,6 @@ html, body {
   transform: translateX(3px);
 }
 
-/* 搜索输入区域 */
 .search-inner {
   flex: 1;
   display: flex;
