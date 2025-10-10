@@ -33,6 +33,7 @@ import StudyEnglish from "@/view/front/toolCatalogue/StudyEnglish.vue";
 import AnswerBook from "@/view/front/toolCatalogue/AnswerBook.vue";
 import BackApps from "@/view/back/BackApps.vue";
 import FrontContact from "@/view/front/FrontContact.vue";
+// import FrontRegister from "@/components/FrontRegister.vue";
 
 
 const commonRoutes = [
@@ -46,6 +47,12 @@ const commonRoutes = [
         name: 'Login',
         meta: { title: '登录'}
     },
+    // {
+    //     path: '/register',
+    //     component: FrontRegister,
+    //     name: 'register',
+    //     meta: { title: '注册'}
+    // },
     {
         path: '/welcome',
         component: FrontWelcome,

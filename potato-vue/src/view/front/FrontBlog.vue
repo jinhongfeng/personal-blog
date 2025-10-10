@@ -78,7 +78,7 @@
                 <div class="card-publishTime">
                   <el-icon><Timer /></el-icon>
                   <span style="margin-left: 5px">发布时间： </span>
-                  <span style="margin-left: 5px">{{ item.publishTime }}</span>
+                  <span style="margin-left: 5px">{{ formatTime(item.publishTime) }}</span>
                 </div>
                 <!-- 数据 -->
                 <div class="card-dataContent">
@@ -107,7 +107,7 @@ import { Timer, Warning } from "@element-plus/icons-vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import request from "@/utils/request";
 import { ElNotification, ElLoading, ElEmpty, ElIcon } from "element-plus";
-import {defaultImage} from "@/utils/defaultConfig";
+import {defaultImage, formatTime} from "@/utils/defaultConfig";
 
 // 初始化路由
 const router = useRouter();
@@ -288,7 +288,6 @@ onMounted(() => {
 
 /* 添加悬停效果，提升用户体验 */
 .mainContent-card:hover {
-  transform: translateY(-5px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 

@@ -32,6 +32,8 @@ const handleBgChange = (bgObject) => {
 
 <style scoped>
 .full-container {
+  width: 100vw;
+  height: 100vh;
   position: fixed;
   top: 0;
   left: 0;

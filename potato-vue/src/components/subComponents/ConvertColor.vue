@@ -51,8 +51,10 @@ onMounted(() => {
   cursor: pointer;
   z-index: 999;
   transition: transform 0.3s ease;
+  border: none;
   &:hover {
     background: #ffb347;
+    border: none;
   }
 }
 

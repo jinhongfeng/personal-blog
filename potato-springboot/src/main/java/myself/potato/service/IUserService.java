@@ -10,4 +10,6 @@ public interface IUserService extends IService<User> {
 
     void updatePassword(UserPasswordDTO userPasswordDTO);
 
+    void sendVerificationCode(String email);
+    UserDTO loginWithCode(String email, String code);
 }

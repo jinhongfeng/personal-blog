@@ -502,6 +502,7 @@ watch(isMobile, (newValue) => {
   transition: all 0.3s ease;
   margin-left: 10vw;
   margin-right: 6vw;
+  background-color: var(--el-bg-color);
 }
 
 /* 左侧内容样式 */
@@ -513,6 +514,7 @@ watch(isMobile, (newValue) => {
 
 /* 右侧内容样式 */
 .right-content {
+  width: 60%;
   min-width: 400px;
   transition: all 0.3s ease;
 }

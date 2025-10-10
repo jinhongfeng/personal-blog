@@ -26,9 +26,7 @@
     </svg>
 
     <!-- 登录卡片 -->
-    <div
-        class="glass-component login-card"
-        ref="tiltCard"
+    <div class="glass-component login-card" ref="tiltCard"
         @mousemove="handleMouseMove"
         @mouseleave="handleMouseLeave"
         @click="handleClick"
@@ -63,6 +61,11 @@
             >
             <span v-if="passwordError" class="error-message">{{ passwordError }}</span>
           </div>
+          <div class="form-group ml-10">
+<!--            <el-link @click="router.push('/register')" >-->
+<!--              <span style="color: var(&#45;&#45;orangeRed)">没有账号？ 点击注册</span>-->
+<!--            </el-link>-->
+          </div>
           <button
               type="submit"
               class="glass-button"
@@ -90,7 +93,7 @@ import {setUserInfo} from "@/utils/auth";
 // 表单数据
 const username = ref('');
 const password = ref('');
-const role = ref('管理员');
+const role = ref('');
 const backgroundImage = require("@/assets/loginBackground.jpeg");
 
 // 状态管理

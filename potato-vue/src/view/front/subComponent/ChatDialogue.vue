@@ -46,7 +46,7 @@
         </div>
 
         <!-- 视图2：聊天界面 -->
-        <div v-else class="chat-view">
+        <div v-else >
           <!-- 聊天消息区域 -->
           <div class="chat-messages" ref="messagesContainer">
             <div v-for="(msg, idx) in messages" :key="idx"
@@ -54,7 +54,11 @@
               <!-- 对方的消息 -->
               <template v-if="msg.sender !== currentUserId">
                 <div class="message-avatar">
-                  <el-image :src="currentContact.img || defaultChat" alt="对方头像" fit="cover"/>
+                  <el-image :src="currentContact.img" alt="对方头像" fit="cover">
+                    <template #error>
+                      <el-image :src="defaultChat" alt="错误头像" class="header-avatar" />
+                    </template>
+                  </el-image>
                 </div>
                 <div class="message-bubble left-bubble">
                   <div class="bubble-content">{{ msg.content }}</div>
@@ -73,37 +77,37 @@
               </template>
             </div>
           </div>
+          <div class="chat-input-wrapper">
+            <div v-if="currentContact && isChatting && currentContact.role !== 'notice'" class="chat-input-area" >
+              <el-input
+                  v-model="inputMessage"
+                  type="textarea"
+                  placeholder="请输入消息..."
+                  class="message-input"
+                  :rows="3"
+                  resize="none"
+                  @keydown.enter.exact.prevent="sendMessage"
+                  @keydown.ctrl.enter.prevent="inputMessage += '\n'"
+              />
+              <el-button type="primary" @click="sendMessage" :disabled="!inputMessage.trim()">发送</el-button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- 输入区域 (固定在底部) -->
-    <div v-if="currentContact && isChatting && isInputArea" class="chat-input-area" >
-      <el-input
-          v-model="inputMessage"
-          type="textarea"
-          placeholder="请输入消息..."
-          class="message-input"
-          :rows="3"
-          resize="none"
-          @keyup.enter.native="sendMessage"
-          @keyup.ctrl.enter.native="inputMessage += '\n'"
-      />
-      <el-button type="primary" @click="sendMessage">发送</el-button>
-    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, watch, onMounted, nextTick } from "vue";
-import { defaultChat } from "@/utils/defaultConfig";
+import {ref, watch, nextTick, onMounted} from "vue";
+import { defaultChat, defaultAvatar } from "@/utils/defaultConfig";
 import { EditPen, Message } from "@element-plus/icons-vue";
 import { ElNotification } from "element-plus";
 
 const props = defineProps({
   currentContact: { type: Object, default: null },
   isChatting: { type: Boolean, default: false },
-  isInputArea: { type: Boolean, default: true }
 });
 
 const emit = defineEmits(['update:currentContact', 'update:is-chatting']);
@@ -114,31 +118,19 @@ const startChat = () => {
 };
 
 const inputMessage = ref("");
-const messages = ref([
-  { content: "你好，很高兴认识你！", sender: "other_user", time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) },
-]);
+const messages = ref([]); // 初始为空，将在切换联系人时初始化
 const currentUserId = ref("current_user");
-const messagesContainer = ref(null);
+const messagesContainer = ref(null); // 用于自动滚动
+const personalAvatar = ref(defaultAvatar); // 为当前用户添加默认头像
 
-// 发送者的头像
-const personalAvatar = ref("");
 // 切换联系人时，重置消息列表
 watch(() => props.currentContact, (newContact) => {
   if (newContact) {
     messages.value = [
-      { content: `你好，我是${newContact.title}！`, sender: "other_user", time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) },
+      { content: `你好，我是${newContact.title}！`, sender: "other_user", time: new Date().toLocaleTimeString('zh-CN', { hour: "2-digit", minute: "2-digit" }) },
     ];
   }
 });
-
-const scrollToBottom = () => {
-  nextTick(() => {
-    if (messagesContainer.value) {
-      const container = messagesContainer.value;
-      container.scrollTop = container.scrollHeight;
-    }
-  });
-};
 
 // 发送消息逻辑
 const sendMessage = () => {
@@ -146,22 +138,19 @@ const sendMessage = () => {
   const newMessage = {
     content: inputMessage.value,
     sender: currentUserId.value,
-    time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+    time: new Date().toLocaleTimeString('zh-CN', { hour: "2-digit", minute: "2-digit" }),
   };
   messages.value.push(newMessage);
   inputMessage.value = "";
 
-  scrollToBottom();
-
+  // 模拟对方回复
   setTimeout(() => {
     messages.value.push({
       content: `我收到了你的消息："${newMessage.content}"`,
       sender: "other_user",
-      time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      time: new Date().toLocaleTimeString('zh-CN', { hour: "2-digit", minute: "2-digit" }),
     });
-    scrollToBottom();
   }, 1000);
-
 };
 
 // 编辑按钮提示
@@ -170,11 +159,25 @@ const handleAlert = () => {
 };
 
 // 自动滚动到最新消息
-watch(messages, scrollToBottom);
+const scrollToBottom = () => {
+  nextTick(() => {
+    if (messagesContainer.value) {
+      messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight;
+    }
+  });
+};
+
+// 当消息列表变化时，滚动到底部
+watch(() => messages.value.length, scrollToBottom);
+
 // 当切换到聊天视图时，也应滚动到底部
 watch(() => props.isChatting, (newVal) => {
-  if (newVal) scrollToBottom();
+  if (newVal) {
+    scrollToBottom();
+  }
 });
+
+// 组件挂载时，如果已是聊天状态，也应滚动到底部
 onMounted(() => {
   if (props.isChatting) {
     scrollToBottom();
@@ -184,29 +187,29 @@ onMounted(() => {
 
 <style scoped>
 .chat-container {
-  display: flex;
-  flex-direction: column;
-
-  height: 75vh; /* 撑开整个容器 */
+  height: 80vh;
+  top: 0;
+  left: 0;
   background-color: #f0f2f5;
 }
 
 .chat-content {
   flex: 1;
-  overflow-y: auto;
-  display: flex;
-  /* flex-direction: column; */
-  justify-content: space-between;
-  max-height: 550px;
+  position: relative;
+  height: calc(80vh - 60px);
 }
 
 /* 未选联系人提示 */
 .no-contact-selected {
   color: #909399;
-  margin: auto;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(80vh - 60px);
 }
 
-/* 联系人信息页样式 */
+/* 联系人信息页样式 (保持不变) */
 .profile-view {
   width: 600px;
   max-width: 600px;
@@ -215,13 +218,11 @@ onMounted(() => {
   align-items: center;
   padding: 30px;
 }
-
 .profile-header {
   display: flex;
   align-items: center;
   margin-bottom: 40px;
 }
-
 .profile-avatar {
   width: 120px;
   height: 120px;
@@ -230,25 +231,21 @@ onMounted(() => {
   border: 4px solid #fff;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
-
 .profile-name {
   display: flex;
   align-items: center;
 }
-
 .profile-name h2 {
   margin: 0;
   font-size: 24px;
   color: #333;
 }
-
 .edit-icon {
   margin-left: 15px;
   color: #ff4b2b;
   cursor: pointer;
   font-size: 20px;
 }
-
 .profile-details {
   width: 100%;
   max-width: 400px;
@@ -258,53 +255,44 @@ onMounted(() => {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   margin-bottom: 40px;
 }
-
 .detail-item {
   display: flex;
   padding: 15px 0;
   border-bottom: 1px solid #f0f0f0;
 }
-
 .detail-item:last-child {
   border-bottom: none;
 }
-
 .label {
   width: 100px;
-  font-family: "楷体", serif;
   color: #797979;
   font-size: 16px;
 }
-
 .value {
   flex: 1;
-  font-family: "微软雅黑 Light", serif;
   color: #333;
   font-size: 16px;
 }
-
-/* 聊天界面样式 */
-.chat-view {
-
-  width: 650px;
-  display: flex;
-  flex-direction: column;
+.profile-actions {
+  width: 100%;
+  max-width: 400px;
 }
 
 .chat-messages {
   flex: 1;
   overflow-y: auto;
-  padding: 20px;
   display: flex;
   flex-direction: column;
-
   gap: 15px;
+  padding: 10px 10px;
+  height: calc(70vh - 100px);
+  max-height: 65vh;
 }
 
 .message-item {
   display: flex;
   align-items: flex-start;
-  max-width: 80%;
+  max-width: 75%;
 }
 
 .message-left {
@@ -318,54 +306,82 @@ onMounted(() => {
 .message-avatar {
   width: 40px;
   height: 40px;
-  border-radius: 50%;
+  border-radius: 8px;
   overflow: hidden;
   margin: 0 10px;
   flex-shrink: 0;
 }
 
 .message-bubble {
-  padding: 10px 14px;
-  border-radius: 8px;
+  padding: 8px 12px;
+  border-radius: 6px;
   word-break: break-all;
   position: relative;
   max-width: calc(100% - 60px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .left-bubble {
   background-color: #ffffff;
-  border: 1px solid #e4e7ed;
+  border-top-left-radius: 4px;
 }
 
 .right-bubble {
   background-color: #95ec69;
+  border-top-right-radius: 4px;
 }
 
 .bubble-content {
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.4;
 }
 
 .message-time {
-  font-size: 12px;
-  color: #909399;
+  font-size: 11px;
+  color: #999;
   margin-top: 4px;
   text-align: right;
 }
 
-/* 输入区域样式 */
-.chat-input-area {
+.chat-input-wrapper {
+  height: 120px;
+  border-top: 2px solid #e5e5e5;
   display: flex;
+}
+
+.chat-input-area {
+  margin-top: 10px;
+  width: 100%;
+
   gap: 10px;
   padding: 10px;
   background-color: #ffffff;
-  border-top: 1px solid #e4e7ed;
+  display: flex;
+  align-items: center;
 }
 
 .message-input {
   flex: 1;
-  min-height: 70px;
+  min-height: 44px;
   max-height: 120px;
+
   resize: none;
+  border-radius: 8px;
+  border: 1px solid #d9d9d9;
+  padding: 8px 12px;
+  font-size: 16px;
+  line-height: 1.4;
+  box-sizing: border-box;
+
+}
+.message-input:focus {
+  border-color: #409eff;
+  outline: none;
+}
+
+.el-button {
+  height: 44px; /* 与输入框高度一致 */
+  padding: 0 18px;
+  border-radius: 22px; /* 圆形按钮 */
 }
 </style>
